@@ -3,6 +3,7 @@
   "pages": [
     "patients",
     "appointments",
-    "staff"
+    "staff",
+    "languages"
   ]
 }
