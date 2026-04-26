@@ -1,0 +1,79 @@
+---
+title: Environment Variables
+description: A practical explanation of every key environment variable used by the deployment stack.
+---
+
+Temetro keeps configuration in environment variables so the same codebase can run in test, staging, and production environments with different settings.
+
+## Required variables
+
+### `POSTGRES_PASSWORD`
+
+This is the password used by the PostgreSQL database.
+
+Use a strong value and avoid reusing passwords from other systems. If you change this later, you must update any service that connects to the database.
+
+### `APP_URL`
+
+This is the URL staff use to open Temetro.
+
+Examples:
+
+- `http://localhost:3000` for local testing
+- `http://10.0.0.25` for an internal-only server
+- `https://temetro.hospital.example` for production
+
+### `BETTER_AUTH_SECRET`
+
+This protects authentication sessions and related cryptographic operations.
+
+Generate it with:
+
+```bash
+openssl rand -base64 32
+```
+
+Do not share this value broadly. Store it the same way you store other sensitive server credentials.
+
+## Optional email variables
+
+These are only needed when you want Temetro to send email, such as verification or password reset messages.
+
+### `SMTP_HOST`
+
+Mail server hostname.
+
+### `SMTP_PORT`
+
+Mail server port. `587` is common for authenticated SMTP.
+
+### `SMTP_USER`
+
+Username for the email account or SMTP relay.
+
+### `SMTP_PASS`
+
+Password for the email account or SMTP relay.
+
+## Example `.env`
+
+```env
+POSTGRES_PASSWORD=change-me-now
+APP_URL=https://temetro.example.org
+BETTER_AUTH_SECRET=replace-this-with-a-generated-secret
+SMTP_HOST=smtp.example.org
+SMTP_PORT=587
+SMTP_USER=temetro@example.org
+SMTP_PASS=mail-password
+```
+
+## Good security habits
+
+- Restrict who can read the `.env` file
+- Back it up in a secure location
+- Rotate secrets when administrators change or when a credential may have been exposed
+- Never paste real secrets into screenshots, tickets, or public chat
+
+## Related reading
+
+When you are ready to expose Temetro over a stable domain with HTTPS, move on to [Production](/docs/self-hosting/production).

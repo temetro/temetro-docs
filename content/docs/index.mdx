@@ -1,0 +1,50 @@
+---
+title: Introduction
+description: Temetro is a free, open source hospital management system built for African healthcare institutions.
+---
+
+Temetro helps hospitals manage patients, appointments, medical records, and staff from a single self-hosted dashboard.
+
+## Why Temetro?
+
+Healthcare software in many African contexts is still too expensive, too cloud-dependent, or too brittle for the realities of local infrastructure. Temetro is designed differently:
+
+- **Free and open source** so hospitals can inspect, adapt, and own the software they depend on.
+- **Self-hosted** so patient data stays inside infrastructure the hospital controls.
+- **Simple to deploy** with Docker Compose for small IT teams.
+- **Practical for constrained environments** with a clean interface and a small operational footprint.
+
+## Quick Start
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+cp .env.example .env
+docker compose up -d
+```
+
+Open `http://localhost:3000` to access the dashboard and `http://localhost:3001/docs` to browse the documentation site.
+
+## Who Temetro is for
+
+Temetro is a good fit for:
+
+- District and regional hospitals that want a private internal dashboard
+- Mission hospitals and non-profit facilities working with limited software budgets
+- IT teams that prefer simple self-hosted infrastructure over subscription software
+- Developers and implementers who need a foundation they can extend
+
+## What you get
+
+The first scaffold includes:
+
+- A responsive hospital dashboard built with Next.js
+- Better Auth-based email and password authentication
+- PostgreSQL and Prisma data models for patients, appointments, and staff workflows
+- A public landing page
+- A full documentation site
+- Docker Compose deployment files with NGINX routing
+
+## Next steps
+
+Start with the [installation guide](/docs/getting-started/installation), then move through configuration and first-run instructions. If you are preparing for a production deployment, the self-hosting section is the best place to continue.

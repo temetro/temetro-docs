@@ -1,0 +1,77 @@
+---
+title: First Run
+description: Validate a fresh Temetro installation and prepare the first hospital administrator workflow.
+---
+
+This page helps you confirm that Temetro started correctly and that your team can begin using it safely.
+
+## 1. Check container health
+
+Run:
+
+```bash
+docker compose ps
+```
+
+All core services should report a healthy or running state.
+
+If the PostgreSQL service is still restarting, wait a moment and run the command again.
+
+## 2. Open the dashboard
+
+Visit the dashboard URL in your browser:
+
+```text
+http://localhost:3000
+```
+
+You should land on the sign-in page.
+
+## 3. Create the first administrator account
+
+Use the **Create an account** link on the sign-in screen to register the first hospital administrator. Choose an email address owned by your implementation team or hospital IT lead.
+
+Recommended first admin profile:
+
+- Name: the person responsible for rollout or supervision
+- Email: a long-lived organizational email address
+- Password: a strong passphrase stored in the hospital password manager
+
+## 4. Review the initial dashboard
+
+After sign-in, confirm that the main areas load correctly:
+
+- Dashboard overview
+- Patients
+- Appointments
+- Staff
+- Settings
+
+At the scaffold stage, some data is demonstration data used to confirm layout and workflows.
+
+## 5. Seed or migrate data if needed
+
+If you want demo records for evaluation, run the seed command from the monorepo or web container:
+
+```bash
+npm run seed
+```
+
+Or, inside Docker:
+
+```bash
+docker compose exec web npm run seed
+```
+
+## 6. Prepare for handover
+
+Before clinical staff start testing, make sure you:
+
+- Document the login URL
+- Record who holds the first administrator credentials
+- Decide where backups will be stored
+- Confirm who is responsible for updates and server monitoring
+
+## What to do next
+
+If the system is working locally, continue with the self-hosting section to plan a more durable server deployment.

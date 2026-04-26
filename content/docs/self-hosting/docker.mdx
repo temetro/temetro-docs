@@ -1,0 +1,99 @@
+---
+title: Docker Deployment
+description: Run Temetro with Docker Compose and understand what each service does.
+---
+
+This guide is written for hospital IT staff who may not be software developers. The goal is to help you deploy Temetro without guessing.
+
+## What Docker Compose does
+
+Docker Compose starts several connected services together:
+
+- A PostgreSQL database for application data
+- The Temetro dashboard
+- The Temetro documentation site
+- Optionally, an NGINX reverse proxy for production traffic
+
+Instead of installing each part manually, you run one command and Docker assembles the stack for you.
+
+## Basic startup command
+
+From the deployment folder:
+
+```bash
+docker compose up -d
+```
+
+What this does:
+
+- `docker compose` tells Docker to use the Compose file in the current folder
+- `up` starts the services
+- `-d` means “detached mode,” so it continues running in the background
+
+## Helpful day-to-day commands
+
+### Show running services
+
+```bash
+docker compose ps
+```
+
+### View live logs
+
+```bash
+docker compose logs -f
+```
+
+### Stop the system
+
+```bash
+docker compose down
+```
+
+### Stop and remove stored database data
+
+```bash
+docker compose down -v
+```
+
+Only use `-v` if you intentionally want to remove the database volume, such as during a non-production reset.
+
+## Folder expectations
+
+Keep the deployment files in a dedicated folder that your IT team can find easily. A typical setup might look like:
+
+```text
+/opt/temetro
+```
+
+or on a laptop:
+
+```text
+C:\Temetro
+```
+
+## How updates work
+
+When a new version of the deployment files is available:
+
+1. Back up your database
+2. Pull the latest repository changes
+3. Rebuild and restart the services
+
+Example:
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+## When to move to production settings
+
+Use the production Compose override and NGINX when:
+
+- Staff access Temetro regularly from multiple machines
+- You want HTTPS
+- You want clean routing such as `/docs`
+- The server should stay on all day with automatic restart behavior
+
+For the full production checklist, continue to [Production](/docs/self-hosting/production).

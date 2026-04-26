@@ -1,0 +1,63 @@
+---
+title: Configuration
+description: Understand the core environment variables and deployment settings used by Temetro.
+---
+
+Temetro is designed to stay simple. Most installations only need a few environment values to get running safely.
+
+## Core environment variables
+
+The main variables live in the deployment repository `.env` file.
+
+| Variable | Required | Example | Purpose |
+| --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | Yes | `strong-password-here` | Password for the PostgreSQL database user |
+| `APP_URL` | Yes | `http://localhost:3000` | Public URL used by the dashboard |
+| `BETTER_AUTH_SECRET` | Yes | generated value | Secret used to sign and protect authentication data |
+| `SMTP_HOST` | Optional | `smtp.example.org` | Mail server hostname for outbound email |
+| `SMTP_PORT` | Optional | `587` | Mail server port |
+| `SMTP_USER` | Optional | `alerts@example.org` | Username for SMTP authentication |
+| `SMTP_PASS` | Optional | `mail-password` | Password for SMTP authentication |
+
+## Recommended first settings
+
+For a test environment:
+
+- Set `APP_URL=http://localhost:3000`
+- Use a strong but memorable temporary database password
+- Generate a fresh `BETTER_AUTH_SECRET`
+
+For a real hospital environment:
+
+- Use the internal DNS name or public domain that staff will actually use
+- Store `.env` in a secure location with restricted file permissions
+- Keep a secure copy of the `BETTER_AUTH_SECRET` for disaster recovery
+
+## Database connection
+
+The web service builds its `DATABASE_URL` automatically inside Docker using the values in Compose. In most cases you do not need to edit the application-level database URL manually.
+
+If you later migrate to an external PostgreSQL server, update the database host and credentials in your deployment files so the dashboard can reach the new database securely.
+
+## Networking advice for hospital IT teams
+
+If your hospital has a local network but limited internet connectivity:
+
+- Host Temetro on a machine that stays on-site
+- Give it a stable IP address or internal DNS name
+- Make sure staff computers can reach ports `80` or `3000` depending on your setup
+- Use HTTPS through NGINX before allowing cross-building or remote access
+
+## Backups
+
+Temetro stores critical operational data in PostgreSQL. Make database backups part of your normal process from day one.
+
+At a minimum, back up:
+
+- PostgreSQL data
+- The `.env` file
+- Any custom reverse-proxy or SSL certificate files
+
+## What to do next
+
+After configuration, follow [First Run](/docs/getting-started/first-run) to validate the containers, sign in, and prepare an administrator workflow.

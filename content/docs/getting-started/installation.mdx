@@ -1,0 +1,78 @@
+---
+title: Installation
+description: Install Temetro locally with Docker Compose and start the full stack in a few steps.
+---
+
+This guide shows the fastest way to run Temetro on one machine for evaluation, training, or small internal deployments.
+
+## Requirements
+
+Before you start, confirm that the machine has:
+
+- Docker installed
+- Docker Compose v2 available through the `docker compose` command
+- Git installed
+- At least 2 GB of RAM
+- Ports `3000`, `3001`, and `5432` available
+
+## 1. Clone the deployment repository
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+```
+
+If your IT team manages multiple hospital systems on the same server, create a dedicated folder for Temetro first so it is easy to back up and maintain.
+
+## 2. Copy the example environment file
+
+```bash
+cp .env.example .env
+```
+
+This creates your working configuration file. You only need to edit a few values before the first start.
+
+## 3. Set the minimum required values
+
+Open `.env` in a text editor and update:
+
+- `POSTGRES_PASSWORD`
+- `APP_URL`
+- `BETTER_AUTH_SECRET`
+
+Generate the auth secret with:
+
+```bash
+openssl rand -base64 32
+```
+
+## 4. Start Temetro
+
+```bash
+docker compose up -d
+```
+
+Docker will download the required images, create the PostgreSQL database container, and start the web and docs services.
+
+## 5. Confirm the services are running
+
+```bash
+docker compose ps
+```
+
+You should see containers for:
+
+- `postgres`
+- `web`
+- `docs`
+
+## 6. Open Temetro in your browser
+
+- Dashboard: `http://localhost:3000`
+- Documentation: `http://localhost:3001/docs`
+
+If you are installing on a remote server, replace `localhost` with the server IP address or internal hostname.
+
+## What to do next
+
+Continue with [Configuration](/docs/getting-started/configuration) to review all environment values, then finish with [First Run](/docs/getting-started/first-run) to prepare the first administrator account and validate the installation.

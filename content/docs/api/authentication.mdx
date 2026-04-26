@@ -1,0 +1,56 @@
+---
+title: Authentication
+description: Review the Better Auth setup used by the Temetro dashboard.
+---
+
+Temetro uses Better Auth for the initial authentication layer.
+
+## Current authentication model
+
+The scaffold enables:
+
+- Email and password sign-in
+- Session-based authentication
+- Protected dashboard routes
+- Server-side session checks in the application shell
+
+## Route structure
+
+The dashboard exposes Better Auth under:
+
+```text
+/api/auth/[...all]
+```
+
+This is the standard route shape recommended for Next.js App Router integration.
+
+## Required environment variables
+
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL`
+- `NEXT_PUBLIC_APP_URL`
+- `DATABASE_URL`
+
+## Session duration
+
+Temetro currently uses a seven-day session window. This is long enough for ordinary staff workflows while still keeping logins bounded.
+
+## Security notes
+
+For production use, review the following carefully:
+
+- Generate a unique auth secret
+- Protect your server with HTTPS
+- Restrict database access to trusted networks
+- Decide who can create or manage administrator accounts
+
+## Future extensions
+
+The Better Auth foundation can be extended later for features such as:
+
+- Email verification
+- Password reset
+- Two-factor authentication
+- Organizations and granular permissions
+
+Those capabilities fit naturally into the current stack without forcing a full rewrite of the authentication layer.

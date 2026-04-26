@@ -1,0 +1,78 @@
+---
+title: Production
+description: Move Temetro from a local test setup to a more durable hospital deployment.
+---
+
+Production deployment means the system is trusted for regular operational use. At that stage, reliability and security matter as much as the application itself.
+
+## Production checklist
+
+Before going live, confirm all of the following:
+
+- The server has stable power and reasonable cooling
+- Daily or scheduled database backups are configured
+- `APP_URL` uses the real hostname staff will open
+- `BETTER_AUTH_SECRET` is set to a strong generated value
+- Reverse proxy and HTTPS are configured
+- Access to the server is limited to authorized administrators
+
+## Use the production Compose override
+
+Start the stack with:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+This adds the NGINX service and applies production-oriented behavior.
+
+## NGINX responsibilities
+
+In the Temetro deployment stack, NGINX is responsible for:
+
+- Listening on ports `80` and `443`
+- Routing the dashboard to the web service
+- Routing `/docs` to the docs service
+- Handling compression and security headers
+- Exposing a simple `/health` endpoint
+
+## HTTPS
+
+For any environment where patient or staff information crosses a network, HTTPS should be treated as required.
+
+You can provide certificates in the `ssl` folder used by the NGINX configuration. Some organizations use:
+
+- Internal certificates issued by hospital IT
+- Public certificates issued by a certificate authority
+- Automated certificate tools managed outside the Temetro stack
+
+## Backup strategy
+
+A good minimum backup plan includes:
+
+- Nightly PostgreSQL dumps
+- Weekly full server snapshot or VM backup
+- Secure off-device copy of the latest backup
+- Documented restore procedure tested by IT staff
+
+## Upgrade strategy
+
+For hospitals with limited maintenance windows:
+
+1. Back up the database
+2. Schedule an off-hours change window
+3. Pull the latest code
+4. Rebuild the services
+5. Verify sign-in and the patient dashboard
+
+## Support model
+
+Temetro is open source, so hospitals should decide early who owns:
+
+- Server patching
+- Application updates
+- Credential management
+- Database backups
+- Incident response
+
+With those responsibilities clear, even small teams can operate the platform with confidence.
