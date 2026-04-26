@@ -22,7 +22,11 @@ export default async function DocsCatchAllPage({
   const MDX = page.data.body;
 
   return (
-    <DocsPage>
+    <DocsPage
+      tableOfContent={{ style: "clerk" }}
+      tableOfContentPopover={{ style: "clerk" }}
+      toc={page.data.toc}
+    >
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
