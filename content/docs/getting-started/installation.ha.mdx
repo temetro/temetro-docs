@@ -1,0 +1,78 @@
+---
+title: Shigarwa
+description: Sanya Temetro a gida da Docker Compose kuma fara dukkan tsarin cikin matakai kaɗan.
+---
+
+Wannan jagorar tana nuna hanya mafi sauri don tafiyar da Temetro a kan na'ura guda don gwaji, horo, ko ƙaramin amfani na cikin gida.
+
+## Abubuwan da ake buƙata
+
+Kafin ka fara, ka tabbatar cewa na'urar tana da:
+
+- Docker a girke
+- Docker Compose v2 ta hanyar umarnin `docker compose`
+- Git a girke
+- aƙalla 2 GB RAM
+- tashoshin `3000`, `3001`, da `5432` a buɗe
+
+## 1. Clone ma'ajiyar turawa
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+```
+
+Idan ƙungiyar IT ɗinku tana sarrafa tsarin asibiti da dama a sabar guda, ku fara ƙirƙirar babban fayil na musamman na Temetro.
+
+## 2. Kwafi fayil ɗin misalin muhalli
+
+```bash
+cp .env.example .env
+```
+
+Wannan zai ƙirƙiri fayil ɗin saitin aiki. Za ka canza ƙimomi kaɗan kawai kafin farawa na farko.
+
+## 3. Saita mafi ƙarancin ƙimomin da ake buƙata
+
+Buɗe `.env` ka sabunta:
+
+- `POSTGRES_PASSWORD`
+- `APP_URL`
+- `BETTER_AUTH_SECRET`
+
+Ka samar da sirrin auth da:
+
+```bash
+openssl rand -base64 32
+```
+
+## 4. Fara Temetro
+
+```bash
+docker compose up -d
+```
+
+Docker zai sauke hotunan da ake buƙata, ya ƙirƙiri kontena na PostgreSQL, sannan ya fara ayyukan web da docs.
+
+## 5. Tabbatar ayyukan suna gudana
+
+```bash
+docker compose ps
+```
+
+Ya kamata ka ga kontena na:
+
+- `postgres`
+- `web`
+- `docs`
+
+## 6. Buɗe Temetro a browser
+
+- Dashboard: `http://localhost:3000`
+- Takardu: `http://localhost:3001/docs`
+
+Idan kana girkawa a kan sabar nesa, maye gurbin `localhost` da IP na sabar ko sunan cikin gida.
+
+## Menene na gaba
+
+Ci gaba da [Saituna](./configuration) don duba duk ƙimomin muhalli, sannan ka gama da [Farawa na farko](./first-run).

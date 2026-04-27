@@ -1,0 +1,78 @@
+---
+title: Production
+description: Faites passer Temetro d’un test local à un déploiement hospitalier plus durable.
+---
+
+Un déploiement de production signifie que le système est jugé fiable pour un usage opérationnel régulier. À ce stade, la fiabilité et la sécurité comptent autant que l’application elle-même.
+
+## Liste de vérification avant production
+
+Avant la mise en service, confirmez les points suivants :
+
+- le serveur bénéficie d’une alimentation stable et d’un refroidissement raisonnable
+- des sauvegardes quotidiennes ou planifiées de la base sont configurées
+- `APP_URL` utilise le vrai nom d’hôte que le personnel ouvrira
+- `BETTER_AUTH_SECRET` est défini sur une valeur forte générée
+- le reverse proxy et HTTPS sont configurés
+- l’accès au serveur est limité aux administrateurs autorisés
+
+## Utiliser la surcharge Compose de production
+
+Démarrez la pile avec :
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+Cela ajoute le service NGINX et applique un comportement orienté production.
+
+## Rôle de NGINX
+
+Dans la pile de déploiement Temetro, NGINX est responsable de :
+
+- écouter sur les ports `80` et `443`
+- router le tableau de bord vers le service web
+- router `/docs` vers le service de documentation
+- gérer la compression et les en-têtes de sécurité
+- exposer un simple point de contrôle `/health`
+
+## HTTPS
+
+Dans tout environnement où des informations sur les patients ou le personnel traversent un réseau, HTTPS doit être considéré comme obligatoire.
+
+Vous pouvez fournir les certificats dans le dossier `ssl` utilisé par la configuration NGINX. Certaines organisations utilisent :
+
+- des certificats internes émis par l’informatique hospitalière
+- des certificats publics émis par une autorité de certification
+- des outils automatisés gérés en dehors de la pile Temetro
+
+## Stratégie de sauvegarde
+
+Un bon minimum comprend :
+
+- des exports PostgreSQL nocturnes
+- une sauvegarde complète hebdomadaire du serveur ou de la machine virtuelle
+- une copie sécurisée hors machine de la dernière sauvegarde
+- une procédure de restauration documentée et testée par l’équipe informatique
+
+## Stratégie de mise à niveau
+
+Pour les hôpitaux avec des fenêtres de maintenance limitées :
+
+1. sauvegardez la base de données
+2. planifiez une fenêtre de changement hors heures d’activité
+3. récupérez le code le plus récent
+4. reconstruisez les services
+5. vérifiez la connexion et le tableau de bord patient
+
+## Modèle de support
+
+Temetro étant open source, les hôpitaux doivent décider tôt qui prend en charge :
+
+- les correctifs du serveur
+- les mises à jour applicatives
+- la gestion des identifiants
+- les sauvegardes de base de données
+- la réponse aux incidents
+
+Avec des responsabilités claires, même de petites équipes peuvent exploiter la plateforme avec confiance.

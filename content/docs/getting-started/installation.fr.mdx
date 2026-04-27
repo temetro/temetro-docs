@@ -1,0 +1,78 @@
+---
+title: Installation
+description: Installez Temetro localement avec Docker Compose et lancez toute la pile en quelques étapes.
+---
+
+Ce guide montre la manière la plus rapide d’exécuter Temetro sur une seule machine pour l’évaluation, la formation ou de petits déploiements internes.
+
+## Exigences
+
+Avant de commencer, vérifiez que la machine dispose de :
+
+- Docker installé
+- Docker Compose v2 disponible via la commande `docker compose`
+- Git installé
+- au moins 2 Go de RAM
+- les ports `3000`, `3001` et `5432` libres
+
+## 1. Cloner le dépôt de déploiement
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+```
+
+Si votre équipe informatique gère plusieurs systèmes hospitaliers sur le même serveur, créez d’abord un dossier dédié à Temetro afin de faciliter la sauvegarde et la maintenance.
+
+## 2. Copier le fichier d’environnement exemple
+
+```bash
+cp .env.example .env
+```
+
+Cela crée votre fichier de configuration de travail. Vous n’aurez à modifier que quelques valeurs avant le premier démarrage.
+
+## 3. Définir les valeurs minimales requises
+
+Ouvrez le fichier `.env` dans un éditeur de texte et mettez à jour :
+
+- `POSTGRES_PASSWORD`
+- `APP_URL`
+- `BETTER_AUTH_SECRET`
+
+Générez le secret d’authentification avec :
+
+```bash
+openssl rand -base64 32
+```
+
+## 4. Démarrer Temetro
+
+```bash
+docker compose up -d
+```
+
+Docker téléchargera les images nécessaires, créera le conteneur PostgreSQL et démarrera les services web et documentation.
+
+## 5. Vérifier que les services fonctionnent
+
+```bash
+docker compose ps
+```
+
+Vous devriez voir des conteneurs pour :
+
+- `postgres`
+- `web`
+- `docs`
+
+## 6. Ouvrir Temetro dans le navigateur
+
+- Tableau de bord : `http://localhost:3000`
+- Documentation : `http://localhost:3001/docs`
+
+Si vous installez sur un serveur distant, remplacez `localhost` par l’adresse IP du serveur ou son nom d’hôte interne.
+
+## Que faire ensuite
+
+Poursuivez avec [Configuration](./configuration) pour revoir toutes les variables d’environnement, puis terminez avec [Premier démarrage](./first-run) afin de préparer le premier compte administrateur et valider l’installation.

@@ -1,0 +1,79 @@
+---
+title: Vigezo vya mazingira
+description: Maelezo ya vitendo ya kila kigezo muhimu cha mazingira kinachotumiwa na mfumo wa usambazaji.
+---
+
+Temetro huhifadhi usanidi wake kwenye vigezo vya mazingira ili codebase hiyo hiyo iweze kufanya kazi katika mazingira ya test, staging, na production kwa mipangilio tofauti.
+
+## Vigezo vinavyohitajika
+
+### `POSTGRES_PASSWORD`
+
+Hiki ndicho nenosiri kinachotumiwa na hifadhidata ya PostgreSQL.
+
+Tumia thamani imara na epuka kutumia tena nywila kutoka mifumo mingine. Ukibadilisha hii baadaye, lazima usasishe huduma yoyote inayounganishwa na hifadhidata.
+
+### `APP_URL`
+
+Hii ndiyo anwani inayotumiwa na wafanyakazi kufungua Temetro.
+
+Mifano:
+
+- `http://localhost:3000` kwa majaribio ya ndani
+- `http://10.0.0.25` kwa seva ya ndani pekee
+- `https://temetro.hospital.example` kwa uzalishaji
+
+### `BETTER_AUTH_SECRET`
+
+Hiki kinalinda sessions za uthibitishaji na shughuli za usimbaji zinazohusiana nazo.
+
+Kizalishe kwa:
+
+```bash
+openssl rand -base64 32
+```
+
+Usishirikishe thamani hii kwa upana. Ihifadhi kama unavyohifadhi taarifa nyingine nyeti za seva.
+
+## Vigezo vya barua pepe vya hiari
+
+Vinahitajika tu ikiwa unataka Temetro kutuma barua pepe, kama uthibitishaji au kurejesha nenosiri.
+
+### `SMTP_HOST`
+
+Jina la seva ya barua.
+
+### `SMTP_PORT`
+
+Bandari ya seva ya barua. `587` hutumika sana kwa SMTP yenye uthibitishaji.
+
+### `SMTP_USER`
+
+Jina la mtumiaji wa akaunti ya barua pepe au relay ya SMTP.
+
+### `SMTP_PASS`
+
+Nenosiri la akaunti ya barua pepe au relay ya SMTP.
+
+## Mfano wa `.env`
+
+```bash
+POSTGRES_PASSWORD=change-me-now
+APP_URL=https://temetro.example.org
+BETTER_AUTH_SECRET=replace-this-with-a-generated-secret
+SMTP_HOST=smtp.example.org
+SMTP_PORT=587
+SMTP_USER=temetro@example.org
+SMTP_PASS=mail-password
+```
+
+## Mazoea mazuri ya usalama
+
+- punguza nani anaweza kusoma faili ya `.env`
+- ihifadhi mahali salama kama nakala rudufu
+- badilisha siri pale msimamizi anapobadilika au credensheli zinaposhukiwa kuvuja
+- usibandike siri halisi kwenye picha, tiketi, au mazungumzo ya umma
+
+## Kusoma zaidi
+
+Ukishakuwa tayari kuwasilisha Temetro kwenye domain thabiti yenye HTTPS, endelea na [Uzalishaji](./production).

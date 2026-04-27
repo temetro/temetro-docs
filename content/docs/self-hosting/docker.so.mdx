@@ -1,0 +1,97 @@
+---
+title: Dejinta Docker
+description: Ku socodsii Temetro Docker Compose oo faham shaqada adeeg kasta.
+---
+
+Hagahan waxa loogu talagalay shaqaalaha IT-ga ee isbitaalka oo laga yaabo inaanay ahayn horumariyayaal software. Ujeeddadu waa in lagu caawiyo dejinta Temetro si cad.
+
+## Waxa Docker Compose sameeyo
+
+Docker Compose waxa uu bilaabaa dhowr adeeg oo isku xiran:
+
+- hifadhidata PostgreSQL ah
+- dashboard-ka Temetro
+- bogga dukumentiyada Temetro
+- iyo NGINX reverse proxy oo ikhtiyaari ah deegaanka wax-soo-saarka
+
+Halkii aad si gooni ah u rakibi lahayd qayb kasta, waxaad oroddaa hal amar oo Docker ayaa isu geeya dhammaan xirmada.
+
+## Amarka bilowga ah
+
+Gudaha galka dejinta:
+
+```bash
+docker compose up -d
+```
+
+Tani waxay:
+
+- u sheegaysaa Docker inuu isticmaalo faylka Compose ee galkaas
+- bilaabaysaa adeegyada
+- ka dhigayaa inay gadaal ka socdaan
+
+## Amarada maalinlaha ah ee faa'iido leh
+
+### Muuji adeegyada socda
+
+```bash
+docker compose ps
+```
+
+### Fiiri log-yada tooska ah
+
+```bash
+docker compose logs -f
+```
+
+### Jooji nidaamka
+
+```bash
+docker compose down
+```
+
+### Jooji oo tirtir xogta volume-ka
+
+```bash
+docker compose down -v
+```
+
+Isticmaal `-v` kaliya marka aad si ula kac ah u tirtirayso xogta tijaabada ah.
+
+## Qaabka faylasha
+
+Ku hay faylasha dejinta gal gooni ah oo sahlan in la helo, sida:
+
+```text
+/opt/temetro
+```
+
+ama laptop:
+
+```text
+C:\Temetro
+```
+
+## Sida updates u shaqeeyaan
+
+Marka nooc cusub oo faylasha dejinta ahi yimaado:
+
+1. kaydi hifadhidata
+2. soo jiido isbeddellada ugu dambeeya
+3. dib u dhis oo dib u bilow adeegyada
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+## Goorma loo wareego habka wax-soo-saarka
+
+Isticmaal production Compose override iyo NGINX marka:
+
+- shaqaaluhu si joogto ah uga galaan Temetro kombiyuutarro badan
+- aad u baahan tahay HTTPS
+- aad rabto marin nadiif ah sida `/docs`
+- server-ku uu joogto u shaqaynayo maalin kasta
+
+Si aad u aragto liiska wax-soo-saarka, u gudub [Wax-soo-saar](./production).

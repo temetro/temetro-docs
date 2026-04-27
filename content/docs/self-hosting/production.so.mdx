@@ -1,0 +1,78 @@
+---
+title: Wax-soo-saar
+description: Ka saar Temetro tijaabada gudaha oo u wareeji dejin isbitaal oo waarta.
+---
+
+Dejinta wax-soo-saarka waxay ka dhigan tahay in nidaamka lagu kalsoon yahay hawlgal joogto ah. Halkaas, kalsooni iyo amni ayaa la mid ah muhiimad ahaan sida app-ka laftiisa.
+
+## Liiska hubinta ee wax-soo-saarka
+
+Kahor inta aan la hawlgelin, xaqiiji in:
+
+- server-ku leeyahay koronto deggan iyo qaboojin macquul ah
+- kaydinta hifadhidata maalinle ama jadwalaysan ay jirto
+- `APP_URL` uu yahay hostname-ka ay shaqaaluhu si dhab ah u isticmaali doonaan
+- `BETTER_AUTH_SECRET` loo dejiyay qiime adag oo la sameeyay
+- reverse proxy iyo HTTPS la habeeyay
+- marin u helka server-ka lagu xaddiday maamulayaasha la oggolaaday
+
+## Adeegso production Compose override
+
+Bilow stack-ga adigoo isticmaalaya:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+Tani waxay ku daraysaa adeegga NGINX oo dhaqan wax-soo-saar ah dhaqan gelinaysa.
+
+## Shaqada NGINX
+
+Stack-ga Temetro gudaheeda, NGINX waxa uu mas'uul ka yahay:
+
+- dhegeysiga dekedaha `80` iyo `443`
+- jihaynta dashboard-ka web service-ka
+- jihaynta `/docs` docs service-ka
+- maareynta compression iyo security headers
+- bixinta endpoint fudud oo `/health` ah
+
+## HTTPS
+
+Deegaan kasta oo xogta bukaanka ama shaqaalaha ay ku gudubto shabakad, HTTPS waa in loo arkaa wax lama huraan ah.
+
+Waxaad ku ridi kartaa shahaadooyinka galka `ssl` ee uu adeegsanayo NGINX. Hay'ado qaarkood waxay isticmaalaan:
+
+- shahaadooyin gudaha ah oo ay bixiso IT-ga isbitaalka
+- shahaadooyin dadweyne oo ka yimaada hay'adaha shahaadeynta
+- qalabyo si toos ah loo maamulo oo ka baxsan stack-ga Temetro
+
+## Istiraatiijiyadda kaydka
+
+Qorshe yar oo wanaagsan waxa uu ka kooban yahay:
+
+- dumps-ka PostgreSQL habeen kasta
+- snapshot buuxa oo server ama VM ah toddobaad kasta
+- nuqul ammaan ah oo ka baxsan qalabka oo backup-kii ugu dambeeyay ah
+- hab soo celin oo la diiwaangeliyay oo la tijaabiyay
+
+## Istiraatiijiyadda kor-u-qaadista
+
+Isbitaallada leh daaqadaha dayactirka ee kooban:
+
+1. kaydi hifadhidata
+2. qorshee waqti ka baxsan saacadaha shaqada
+3. soo qaado code-kii ugu dambeeyay
+4. dib u dhis adeegyada
+5. xaqiiji gelitaanka iyo dashboard-ka bukaanka
+
+## Qaabka taageerada
+
+Maadaama Temetro yahay il-furan, isbitaalladu waa inay go'aamiyaan goor hore cidda ka masuul ah:
+
+- patches-ka server-ka
+- updates-ka app-ka
+- maamulka aqoonsiyada
+- kaydinta hifadhidata
+- jawaabta dhacdooyinka
+
+Marka mas'uuliyadahani caddaadaan, xitaa kooxo yar ayaa si kalsooni leh u maamuli kara nidaamka.

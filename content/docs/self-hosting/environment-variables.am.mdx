@@ -1,0 +1,79 @@
+---
+title: የአካባቢ ተለዋዋጮች
+description: በማሰማሪያ ስታኩ ውስጥ የሚጠቀሙትን እያንዳንዱን ቁልፍ የአካባቢ ተለዋዋጭ በተግባራዊ መንገድ የሚያብራራ ገጽ።
+---
+
+Temetro ተመሳሳይ codebase በሙከራ፣ በstaging እና በፕሮዳክሽን አካባቢዎች በተለያዩ ቅንብሮች እንዲሰራ አዋቅርን በአካባቢ ተለዋዋጮች ውስጥ ያስቀምጣል።
+
+## አስፈላጊ ተለዋዋጮች
+
+### `POSTGRES_PASSWORD`
+
+ይህ ለ PostgreSQL የውሂብ ጎታ የሚጠቀሙት የይለፍ ቃል ነው።
+
+ጠንካራ እሴት ይጠቀሙ እና ከሌሎች ስርዓቶች የይለፍ ቃሎችን ዳግም አይጠቀሙ። ይህን በኋላ ካስቀየሩት ከውሂብ ጎታ ጋር የሚገናኝ ማንኛውንም አገልግሎት ማዘመን አለብዎት።
+
+### `APP_URL`
+
+ይህ ሰራተኞች Temetro ን ለመክፈት የሚጠቀሙት URL ነው።
+
+ምሳሌዎች፦
+
+- ለአካባቢ ሙከራ `http://localhost:3000`
+- ለውስጣዊ ብቻ አገልጋይ `http://10.0.0.25`
+- ለፕሮዳክሽን `https://temetro.hospital.example`
+
+### `BETTER_AUTH_SECRET`
+
+ይህ የማረጋገጫ session ዎችን እና ተያያዥ የክሪፕቶግራፊ ሂደቶችን ይጠብቃል።
+
+እንዲህ ብለው ይፍጠሩት፦
+
+```bash
+openssl rand -base64 32
+```
+
+ይህን እሴት በሰፊው አታጋሩ። ሌሎች ጥንቃቄ የሚፈልጉ የሰርቨር መረጃዎችን እንደምታስቀምጡ እንዲሁ ያስቀምጡት።
+
+## አማራጭ የኢሜይል ተለዋዋጮች
+
+እነዚህ የሚያስፈልጉት Temetro እንደ ማረጋገጫ ወይም የይለፍ ቃል መመለሻ መልእክቶች ኢሜይል እንዲልክ ሲፈልጉ ብቻ ነው።
+
+### `SMTP_HOST`
+
+የደብዳቤ አገልጋይ ስም።
+
+### `SMTP_PORT`
+
+የደብዳቤ አገልጋይ ፖርት። `587` ለተረጋገጠ SMTP የተለመደ ነው።
+
+### `SMTP_USER`
+
+ለኢሜይል መለያ ወይም ለ SMTP relay የተጠቃሚ ስም።
+
+### `SMTP_PASS`
+
+ለኢሜይል መለያ ወይም ለ SMTP relay የይለፍ ቃል።
+
+## የ `.env` ምሳሌ
+
+```bash
+POSTGRES_PASSWORD=change-me-now
+APP_URL=https://temetro.example.org
+BETTER_AUTH_SECRET=replace-this-with-a-generated-secret
+SMTP_HOST=smtp.example.org
+SMTP_PORT=587
+SMTP_USER=temetro@example.org
+SMTP_PASS=mail-password
+```
+
+## ጥሩ የደህንነት ልምዶች
+
+- `.env` ፋይሉን ማን ማን ሊያነብ እንደሚችል ይገድቡ
+- በደህንነቱ የተጠበቀ ቦታ መጠባበቂያ ያድርጉለት
+- አስተዳዳሪዎች ሲቀየሩ ወይም credential እንደተጋለጠ ጥርጣሬ ሲኖር ሚስጥሮችን ይቀይሩ
+- እውነተኛ ሚስጥሮችን በስክሪንሾቶች፣ ticket ዎች ወይም በሕዝብ ውይይት ውስጥ አታስገቡ
+
+## ተያያዥ ንባብ
+
+Temetro ን በተረጋጋ domain እና HTTPS ላይ ለማሳየት ዝግጁ ሲሆኑ፣ ወደ [ፕሮዳክሽን](./production) ይሂዱ።

@@ -1,0 +1,78 @@
+---
+title: Uzalishaji
+description: Hamisha Temetro kutoka majaribio ya ndani kwenda usambazaji wa hospitali wa kudumu zaidi.
+---
+
+Usambazaji wa uzalishaji unamaanisha mfumo unaaminika kwa matumizi ya kawaida ya uendeshaji. Katika hatua hii, uaminifu na usalama ni muhimu sawa na programu yenyewe.
+
+## Orodha ya ukaguzi wa uzalishaji
+
+Kabla ya kuwasha rasmi, thibitisha yafuatayo:
+
+- seva ina umeme thabiti na ubaridi wa kutosha
+- nakala rudufu za kila siku au za ratiba ya hifadhidata zimesanidiwa
+- `APP_URL` inatumia jina halisi la mwenyeji litakalofunguliwa na wafanyakazi
+- `BETTER_AUTH_SECRET` imewekwa kwa thamani imara iliyozalishwa
+- reverse proxy na HTTPS zimesanidiwa
+- ufikiaji wa seva umewekewa wasimamizi walioidhinishwa tu
+
+## Tumia override ya Compose ya uzalishaji
+
+Washa mfumo kwa:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+Hii itaongeza huduma ya NGINX na kutumia tabia inayofaa uzalishaji.
+
+## Majukumu ya NGINX
+
+Katika mfumo wa usambazaji wa Temetro, NGINX inawajibika kwa:
+
+- kusikiliza kwenye bandari `80` na `443`
+- kuelekeza dashibodi kwenye huduma ya web
+- kuelekeza `/docs` kwenye huduma ya nyaraka
+- kushughulikia compression na security headers
+- kutoa endpoint rahisi ya `/health`
+
+## HTTPS
+
+Katika mazingira yoyote ambamo taarifa za wagonjwa au wafanyakazi zinapitia mtandao, HTTPS inapaswa kuhesabiwa kuwa lazima.
+
+Unaweza kuweka vyeti ndani ya folda ya `ssl` inayotumiwa na usanidi wa NGINX. Baadhi ya mashirika hutumia:
+
+- vyeti vya ndani vinavyotolewa na TEHAMA ya hospitali
+- vyeti vya umma kutoka mamlaka ya uthibitishaji
+- zana za kiotomatiki zinazosimamiwa nje ya mfumo wa Temetro
+
+## Mkakati wa nakala rudufu
+
+Mpango mzuri wa chini unajumuisha:
+
+- dumps za PostgreSQL kila usiku
+- snapshot kamili ya seva au VM kila wiki
+- nakala salama nje ya kifaa ya backup ya karibuni
+- utaratibu wa kurejesha ulioandikwa na kujaribiwa na timu ya TEHAMA
+
+## Mkakati wa masasisho
+
+Kwa hospitali zenye muda mdogo wa matengenezo:
+
+1. hifadhi hifadhidata
+2. panga muda wa mabadiliko nje ya saa za kazi
+3. vuta code ya hivi karibuni
+4. jenga huduma upya
+5. thibitisha kuingia na dashibodi ya wagonjwa
+
+## Mfano wa usaidizi
+
+Temetro ni chanzo huria, hivyo hospitali zinapaswa kuamua mapema nani atawajibika kwa:
+
+- masasisho ya seva
+- masasisho ya programu
+- usimamizi wa credensheli
+- nakala rudufu za hifadhidata
+- mwitikio wa matukio
+
+Majukumu haya yakiwa wazi, hata timu ndogo zinaweza kuendesha mfumo kwa ujasiri.

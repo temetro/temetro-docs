@@ -1,0 +1,97 @@
+---
+title: Tura da Docker
+description: Gudanar da Temetro da Docker Compose kuma fahimci aikin kowane sabis.
+---
+
+Wannan jagorar an rubuta ta ne ga ma'aikatan IT na asibiti waɗanda ba lallai su zama masu haɓaka software ba. Manufarta ita ce ta taimaka wajen tura Temetro ba tare da zato ba.
+
+## Abin da Docker Compose ke yi
+
+Docker Compose yana fara sabis da dama tare:
+
+- database na PostgreSQL
+- dashboard na Temetro
+- shafin takardun Temetro
+- da kuma NGINX reverse proxy na zaɓi don production
+
+Maimakon ka girka kowane bangare daban-daban, kana gudanar da umarni guda ɗaya kuma Docker ya hada stack ɗin gaba ɗaya.
+
+## Asalin umarnin farawa
+
+Daga babban fayil ɗin turawa:
+
+```bash
+docker compose up -d
+```
+
+Wannan yana nufin:
+
+- `docker compose` yana amfani da fayil ɗin Compose na babban fayil ɗin yanzu
+- `up` yana fara sabis
+- `-d` yana sa su gudana a bango
+
+## Umarnin yau da kullum masu amfani
+
+### Nuna sabis masu gudana
+
+```bash
+docker compose ps
+```
+
+### Duba log kai tsaye
+
+```bash
+docker compose logs -f
+```
+
+### Tsayar da tsarin
+
+```bash
+docker compose down
+```
+
+### Tsayar da cire volume ɗin database
+
+```bash
+docker compose down -v
+```
+
+Yi amfani da `-v` ne kawai idan da gangan kake son share bayanan gwaji.
+
+## Tsarin manyan fayiloli
+
+Ajiye fayilolin turawa a babban fayil mai sauƙin samu, misali:
+
+```text
+/opt/temetro
+```
+
+ko a kwamfutar tafi-da-gidanka:
+
+```text
+C:\Temetro
+```
+
+## Yadda sabuntawa ke aiki
+
+Lokacin da sabon sigar fayilolin turawa ta fito:
+
+1. ajiye database
+2. ja sabbin canje-canje daga ma'ajiya
+3. sake gina sabis kuma ka sake fara su
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+## Yaushe za a koma production
+
+Yi amfani da production Compose override da NGINX lokacin da:
+
+- ma'aikata za su riƙa amfani da Temetro akai-akai daga na'urori da yawa
+- kana buƙatar HTTPS
+- kana son tsabtataccen routing kamar `/docs`
+- sabar dole ta ci gaba da aiki duk rana
+
+Don cikakken jerin abubuwan dubawa na production, ci gaba da [Production](./production).

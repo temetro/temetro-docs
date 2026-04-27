@@ -1,0 +1,63 @@
+---
+title: Qaabayn
+description: Faham dejimaha muhiimka ah ee deegaanka iyo habaynta dejinta ee Temetro.
+---
+
+Temetro waxa loo sameeyay inuu ahaado mid fudud. Inta badan rakibiddu waxay u baahan yihiin qiyam yar oo deegaanka ah si ammaan ah loogu bilaabo.
+
+## Qiyamka muhiimka ah ee deegaanka
+
+Qiyamka ugu muhiimsan waxay ku jiraan faylka `.env` ee kaydka dejinta.
+
+| Qodob | Loo baahan yahay | Tusaale | Ujeeddo |
+| --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | Haa | `strong-password-here` | Erayga sirta ee isticmaalaha PostgreSQL |
+| `APP_URL` | Haa | `http://localhost:3000` | URL-ka dadku ku galaan dashboard-ka |
+| `BETTER_AUTH_SECRET` | Haa | qiime la sameeyay | Sirta lagu saxiixo lana ilaaliyo xogta auth-ka |
+| `SMTP_HOST` | Ikhtiyaari | `smtp.example.org` | Magaca server-ka email-ka |
+| `SMTP_PORT` | Ikhtiyaari | `587` | Dekedda server-ka email-ka |
+| `SMTP_USER` | Ikhtiyaari | `alerts@example.org` | Magaca isticmaalaha SMTP |
+| `SMTP_PASS` | Ikhtiyaari | `mail-password` | Erayga sirta ah ee SMTP |
+
+## Dejimaha lagu taliyay marka la bilaabayo
+
+Imtixaan ahaan:
+
+- deji `APP_URL=http://localhost:3000`
+- isticmaal eray-sir adag oo ku meel gaar ah oo hifadhidata ah
+- samee `BETTER_AUTH_SECRET` cusub
+
+Deegaan isbitaal oo dhab ah:
+
+- isticmaal magaca DNS gudaha ama domain-ka ay shaqaaluhu dhab ahaantii isticmaali doonaan
+- ku kaydi `.env` meel ammaan ah oo leh rukhsado xaddidan
+- hay nuqul ammaan ah oo `BETTER_AUTH_SECRET` ah si loogu gurmado musiibooyinka
+
+## Isku xirka hifadhidata
+
+Adeegga web-ka ayaa si toos ah u dhisa `DATABASE_URL` gudaha Docker isagoo adeegsanaya qiyamka Compose. Inta badan uma baahnid inaad gacanta ku beddesho URL-ka hifadhidata.
+
+Haddii aad dambe u guurto PostgreSQL dibadda ah, cusboonaysii host-ka iyo aqoonsiyada si dashboard-ku u gaadho si ammaan ah.
+
+## Talo shabakad oo loogu talagalay kooxda IT-ga isbitaalka
+
+Haddii isbitaalku leeyahay shabakad gudaha ah laakiin internet xaddidan:
+
+- ku martigeli Temetro mashiin ku dhex yaal goobta
+- sii IP joogto ah ama DNS gudaha ah
+- hubi in kombiyuutarrada shaqaaluhu gaadhi karaan dekedaha `80` ama `3000`
+- adeegso HTTPS adigoo maraya NGINX ka hor inta aanad oggolaan marin fog
+
+## Kaydinta xogta
+
+Temetro waxa uu ku kaydiyaa xog hawlgal muhiim ah PostgreSQL. Ka dhig kaydinta hifadhidata qayb caadi ah oo hawshaada ah laga bilaabo maalinta koowaad.
+
+Ugu yaraan, kaydi:
+
+- xogta PostgreSQL
+- faylka `.env`
+- faylal kasta oo reverse proxy ama SSL ah
+
+## Maxaa xiga
+
+Ka dib qaabaynta, raac [Socodsiinta koowaad](./first-run) si aad u xaqiijiso kontaynarrada, u gasho, una diyaargarowdo shaqada maamulka.

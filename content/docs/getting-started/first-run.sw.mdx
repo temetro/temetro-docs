@@ -1,0 +1,77 @@
+---
+title: Uendeshaji wa kwanza
+description: Thibitisha usakinishaji mpya wa Temetro na uandae mtiririko wa kwanza wa msimamizi wa hospitali.
+---
+
+Ukurasa huu unakusaidia kuthibitisha kwamba Temetro imeanza kwa usahihi na kwamba timu yako inaweza kuanza kuitumia kwa usalama.
+
+## 1. Kagua afya ya kontena
+
+Endesha:
+
+```bash
+docker compose ps
+```
+
+Huduma zote kuu zinapaswa kuonyesha hali ya healthy au running.
+
+Ikiwa PostgreSQL bado inaanza upya, subiri kidogo kisha urudie amri.
+
+## 2. Fungua dashibodi
+
+Tembelea anwani ya dashibodi kwenye kivinjari:
+
+```text
+http://localhost:3000
+```
+
+Unapaswa kufika kwenye ukurasa wa kuingia.
+
+## 3. Tengeneza akaunti ya kwanza ya msimamizi
+
+Tumia kiungo cha **Create an account** kwenye ukurasa wa kuingia kusajili msimamizi wa kwanza wa hospitali. Chagua barua pepe inayomilikiwa na timu ya utekelezaji au kiongozi wa TEHAMA wa hospitali.
+
+Wasifu unaopendekezwa:
+
+- Jina: mtu anayesimamia uzinduzi au usimamizi
+- Barua pepe: anwani ya muda mrefu ya shirika
+- Nenosiri: kifungu imara kilichohifadhiwa kwenye meneja wa nenosiri wa hospitali
+
+## 4. Kagua dashibodi ya mwanzo
+
+Baada ya kuingia, hakikisha maeneo makuu yanapakia vizuri:
+
+- Muhtasari wa dashibodi
+- Wagonjwa
+- Miadi
+- Wafanyakazi
+- Mipangilio
+
+Katika hatua ya scaffold, baadhi ya data ni za majaribio kwa ajili ya kuthibitisha mwonekano na mtiririko wa kazi.
+
+## 5. Weka data za mfano au hamisha data ikihitajika
+
+Ikiwa unahitaji rekodi za mfano kwa tathmini, endesha amri ya seed kutoka monorepo au kontena la web:
+
+```bash
+npm run seed
+```
+
+Au ndani ya Docker:
+
+```bash
+docker compose exec web npm run seed
+```
+
+## 6. Jiandae kwa makabidhiano
+
+Kabla ya wafanyakazi wa kitabibu kuanza majaribio, hakikisha umefanya haya:
+
+- umeandika URL ya kuingia
+- umeandika nani anashikilia taarifa za akaunti ya kwanza ya msimamizi
+- umeamua mahali pa kuhifadhi nakala rudufu
+- umethibitisha nani atahusika na masasisho na ufuatiliaji wa seva
+
+## Nini cha kufanya baadaye
+
+Ikiwa mfumo unafanya kazi ndani ya mazingira ya ndani, endelea na sehemu ya kujihostisha ili kupanga usambazaji wa seva wa kudumu zaidi.

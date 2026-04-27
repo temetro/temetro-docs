@@ -1,0 +1,50 @@
+---
+title: Utangulizi
+description: Temetro ni mfumo wa bure na wa chanzo huria wa usimamizi wa hospitali uliotengenezwa kwa taasisi za afya za Afrika.
+---
+
+Temetro husaidia hospitali kusimamia wagonjwa, miadi, kumbukumbu za matibabu, na wafanyakazi kutoka dashibodi moja inayojihostisha.
+
+## Kwa nini Temetro?
+
+Katika mazingira mengi ya Afrika, programu za afya bado ni ghali sana, zinategemea sana cloud, au hazilingani na hali halisi ya miundombinu ya ndani. Temetro imeundwa tofauti:
+
+- **Bure na chanzo huria** ili hospitali ziweze kuchunguza, kubadilisha, na kumiliki programu wanayotegemea.
+- **Inajihostisha** ili data za wagonjwa zibaki ndani ya miundombinu inayodhibitiwa na hospitali.
+- **Rahisi kusambaza** kwa Docker Compose kwa timu ndogo za TEHAMA.
+- **Inafaa kwa mazingira yenye rasilimali chache** kwa kiolesura safi na mzigo mdogo wa uendeshaji.
+
+## Mwanzo wa haraka
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+cp .env.example .env
+docker compose up -d
+```
+
+Fungua `http://localhost:3000` kupata dashibodi na `http://localhost:3001/docs` kusoma tovuti ya nyaraka.
+
+## Temetro inafaa kwa nani
+
+Temetro inafaa kwa:
+
+- hospitali za wilaya na mikoa zinazotaka dashibodi ya ndani ya faragha
+- hospitali za misheni na taasisi zisizo za faida zenye bajeti ndogo za programu
+- timu za TEHAMA zinazopendelea miundombinu rahisi inayojihostisha badala ya programu za usajili
+- wasanidi na watekelezaji wanaohitaji msingi unaopanuka
+
+## Unapata nini
+
+Muundo wa kwanza unajumuisha:
+
+- dashibodi ya hospitali inayojibu vizuri iliyojengwa kwa Next.js
+- uthibitishaji wa barua pepe na nenosiri kwa Better Auth
+- miundo ya data ya PostgreSQL na Prisma kwa wagonjwa, miadi, na michakato ya wafanyakazi
+- ukurasa wa umma wa kutambulisha bidhaa
+- tovuti kamili ya nyaraka
+- faili za usambazaji za Docker Compose pamoja na uelekezaji wa NGINX
+
+## Hatua zinazofuata
+
+Anza na [mwongozo wa usakinishaji](./getting-started/installation), kisha endelea na usanidi na maelekezo ya mwanzo. Ikiwa unaandaa mazingira ya uzalishaji, sehemu ya kujihostisha ndiyo mahali pazuri pa kuendelea.

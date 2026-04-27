@@ -1,0 +1,50 @@
+---
+title: Hordhac
+description: Temetro waa nidaam bilaash ah oo il-furan oo maareeya isbitaallada, loona dhisay hay'adaha caafimaadka Afrika.
+---
+
+Temetro waxa uu ka caawiyaa isbitaallada maareynta bukaannada, ballamaha, diiwaannada caafimaadka, iyo shaqaalaha iyada oo loo marayo hal dashboard oo iskiis u martigeliya.
+
+## Maxaa Temetro ka dhigaya mid gaar ah?
+
+Meelo badan oo Afrika ah, barnaamijyada caafimaadku weli waa qaali, si xad-dhaaf ah ayey ugu tiirsan yihiin cloud-ka, ama kuma habboona kaabayaasha maxalliga ah. Temetro waxa loo naqshadeeyay si ka duwan:
+
+- **Bilaash iyo il-furan** si isbitaalladu u hubiyaan oo u beddelaan software-ka ay ku tiirsan yihiin.
+- **Iskiis-u-martigelin** si xogta bukaanku ugu dhex jirto kaabayaasha uu isbitaalku maamulo.
+- **Fudud in la geeyo** iyadoo la adeegsanayo Docker Compose.
+- **Ku habboon deegaanada xaddidan** sababta oo ah interface nadiif ah iyo culays hawlgal oo yar.
+
+## Bilow degdeg ah
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+cp .env.example .env
+docker compose up -d
+```
+
+Fur `http://localhost:3000` si aad u gasho dashboard-ka iyo `http://localhost:3001/docs` si aad u akhrido dukumentiyada.
+
+## Yaa loogu talagalay Temetro
+
+Temetro waxa uu ku habboon yahay:
+
+- isbitaallo degmo iyo gobol oo doonaya dashboard gudaha ah oo gaar loo leeyahay
+- isbitaallo mission iyo xarumo aan macaash doon ahayn oo leh miisaaniyad software oo xaddidan
+- kooxaha IT-ga ee doorbida kaabayaal fudud oo iskiis u martigeliya halkii ay ka isticmaali lahaayeen software rukumo ah
+- horumariyayaal iyo hirgeliyeyaal u baahan saldhig la ballaarin karo
+
+## Waxa aad helayso
+
+Qaab-dhismeedka bilowga ahi waxa uu ka kooban yahay:
+
+- dashboard isbitaal oo ka jawaaba oo lagu dhisay Next.js
+- gelitaan email iyo eray-sir ku salaysan Better Auth
+- moodallo PostgreSQL iyo Prisma ah oo loogu talagalay bukaanno, ballamo, iyo shaqaale
+- bog degitaan oo dadweyne
+- bog dukumenti oo dhammaystiran
+- faylal Docker Compose ah oo leh jihayn NGINX
+
+## Tallaabooyinka xiga
+
+Ka bilow [hagaha rakibidda](./getting-started/installation), ka dibna u gudub qaabaynta iyo socodsiinta koowaad. Haddii aad qorshaynayso deegaan wax-soo-saar, qaybta iskiis-u-martigelinta ayaa ah meesha saxda ah ee lagu sii wado.

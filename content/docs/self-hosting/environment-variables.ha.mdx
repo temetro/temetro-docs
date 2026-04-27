@@ -1,0 +1,79 @@
+---
+title: Muhallin canje-canje
+description: Bayani mai amfani na kowane muhimmin canjin muhalli da ake amfani da shi a tsarin turawa.
+---
+
+Temetro yana ajiye saitunansa a cikin canje-canjen muhalli domin codebase guda ya iya aiki a test, staging, da production tare da ƙimomi daban-daban.
+
+## Canje-canjen dole
+
+### `POSTGRES_PASSWORD`
+
+Wannan shi ne kalmar sirrin database na PostgreSQL.
+
+Yi amfani da ƙima mai ƙarfi kuma ka guji sake amfani da kalmomin sirri daga wasu tsarin. Idan ka canza ta daga baya, duk sabis ɗin da ke haɗuwa da database dole ne a sabunta su.
+
+### `APP_URL`
+
+Wannan shi ne URL ɗin da ma'aikata ke amfani da shi don buɗe Temetro.
+
+Misalai:
+
+- `http://localhost:3000` don gwajin gida
+- `http://10.0.0.25` don sabar cikin gida kaɗai
+- `https://temetro.hospital.example` don production
+
+### `BETTER_AUTH_SECRET`
+
+Wannan yana kare sessions na auth da sauran ayyukan cryptography.
+
+Ka ƙirƙire shi da:
+
+```bash
+openssl rand -base64 32
+```
+
+Kada ka rarraba wannan ƙimar sosai. Ajiye ta kamar sauran sirrukan sabar.
+
+## Canje-canjen imel na zaɓi
+
+Ana buƙatar su ne kawai idan kana son Temetro ya aika imel, kamar tabbaci ko sake saita kalmar sirri.
+
+### `SMTP_HOST`
+
+Sunan uwar garken imel.
+
+### `SMTP_PORT`
+
+Tashar uwar garken imel. `587` na da yawa amfani.
+
+### `SMTP_USER`
+
+Sunan mai amfani na asusun imel ko SMTP relay.
+
+### `SMTP_PASS`
+
+Kalmar sirri na asusun imel ko relay.
+
+## Misalin `.env`
+
+```bash
+POSTGRES_PASSWORD=change-me-now
+APP_URL=https://temetro.example.org
+BETTER_AUTH_SECRET=replace-this-with-a-generated-secret
+SMTP_HOST=smtp.example.org
+SMTP_PORT=587
+SMTP_USER=temetro@example.org
+SMTP_PASS=mail-password
+```
+
+## Kyawawan halayen tsaro
+
+- iyakance wanda zai iya karanta `.env`
+- ajiye shi a wuri mai tsaro a matsayin backup
+- canza sirruka idan aka canza admin ko ana zargin an fallasa su
+- kada ka saka sirrukan gaske a hotuna, tikiti, ko tattaunawar jama'a
+
+## Karatu mai alaƙa
+
+Idan kana shirye ka fallasa Temetro ta domain mai dorewa tare da HTTPS, wuce zuwa [Production](./production).

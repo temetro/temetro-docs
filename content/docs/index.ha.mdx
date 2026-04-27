@@ -1,0 +1,50 @@
+---
+title: Gabatarwa
+description: Temetro tsarin kula da asibiti ne kyauta kuma na bude-tushe wanda aka gina domin cibiyoyin lafiya na Afirka.
+---
+
+Temetro yana taimaka wa asibitoci su kula da marasa lafiya, alƙawura, bayanan lafiya, da ma'aikata daga dashboard guda ɗaya mai masaukin kai.
+
+## Me ya sa Temetro?
+
+A wurare da yawa a Afirka, manhajojin lafiya har yanzu suna da tsada, suna dogaro da cloud fiye da kima, ko kuma ba sa dacewa da yanayin kayayyakin more rayuwa na gida. Temetro an tsara shi dabam:
+
+- **Kyauta kuma bude-tushe** domin asibitoci su iya duba, daidaita, kuma su mallaki software ɗin da suke amfani da shi.
+- **Mai masaukin kai** domin bayanan marasa lafiya su kasance a cikin kayayyakin da asibiti ke sarrafawa.
+- **Mai sauƙin turawa** ta Docker Compose ga ƙananan ƙungiyoyin IT.
+- **Ya dace da yanayi masu takaitaccen albarkatu** tare da tsaftatacciyar fuska da ƙananan bukatun aiki.
+
+## Fara cikin sauri
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+cp .env.example .env
+docker compose up -d
+```
+
+Buɗe `http://localhost:3000` don dashboard da `http://localhost:3001/docs` don shafin takardu.
+
+## Wa ya dace da Temetro
+
+Temetro ya dace da:
+
+- asibitocin yanki da ƙananan larduna da ke son dashboard na sirri na ciki
+- asibitocin mission da cibiyoyin da ba na riba ba masu ƙarancin kasafin software
+- ƙungiyoyin IT da suka fi son sauƙaƙƙen tsarin masaukin kai maimakon software na biyan kuɗi
+- masu haɓakawa da masu aiwatarwa da ke buƙatar tushe mai iya faɗaɗa
+
+## Abin da za ka samu
+
+Tsarin farko ya haɗa da:
+
+- dashboard na asibiti mai amsawa da aka gina da Next.js
+- shiga ta imel da kalmar sirri bisa Better Auth
+- ƙirar bayanan PostgreSQL da Prisma don marasa lafiya, alƙawura, da ma'aikata
+- shafin sauka na jama'a
+- cikakken shafin takardu
+- fayilolin Docker Compose tare da routing na NGINX
+
+## Matakai na gaba
+
+Fara da [jagorar shigarwa](./getting-started/installation), sannan ka wuce zuwa saituna da farawa na farko. Idan kana shirin yanayin samarwa, sashen masaukin kai shi ne mafi dacewa a ci gaba.

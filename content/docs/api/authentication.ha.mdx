@@ -1,0 +1,56 @@
+---
+title: Tabbatarwa
+description: Duba saitin Better Auth da dashboard ɗin Temetro ke amfani da shi.
+---
+
+Temetro yana amfani da Better Auth a matsayin matakin farko na tabbaci.
+
+## Tsarin tabbaci na yanzu
+
+Scaffold ɗin yana kunna:
+
+- shiga ta imel da kalmar sirri
+- tabbaci na session
+- hanyoyin dashboard masu kariya
+- duba session daga bangaren sabar
+
+## Tsarin route
+
+Dashboard yana fallasa Better Auth a ƙarƙashin:
+
+```text
+/api/auth/[...all]
+```
+
+Wannan shi ne daidaitaccen tsarin route da ake ba da shawara ga Next.js App Router.
+
+## Muhallin canje-canjen da ake buƙata
+
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL`
+- `NEXT_PUBLIC_APP_URL`
+- `DATABASE_URL`
+
+## Tsawon session
+
+Temetro a halin yanzu yana amfani da taga session na kwanaki bakwai. Wannan ya isa ga aikin yau da kullum na ma'aikata yayin da yake kiyaye iyakokin shiga.
+
+## Bayanan tsaro
+
+A production, ka duba waɗannan da kyau:
+
+- samar da sirrin auth na musamman
+- kare sabar da HTTPS
+- takaita damar shiga database ga hanyoyin sadarwa da aka amince da su
+- yanke shawarar wanda zai iya ƙirƙira ko sarrafa asusun admin
+
+## Faɗaɗa na gaba
+
+Tushen Better Auth na iya fadada zuwa:
+
+- tabbatar da imel
+- sake saita kalmar sirri
+- tabbaci na mataki biyu
+- organizations da cikakkun izini
+
+Wadannan damar suna dacewa da stack ɗin yanzu ba tare da sake rubuta dukkan layin auth ba.

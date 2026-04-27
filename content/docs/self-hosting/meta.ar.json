@@ -1,0 +1,8 @@
+{
+  "title": "الاستضافة الذاتية",
+  "pages": [
+    "docker",
+    "environment-variables",
+    "production"
+  ]
+}

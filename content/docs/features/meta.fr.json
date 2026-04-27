@@ -1,0 +1,9 @@
+{
+  "title": "Fonctionnalités",
+  "pages": [
+    "patients",
+    "appointments",
+    "staff",
+    "languages"
+  ]
+}

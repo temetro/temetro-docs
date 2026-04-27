@@ -1,0 +1,99 @@
+---
+title: Déploiement Docker
+description: Exécutez Temetro avec Docker Compose et comprenez le rôle de chaque service.
+---
+
+Ce guide est écrit pour les équipes informatiques hospitalières qui ne sont pas forcément des développeurs. L’objectif est d’aider à déployer Temetro sans approximation.
+
+## Ce que fait Docker Compose
+
+Docker Compose démarre plusieurs services connectés ensemble :
+
+- une base de données PostgreSQL pour les données applicatives
+- le tableau de bord Temetro
+- le site de documentation Temetro
+- éventuellement un reverse proxy NGINX pour la production
+
+Au lieu d’installer chaque composant séparément, vous lancez une seule commande et Docker assemble la pile.
+
+## Commande de démarrage de base
+
+Depuis le dossier de déploiement :
+
+```bash
+docker compose up -d
+```
+
+Ce que cela signifie :
+
+- `docker compose` indique à Docker d’utiliser le fichier Compose du dossier courant
+- `up` démarre les services
+- `-d` signifie « mode détaché », donc l’ensemble continue de tourner en arrière-plan
+
+## Commandes utiles au quotidien
+
+### Afficher les services en cours
+
+```bash
+docker compose ps
+```
+
+### Voir les journaux en direct
+
+```bash
+docker compose logs -f
+```
+
+### Arrêter le système
+
+```bash
+docker compose down
+```
+
+### Arrêter et supprimer les données stockées de la base
+
+```bash
+docker compose down -v
+```
+
+N’utilisez `-v` que si vous souhaitez volontairement supprimer le volume de base de données, par exemple lors d’une réinitialisation non productive.
+
+## Organisation des dossiers
+
+Conservez les fichiers de déploiement dans un dossier dédié, facile à retrouver pour l’équipe informatique. Une installation typique peut ressembler à :
+
+```text
+/opt/temetro
+```
+
+ou sur un portable :
+
+```text
+C:\Temetro
+```
+
+## Fonctionnement des mises à jour
+
+Lorsqu’une nouvelle version des fichiers de déploiement est disponible :
+
+1. sauvegardez la base de données
+2. récupérez les dernières modifications du dépôt
+3. reconstruisez et redémarrez les services
+
+Exemple :
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+## Quand passer à la configuration de production
+
+Utilisez la surcharge Compose de production et NGINX lorsque :
+
+- le personnel accède régulièrement à Temetro depuis plusieurs machines
+- vous avez besoin de HTTPS
+- vous souhaitez un routage propre comme `/docs`
+- le serveur doit rester allumé toute la journée avec redémarrage automatique
+
+Pour la liste complète de vérification de production, poursuivez avec [Production](./production).

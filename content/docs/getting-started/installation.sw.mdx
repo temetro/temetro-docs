@@ -1,0 +1,78 @@
+---
+title: Usakinishaji
+description: Sakinisha Temetro ndani ya kompyuta yako kwa Docker Compose na uwashe mfumo mzima kwa hatua chache.
+---
+
+Mwongozo huu unaonyesha njia ya haraka zaidi ya kuendesha Temetro kwenye mashine moja kwa tathmini, mafunzo, au matumizi madogo ya ndani.
+
+## Mahitaji
+
+Kabla ya kuanza, hakikisha mashine ina:
+
+- Docker iliyosakinishwa
+- Docker Compose v2 kupitia amri ya `docker compose`
+- Git iliyosakinishwa
+- angalau RAM ya GB 2
+- bandari `3000`, `3001`, na `5432` zipo wazi
+
+## 1. Clone hazina ya usambazaji
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+```
+
+Ikiwa timu yako ya TEHAMA inasimamia mifumo mingi kwenye seva moja, tengeneza folda maalum ya Temetro kwanza ili iwe rahisi kuhifadhi na kuitunza.
+
+## 2. Nakili faili ya mfano ya mazingira
+
+```bash
+cp .env.example .env
+```
+
+Hii itatengeneza faili yako ya usanidi wa kazi. Utahitaji kubadilisha thamani chache kabla ya kuwasha kwa mara ya kwanza.
+
+## 3. Weka thamani za chini zinazohitajika
+
+Fungua `.env` kwenye mhariri wa maandishi na usasishe:
+
+- `POSTGRES_PASSWORD`
+- `APP_URL`
+- `BETTER_AUTH_SECRET`
+
+Tengeneza siri ya uthibitishaji kwa:
+
+```bash
+openssl rand -base64 32
+```
+
+## 4. Washa Temetro
+
+```bash
+docker compose up -d
+```
+
+Docker itapakua picha zinazohitajika, itaunda kontena la PostgreSQL, na kuwasha huduma za web na docs.
+
+## 5. Thibitisha huduma zinafanya kazi
+
+```bash
+docker compose ps
+```
+
+Unapaswa kuona kontena za:
+
+- `postgres`
+- `web`
+- `docs`
+
+## 6. Fungua Temetro kwenye kivinjari
+
+- Dashibodi: `http://localhost:3000`
+- Nyaraka: `http://localhost:3001/docs`
+
+Ikiwa unafunga kwenye seva ya mbali, badilisha `localhost` kwa IP ya seva au jina la ndani la mwenyeji.
+
+## Nini cha kufanya baadaye
+
+Endelea na [Usanidi](./configuration) kupitia maadili yote ya mazingira, kisha malizia na [Uendeshaji wa kwanza](./first-run) ili kuandaa akaunti ya kwanza ya msimamizi.

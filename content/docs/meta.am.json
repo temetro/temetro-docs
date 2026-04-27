@@ -1,0 +1,11 @@
+{
+  "title": "የTemetro ሰነዶች",
+  "root": true,
+  "pages": [
+    "index",
+    "getting-started",
+    "self-hosting",
+    "features",
+    "api"
+  ]
+}

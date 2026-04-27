@@ -1,0 +1,63 @@
+---
+title: Saituna
+description: Fahimci muhimman ƙimomin muhalli da saitunan turawa da Temetro ke amfani da su.
+---
+
+An tsara Temetro ya kasance mai sauƙi. Yawancin shigarwa suna buƙatar ƙimomin muhalli kaɗan ne kawai don farawa cikin aminci.
+
+## Muhimman ƙimomin muhalli
+
+Babban ƙimomin suna cikin fayil ɗin `.env` na ma'ajiyar turawa.
+
+| Ƙima | Dole | Misali | Aiki |
+| --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | Eh | `strong-password-here` | Kalmar sirrin mai amfani da PostgreSQL |
+| `APP_URL` | Eh | `http://localhost:3000` | URL na jama'a don dashboard |
+| `BETTER_AUTH_SECRET` | Eh | ƙima da aka samar | Sirrin sa hannu da kariyar auth |
+| `SMTP_HOST` | Zaɓi | `smtp.example.org` | Sunan sabar imel |
+| `SMTP_PORT` | Zaɓi | `587` | Tashar sabar imel |
+| `SMTP_USER` | Zaɓi | `alerts@example.org` | Sunan mai amfani SMTP |
+| `SMTP_PASS` | Zaɓi | `mail-password` | Kalmar sirri SMTP |
+
+## Saitunan farko da aka ba da shawara
+
+Don muhalli na gwaji:
+
+- saita `APP_URL=http://localhost:3000`
+- yi amfani da kalmar sirri mai ƙarfi ga bayanan database
+- samar da sabon `BETTER_AUTH_SECRET`
+
+Don ainihin muhalli na asibiti:
+
+- yi amfani da sunan DNS na ciki ko domain ɗin da ma'aikata za su yi amfani da shi
+- ajiye `.env` a wuri mai tsaro tare da iyakantattun izini
+- riƙe kwafin `BETTER_AUTH_SECRET` don dawo da bayanai idan matsala ta faru
+
+## Haɗin database
+
+Aikin web yana gina `DATABASE_URL` ta atomatik a cikin Docker ta amfani da ƙimomin Compose. Sau da yawa ba sai ka gyara URL ɗin database da hannu ba.
+
+Idan daga baya ka koma PostgreSQL na waje, sabunta host da takardun shaidar domin dashboard ya iya haɗuwa cikin aminci.
+
+## Shawarar cibiyar sadarwa ga ƙungiyoyin IT na asibiti
+
+Idan asibiti yana da hanyar sadarwa ta cikin gida amma intanet ɗin ta iyakance:
+
+- masauki Temetro a kan na'ura da ke cikin wurin
+- ba shi IP mai dindindin ko sunan DNS na ciki
+- tabbatar kwamfutocin ma'aikata suna iya isa tashoshin `80` ko `3000`
+- yi amfani da HTTPS ta NGINX kafin ka ba da damar shiga daga nesa
+
+## Ajiyar baya
+
+Temetro yana adana bayanai masu muhimmanci a PostgreSQL. Ka sanya ajiyar bayanan database cikin al'adunka tun daga rana ta farko.
+
+Aƙalla, ajiye:
+
+- bayanan PostgreSQL
+- fayil ɗin `.env`
+- duk wani reverse proxy ko fayilolin SSL
+
+## Menene na gaba
+
+Bayan saituna, bi [Farawa na farko](./first-run) don tabbatar da kontena, shiga, da shirya aikin gudanarwa.

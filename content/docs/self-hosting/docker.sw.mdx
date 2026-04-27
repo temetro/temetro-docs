@@ -1,0 +1,99 @@
+---
+title: Usambazaji wa Docker
+description: Endesha Temetro kwa Docker Compose na elewa jukumu la kila huduma.
+---
+
+Mwongozo huu umeandikwa kwa wafanyakazi wa TEHAMA wa hospitali ambao huenda si wasanidi programu. Lengo ni kukusaidia kusambaza Temetro bila kubahatisha.
+
+## Docker Compose hufanya nini
+
+Docker Compose huanzisha huduma kadhaa zilizounganishwa pamoja:
+
+- hifadhidata ya PostgreSQL kwa data ya programu
+- dashibodi ya Temetro
+- tovuti ya nyaraka ya Temetro
+- kwa hiari, reverse proxy ya NGINX kwa trafiki ya uzalishaji
+
+Badala ya kusakinisha kila sehemu kivyake, unaendesha amri moja na Docker hujenga mfumo mzima.
+
+## Amri ya msingi ya kuwasha
+
+Kutoka kwenye folda ya usambazaji:
+
+```bash
+docker compose up -d
+```
+
+Maana yake:
+
+- `docker compose` humwambia Docker kutumia faili ya Compose iliyo kwenye folda ya sasa
+- `up` huanzisha huduma
+- `-d` humaanisha detached mode ili huduma ziendelee nyuma ya pazia
+
+## Amri muhimu za kila siku
+
+### Onyesha huduma zinazoendelea
+
+```bash
+docker compose ps
+```
+
+### Tazama log za moja kwa moja
+
+```bash
+docker compose logs -f
+```
+
+### Simamisha mfumo
+
+```bash
+docker compose down
+```
+
+### Simamisha na futa data ya hifadhidata iliyohifadhiwa
+
+```bash
+docker compose down -v
+```
+
+Tumia `-v` tu ikiwa unakusudia kufuta volume ya hifadhidata, kwa mfano wakati wa reset isiyo ya uzalishaji.
+
+## Muundo wa folda
+
+Weka faili za usambazaji kwenye folda maalum ambayo timu ya TEHAMA inaweza kuipata kwa urahisi. Mfano wa kawaida unaweza kuwa:
+
+```text
+/opt/temetro
+```
+
+au kwenye laptop:
+
+```text
+C:\Temetro
+```
+
+## Jinsi masasisho yanavyofanya kazi
+
+Toleo jipya la faili za usambazaji likipatikana:
+
+1. hifadhi nakala ya hifadhidata
+2. vuta mabadiliko mapya ya hazina
+3. jenga upya huduma na uzianzishe tena
+
+Mfano:
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+## Wakati wa kuhamia mipangilio ya uzalishaji
+
+Tumia override ya Compose ya uzalishaji na NGINX wakati:
+
+- wafanyakazi wanatumia Temetro mara kwa mara kutoka mashine nyingi
+- unahitaji HTTPS
+- unataka uelekezaji safi kama `/docs`
+- seva inapaswa kubaki imewashwa siku nzima na kuanza tena kiotomatiki
+
+Kwa orodha kamili ya uzalishaji, endelea na [Uzalishaji](./production).

@@ -1,0 +1,77 @@
+---
+title: Farawa na farko
+description: Tabbatar da sabon shigarwar Temetro kuma shirya aikin farko na mai gudanarwa.
+---
+
+Wannan shafin yana taimaka maka ka tabbatar Temetro ya fara daidai kuma ƙungiyarka za ta iya amfani da shi cikin aminci.
+
+## 1. Duba lafiyar kontena
+
+Gudanar:
+
+```bash
+docker compose ps
+```
+
+Dukkan manyan ayyuka ya kamata su nuna healthy ko running.
+
+Idan PostgreSQL har yanzu yana sake farawa, jira kaɗan sannan ka sake gudanar da umarnin.
+
+## 2. Buɗe dashboard
+
+Je zuwa URL na dashboard a browser:
+
+```text
+http://localhost:3000
+```
+
+Ya kamata ka isa shafin shiga.
+
+## 3. Ƙirƙiri asusun admin na farko
+
+Yi amfani da **Create an account** a shafin shiga don yin rajistar admin na farko. Zaɓi adireshin imel na ƙungiyar aiwatarwa ko shugaban IT.
+
+Shawarar bayanin farko:
+
+- Suna: mutumin da ke da alhakin ƙaddamarwa ko sa ido
+- Imel: adireshin hukuma mai ɗorewa
+- Kalmar sirri: jimlar kalma mai ƙarfi da aka ajiye a manhajar kalmomin sirri na asibiti
+
+## 4. Duba dashboard na farko
+
+Bayan shiga, tabbatar manyan sassan suna lodawa da kyau:
+
+- Bayanin dashboard
+- Marasa lafiya
+- Alƙawura
+- Ma'aikata
+- Saituna
+
+A wannan mataki, wasu bayanai na gwaji ne don tabbatar da shimfiɗa da hanyoyin aiki.
+
+## 5. Seed ko migrate bayanai idan ana buƙata
+
+Idan kana son bayanan gwaji, gudanar da:
+
+```bash
+npm run seed
+```
+
+Ko cikin Docker:
+
+```bash
+docker compose exec web npm run seed
+```
+
+## 6. Shirya miƙa aiki
+
+Kafin ma'aikatan asibiti su fara gwaji, tabbatar ka:
+
+- rubuta URL na shiga
+- san wanda ke riƙe da takardun admin na farko
+- yanke shawarar inda za a ajiye backups
+- tabbatar da wanda zai kula da updates da sa ido kan sabar
+
+## Menene na gaba
+
+Idan tsarin yana aiki a gida, ci gaba da sashen masaukin kai domin tsara turawar sabar mai ɗorewa.

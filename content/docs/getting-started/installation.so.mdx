@@ -1,0 +1,78 @@
+---
+title: Rakibid
+description: Ku rakib Temetro deegaankaaga adigoo adeegsanaya Docker Compose oo bilow xirmada oo dhan dhowr tallaabo gudahood.
+---
+
+Hagahan waxa uu muujinayaa sida ugu dhakhsaha badan ee Temetro loogu socodsiin karo hal mashiin oo loogu talagalay qiimeyn, tababar, ama isticmaal gudaha ah oo yar.
+
+## Shuruudaha
+
+Kahor inta aanad bilaabin, xaqiiji in mashiinku leeyahay:
+
+- Docker la rakibay
+- Docker Compose v2 oo laga heli karo amarka `docker compose`
+- Git la rakibay
+- ugu yaraan 2 GB RAM
+- dekedaha `3000`, `3001`, iyo `5432` oo bannaan
+
+## 1. Soo qaado kaydka dejinta
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+```
+
+Haddii kooxdaada IT ay maamusho nidaamyo badan oo isla server ah, abuuro gal gaar ah oo Temetro ah marka hore.
+
+## 2. Nuqul ka samee faylka deegaanka ee tusaalaha ah
+
+```bash
+cp .env.example .env
+```
+
+Tani waxay abuureysaa faylka qaabeynta shaqaynaya. Waxaad beddeli doontaa qiyam yar ka hor bilaabista koowaad.
+
+## 3. Deji qiyamka ugu yar ee loo baahan yahay
+
+Fur `.env` oo cusboonaysii:
+
+- `POSTGRES_PASSWORD`
+- `APP_URL`
+- `BETTER_AUTH_SECRET`
+
+Samee sirta auth-ka adigoo adeegsanaya:
+
+```bash
+openssl rand -base64 32
+```
+
+## 4. Bilow Temetro
+
+```bash
+docker compose up -d
+```
+
+Docker waxa uu soo dejin doonaa sawirrada loo baahan yahay, abuuri doonaa kontaynarka PostgreSQL, wuxuuna bilaabi doonaa adeegyada web iyo docs.
+
+## 5. Xaqiiji in adeegyadu socdaan
+
+```bash
+docker compose ps
+```
+
+Waa inaad aragtaa:
+
+- `postgres`
+- `web`
+- `docs`
+
+## 6. Fur Temetro browser-kaaga
+
+- Dashboard: `http://localhost:3000`
+- Dukumenti: `http://localhost:3001/docs`
+
+Haddii aad ku rakibayso server fog, `localhost` ku beddel IP-ga server-ka ama hostname gudaha ah.
+
+## Maxaa xiga
+
+Sii wad [Qaabaynta](./configuration) si aad u aragto qiyamka deegaanka oo dhan, dabadeedna ku dhammayso [Socodsiinta koowaad](./first-run).

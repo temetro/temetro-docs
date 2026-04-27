@@ -1,0 +1,79 @@
+---
+title: Variables d’environnement
+description: Explication pratique de chaque variable d’environnement clé utilisée par la pile de déploiement.
+---
+
+Temetro conserve sa configuration dans des variables d’environnement afin que la même base de code puisse fonctionner en test, préproduction et production avec des réglages différents.
+
+## Variables requises
+
+### `POSTGRES_PASSWORD`
+
+C’est le mot de passe utilisé par la base de données PostgreSQL.
+
+Utilisez une valeur forte et évitez de réutiliser des mots de passe provenant d’autres systèmes. Si vous changez cette valeur plus tard, vous devrez mettre à jour tous les services qui se connectent à la base.
+
+### `APP_URL`
+
+C’est l’URL que le personnel utilise pour ouvrir Temetro.
+
+Exemples :
+
+- `http://localhost:3000` pour des tests locaux
+- `http://10.0.0.25` pour un serveur interne uniquement
+- `https://temetro.hospital.example` pour la production
+
+### `BETTER_AUTH_SECRET`
+
+Cette variable protège les sessions d’authentification et les opérations cryptographiques associées.
+
+Générez-la avec :
+
+```bash
+openssl rand -base64 32
+```
+
+Ne diffusez pas cette valeur largement. Stockez-la comme n’importe quel autre secret sensible du serveur.
+
+## Variables e-mail optionnelles
+
+Elles ne sont nécessaires que si vous souhaitez que Temetro envoie des e-mails, par exemple pour la vérification ou la réinitialisation de mot de passe.
+
+### `SMTP_HOST`
+
+Nom d’hôte du serveur de messagerie.
+
+### `SMTP_PORT`
+
+Port du serveur de messagerie. `587` est courant pour un SMTP authentifié.
+
+### `SMTP_USER`
+
+Nom d’utilisateur du compte e-mail ou du relais SMTP.
+
+### `SMTP_PASS`
+
+Mot de passe du compte e-mail ou du relais SMTP.
+
+## Exemple de fichier `.env`
+
+```bash
+POSTGRES_PASSWORD=change-me-now
+APP_URL=https://temetro.example.org
+BETTER_AUTH_SECRET=replace-this-with-a-generated-secret
+SMTP_HOST=smtp.example.org
+SMTP_PORT=587
+SMTP_USER=temetro@example.org
+SMTP_PASS=mail-password
+```
+
+## Bonnes pratiques de sécurité
+
+- limitez qui peut lire le fichier `.env`
+- sauvegardez-le dans un emplacement sécurisé
+- faites tourner les secrets lorsqu’un administrateur change ou lorsqu’un identifiant a pu être exposé
+- ne collez jamais de vrais secrets dans des captures d’écran, tickets ou chats publics
+
+## Lecture associée
+
+Lorsque vous êtes prêt à exposer Temetro sur un domaine stable avec HTTPS, poursuivez avec [Production](./production).

@@ -1,0 +1,79 @@
+---
+title: Doorsoomayaasha deegaanka
+description: Sharaxaad wax ku ool ah oo ku saabsan doorsoome kasta oo muhiim ah oo loo adeegsado dejinta Temetro.
+---
+
+Temetro waxa uu ku kaydiyaa qaabayntiisa doorsoomayaal deegaan si isla codebase-ku uga shaqeeyo test, staging, iyo production iyadoo leh qiyam kala duwan.
+
+## Doorsoomayaasha qasabka ah
+
+### `POSTGRES_PASSWORD`
+
+Kani waa erayga sirta ee PostgreSQL.
+
+Isticmaal qiime adag hana dib u adeegsan furayaasha nidaamyo kale. Haddii aad tan beddesho, adeeg kasta oo ku xiran hifadhidata waa in la cusboonaysiiyaa.
+
+### `APP_URL`
+
+Kani waa URL-ka ay shaqaaluhu u isticmaalaan inay ku furaan Temetro.
+
+Tusaalooyin:
+
+- `http://localhost:3000` tijaabo gudaha ah
+- `http://10.0.0.25` server gudaha ah oo keliya
+- `https://temetro.hospital.example` wax-soo-saar
+
+### `BETTER_AUTH_SECRET`
+
+Tani waxay ilaalisaa session-yada gelitaanka iyo hawlaha sirta la xiriira.
+
+Ku samee:
+
+```bash
+openssl rand -base64 32
+```
+
+Ha wadaagin qiimahan si furan. U kaydi sida aad u kaydin lahayd siraha kale ee server-ka.
+
+## Doorsoomayaasha email-ka ee ikhtiyaariga ah
+
+Waxa kaliya oo loo baahan yahay haddii Temetro uu dirayo email, sida xaqiijinta ama dib u dejinta erayga sirta ah.
+
+### `SMTP_HOST`
+
+Magaca server-ka email-ka.
+
+### `SMTP_PORT`
+
+Dekedda server-ka email-ka. `587` waa mid caadi ah.
+
+### `SMTP_USER`
+
+Magaca isticmaalaha ee akoonka email-ka ama SMTP relay.
+
+### `SMTP_PASS`
+
+Erayga sirta ah ee akoonka email-ka ama relay-ga.
+
+## Tusaale `.env`
+
+```bash
+POSTGRES_PASSWORD=change-me-now
+APP_URL=https://temetro.example.org
+BETTER_AUTH_SECRET=replace-this-with-a-generated-secret
+SMTP_HOST=smtp.example.org
+SMTP_PORT=587
+SMTP_USER=temetro@example.org
+SMTP_PASS=mail-password
+```
+
+## Hab-dhaqan amni oo wanaagsan
+
+- xaddid cidda akhrin karta `.env`
+- ku kaydi meel ammaan ah sidii backup
+- beddel siraha marka maamulka is beddelo ama marka ay suuragal tahay in wax la muujiyay
+- ha gelin siraha dhabta ah sawirro, ticket-yo, ama sheekooyin dadweyne
+
+## Akhris la xiriira
+
+Marka aad diyaar u tahay inaad Temetro ku soo bandhigto domain leh HTTPS, u gudub [Wax-soo-saar](./production).

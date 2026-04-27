@@ -1,0 +1,56 @@
+---
+title: Xaqiijin
+description: Dib u eeg dejinta Better Auth ee dashboard-ka Temetro.
+---
+
+Temetro waxa uu adeegsadaa Better Auth sidii lakabka koowaad ee xaqiijinta.
+
+## Qaabka xaqiijinta ee hadda jira
+
+Scaffold-ku waxa uu daarayaa:
+
+- gelitaan email iyo eray-sir
+- xaqiijin ku salaysan session
+- routes-ka dashboard-ka oo la ilaaliyo
+- hubinta session-ka server-ka gudihiisa
+
+## Qaab-dhismeedka route-yada
+
+Dashboard-ku waxa uu Better Auth ku soo bandhigaa:
+
+```text
+/api/auth/[...all]
+```
+
+Tani waa qaabka route-ka caadiga ah ee lagu taliyay marka la isticmaalayo Next.js App Router.
+
+## Doorsoomayaasha deegaanka ee loo baahan yahay
+
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL`
+- `NEXT_PUBLIC_APP_URL`
+- `DATABASE_URL`
+
+## Mudada session-ka
+
+Temetro waxa uu hadda isticmaalaa daaqad session oo toddoba maalmood ah. Tani way ku filan tahay shaqada caadiga ah ee shaqaalaha iyadoo weli gelitaanku xaddidan yahay.
+
+## Qoraallo amni
+
+Marka wax-soo-saar la isticmaalayo, si taxaddar leh u eeg:
+
+- samee sir xaqiijin oo gaar ah
+- ku ilaali server-ka HTTPS
+- xaddid gelitaanka hifadhidata shabakadaha la aamini karo
+- go'aami cidda abuuri karta ama maamuli karta akoonnada admin-ka
+
+## Ballaarin mustaqbalka
+
+Aasaaska Better Auth waxa lagu kordhin karaa:
+
+- xaqiijinta email-ka
+- dib-u-dejinta erayga sirta ah
+- xaqiijinta laba-tallaabo ah
+- ururro iyo rukhsado faahfaahsan
+
+Awoodahani si dabiici ah ayay ugu habboon yihiin stack-ga hadda jira iyada oo aan dib loo qorin lakabka xaqiijinta oo dhan.

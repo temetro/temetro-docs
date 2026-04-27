@@ -1,0 +1,63 @@
+---
+title: Configuration
+description: Comprenez les variables d’environnement et paramètres de déploiement essentiels utilisés par Temetro.
+---
+
+Temetro a été conçu pour rester simple. La plupart des installations n’ont besoin que de quelques valeurs d’environnement pour fonctionner en toute sécurité.
+
+## Variables d’environnement principales
+
+Les variables principales se trouvent dans le fichier `.env` du dépôt de déploiement.
+
+| Variable | Requise | Exemple | Rôle |
+| --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | Oui | `strong-password-here` | Mot de passe de l’utilisateur PostgreSQL |
+| `APP_URL` | Oui | `http://localhost:3000` | URL publique utilisée pour le tableau de bord |
+| `BETTER_AUTH_SECRET` | Oui | valeur générée | Secret utilisé pour signer et protéger les données d’authentification |
+| `SMTP_HOST` | Optionnel | `smtp.example.org` | Nom d’hôte du serveur de messagerie |
+| `SMTP_PORT` | Optionnel | `587` | Port du serveur de messagerie |
+| `SMTP_USER` | Optionnel | `alerts@example.org` | Nom d’utilisateur SMTP |
+| `SMTP_PASS` | Optionnel | `mail-password` | Mot de passe SMTP |
+
+## Paramètres recommandés au départ
+
+Pour un environnement de test :
+
+- définissez `APP_URL=http://localhost:3000`
+- utilisez un mot de passe temporaire fort mais mémorisable pour la base de données
+- générez un nouveau `BETTER_AUTH_SECRET`
+
+Pour un environnement hospitalier réel :
+
+- utilisez le nom DNS interne ou le domaine public que le personnel utilisera réellement
+- stockez `.env` dans un emplacement sécurisé avec des permissions de fichier restreintes
+- gardez une copie sécurisée du `BETTER_AUTH_SECRET` pour la reprise après sinistre
+
+## Connexion à la base de données
+
+Le service web construit automatiquement son `DATABASE_URL` dans Docker à partir des valeurs de Compose. Dans la plupart des cas, vous n’avez pas besoin de modifier manuellement l’URL de base de données au niveau de l’application.
+
+Si vous migrez plus tard vers un serveur PostgreSQL externe, mettez à jour l’hôte de la base et les identifiants dans vos fichiers de déploiement pour que le tableau de bord puisse y accéder en toute sécurité.
+
+## Conseils réseau pour les équipes informatiques hospitalières
+
+Si votre hôpital dispose d’un réseau local mais d’une connectivité Internet limitée :
+
+- hébergez Temetro sur une machine qui reste sur site
+- attribuez-lui une adresse IP stable ou un nom DNS interne
+- assurez-vous que les postes du personnel peuvent atteindre les ports `80` ou `3000` selon votre configuration
+- utilisez HTTPS via NGINX avant d’autoriser l’accès entre bâtiments ou à distance
+
+## Sauvegardes
+
+Temetro stocke des données opérationnelles critiques dans PostgreSQL. Intégrez les sauvegardes de base de données à votre processus normal dès le premier jour.
+
+Au minimum, sauvegardez :
+
+- les données PostgreSQL
+- le fichier `.env`
+- tout fichier personnalisé de reverse proxy ou de certificat SSL
+
+## Que faire ensuite
+
+Après la configuration, suivez [Premier démarrage](./first-run) pour valider les conteneurs, vous connecter et préparer un flux d’administration.

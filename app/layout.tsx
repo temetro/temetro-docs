@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { RootProvider } from "fumadocs-ui/provider/next";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -10,9 +9,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col">
-        <RootProvider>{children}</RootProvider>
-      </body>
+      <body className="flex min-h-screen flex-col">{children}</body>
     </html>
   );
 }

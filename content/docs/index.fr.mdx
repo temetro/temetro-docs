@@ -1,0 +1,50 @@
+---
+title: Introduction
+description: Temetro est un système gratuit et open source de gestion hospitalière conçu pour les établissements de santé africains.
+---
+
+Temetro aide les hôpitaux à gérer les patients, les rendez-vous, les dossiers médicaux et le personnel depuis un tableau de bord unique auto-hébergé.
+
+## Pourquoi Temetro ?
+
+Dans de nombreux contextes africains, les logiciels de santé restent trop coûteux, trop dépendants du cloud ou trop fragiles face aux réalités des infrastructures locales. Temetro est conçu autrement :
+
+- **Gratuit et open source** afin que les hôpitaux puissent inspecter, adapter et posséder le logiciel dont ils dépendent.
+- **Auto-hébergé** afin que les données des patients restent dans une infrastructure contrôlée par l’hôpital.
+- **Simple à déployer** avec Docker Compose pour les petites équipes informatiques.
+- **Pratique dans des environnements contraints** grâce à une interface claire et une faible empreinte opérationnelle.
+
+## Démarrage rapide
+
+```bash
+git clone https://github.com/temetro/temetro-deploy
+cd temetro-deploy
+cp .env.example .env
+docker compose up -d
+```
+
+Ouvrez `http://localhost:3000` pour accéder au tableau de bord et `http://localhost:3001/docs` pour consulter le site de documentation.
+
+## Pour qui Temetro est-il adapté ?
+
+Temetro convient particulièrement à :
+
+- des hôpitaux de district ou régionaux qui veulent un tableau de bord interne privé
+- des hôpitaux missionnaires et des structures à but non lucratif avec un budget logiciel limité
+- des équipes informatiques qui préfèrent une infrastructure simple auto-hébergée plutôt qu’un logiciel par abonnement
+- des développeurs et intégrateurs qui ont besoin d’une base extensible
+
+## Ce que vous obtenez
+
+Le premier socle comprend :
+
+- un tableau de bord hospitalier réactif construit avec Next.js
+- une authentification par e-mail et mot de passe basée sur Better Auth
+- des modèles de données PostgreSQL et Prisma pour les patients, les rendez-vous et les flux de travail du personnel
+- une page d’accueil publique
+- un site complet de documentation
+- des fichiers de déploiement Docker Compose avec routage NGINX
+
+## Étapes suivantes
+
+Commencez par le [guide d’installation](./getting-started/installation), puis passez à la configuration et au premier démarrage. Si vous préparez un déploiement de production, la section auto-hébergement est le meilleur point de départ.

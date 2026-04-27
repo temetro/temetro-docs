@@ -1,0 +1,11 @@
+{
+  "title": "Dukumentiyada Temetro",
+  "root": true,
+  "pages": [
+    "index",
+    "getting-started",
+    "self-hosting",
+    "features",
+    "api"
+  ]
+}

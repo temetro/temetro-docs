@@ -1,0 +1,56 @@
+---
+title: Authentification
+description: Consultez la configuration Better Auth utilisée par le tableau de bord Temetro.
+---
+
+Temetro utilise Better Auth pour sa première couche d’authentification.
+
+## Modèle d’authentification actuel
+
+Le socle active :
+
+- la connexion par e-mail et mot de passe
+- une authentification basée sur les sessions
+- des routes de tableau de bord protégées
+- des vérifications de session côté serveur dans l’enveloppe applicative
+
+## Structure des routes
+
+Le tableau de bord expose Better Auth sous :
+
+```text
+/api/auth/[...all]
+```
+
+Il s’agit de la forme de route standard recommandée pour l’intégration avec Next.js App Router.
+
+## Variables d’environnement requises
+
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL`
+- `NEXT_PUBLIC_APP_URL`
+- `DATABASE_URL`
+
+## Durée de session
+
+Temetro utilise actuellement une fenêtre de session de sept jours. C’est suffisant pour les flux ordinaires du personnel tout en gardant les connexions limitées dans le temps.
+
+## Notes de sécurité
+
+En production, examinez soigneusement les points suivants :
+
+- générez un secret d’authentification unique
+- protégez votre serveur avec HTTPS
+- limitez l’accès à la base aux réseaux de confiance
+- décidez qui peut créer ou gérer les comptes administrateur
+
+## Extensions futures
+
+La base Better Auth pourra plus tard être étendue pour des fonctions comme :
+
+- vérification d’e-mail
+- réinitialisation du mot de passe
+- authentification à deux facteurs
+- organisations et permissions fines
+
+Ces capacités s’intègrent naturellement à la pile actuelle sans exiger une réécriture complète de la couche d’authentification.

@@ -1,0 +1,77 @@
+---
+title: Socodsiinta koowaad
+description: Xaqiiji rakibid cusub oo Temetro ah oo diyaari habka ugu horreeya ee maamulaha isbitaalka.
+---
+
+Boggan waxa uu kaa caawinayaa inaad hubiso in Temetro si sax ah u bilowday iyo in kooxdu ay si ammaan ah u bilaabi karto isticmaalka.
+
+## 1. Hubi caafimaadka kontaynarka
+
+Orod:
+
+```bash
+docker compose ps
+```
+
+Dhammaan adeegyada asaasiga ah waa inay muujiyaan healthy ama running.
+
+Haddii PostgreSQL wali dib u bilaabanayo, sug wax yar oo dib u orod amarka.
+
+## 2. Fur dashboard-ka
+
+Booqo URL-ka dashboard-ka:
+
+```text
+http://localhost:3000
+```
+
+Waa inaad gaartaa bogga sign-in.
+
+## 3. Samee akoonka ugu horreeya ee maamulaha
+
+Adeegso xiriirka **Create an account** si aad u diiwaangeliso maamulaha ugu horreeya. Dooro email ay leedahay kooxda hirgelinta ama hoggaamiyaha IT-ga isbitaalka.
+
+Waxyaabaha lagu taliyay:
+
+- Magac: qofka masuulka ka ah furitaanka ama kormeerka
+- Email: cinwaan hay’adeed oo waqti dheer jira
+- Eray-sir: weedh adag oo lagu kaydiyay maareeyaha erayada sirta ee isbitaalka
+
+## 4. Dib u eeg dashboard-ka bilowga ah
+
+Markaad gasho, xaqiiji in qaybaha ugu waaweyn ay si sax ah u furmaan:
+
+- guudmarka dashboard-ka
+- bukaannada
+- ballamaha
+- shaqaalaha
+- dejimaha
+
+Marxaladdan, qaar ka mid ah xogtu waa xog tijaabo ah oo lagu xaqiijinayo qaabka iyo socodka shaqada.
+
+## 5. Seed ama migrate xog haddii loo baahdo
+
+Haddii aad rabto diiwaanno tijaabo ah, orod:
+
+```bash
+npm run seed
+```
+
+Ama gudaha Docker:
+
+```bash
+docker compose exec web npm run seed
+```
+
+## 6. U diyaargarow wareejinta
+
+Ka hor inta aan shaqaalaha caafimaadku bilaabin tijaabada, hubi inaad:
+
+- diiwaangelisay URL-ka gelitaanka
+- ogaatay cidda haysa aqoonsiga maamulaha koowaad
+- go'aamisay meesha kaydka la dhigayo
+- xaqiijisay cidda masuulka ka noqon doonta updates iyo la socodka server-ka
+
+## Maxaa xiga
+
+Haddii nidaamku gudaha ka shaqaynayo, u gudub qaybta iskiis-u-martigelinta si aad u qorshayso dejin server oo waarta.

@@ -1,0 +1,77 @@
+---
+title: Premier démarrage
+description: Validez une nouvelle installation de Temetro et préparez le premier flux d’administration de l’hôpital.
+---
+
+Cette page vous aide à confirmer que Temetro a démarré correctement et que votre équipe peut commencer à l’utiliser en toute sécurité.
+
+## 1. Vérifier l’état des conteneurs
+
+Exécutez :
+
+```bash
+docker compose ps
+```
+
+Tous les services principaux doivent apparaître comme sains ou en cours d’exécution.
+
+Si PostgreSQL redémarre encore, attendez un moment puis relancez la commande.
+
+## 2. Ouvrir le tableau de bord
+
+Accédez à l’URL du tableau de bord dans votre navigateur :
+
+```text
+http://localhost:3000
+```
+
+Vous devriez arriver sur la page de connexion.
+
+## 3. Créer le premier compte administrateur
+
+Utilisez le lien **Create an account** sur l’écran de connexion pour enregistrer le premier administrateur de l’hôpital. Choisissez une adresse e-mail appartenant à votre équipe de déploiement ou au responsable informatique.
+
+Profil recommandé pour le premier administrateur :
+
+- Nom : la personne responsable du déploiement ou de la supervision
+- E-mail : une adresse organisationnelle durable
+- Mot de passe : une phrase de passe forte stockée dans le gestionnaire de mots de passe de l’hôpital
+
+## 4. Vérifier le tableau de bord initial
+
+Après la connexion, confirmez que les principales zones se chargent correctement :
+
+- Vue d’ensemble du tableau de bord
+- Patients
+- Rendez-vous
+- Personnel
+- Paramètres
+
+Au stade du socle, certaines données peuvent être des données de démonstration utilisées pour vérifier la mise en page et les flux.
+
+## 5. Précharger ou migrer des données si nécessaire
+
+Si vous souhaitez des dossiers de démonstration pour l’évaluation, exécutez la commande seed depuis le monorepo ou le conteneur web :
+
+```bash
+npm run seed
+```
+
+Ou, dans Docker :
+
+```bash
+docker compose exec web npm run seed
+```
+
+## 6. Préparer la transmission
+
+Avant que le personnel clinique ne commence les tests, assurez-vous de :
+
+- documenter l’URL de connexion
+- noter qui détient les identifiants du premier administrateur
+- décider où seront stockées les sauvegardes
+- confirmer qui est responsable des mises à jour et de la surveillance du serveur
+
+## Que faire ensuite
+
+Si le système fonctionne localement, poursuivez avec la section auto-hébergement pour planifier un déploiement serveur plus durable.

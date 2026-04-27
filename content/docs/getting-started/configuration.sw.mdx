@@ -1,0 +1,63 @@
+---
+title: Usanidi
+description: Elewa vigezo muhimu vya mazingira na mipangilio ya usambazaji inayotumiwa na Temetro.
+---
+
+Temetro imeundwa ibaki rahisi. Usakinishaji mwingi unahitaji tu thamani chache za mazingira ili kuanza kwa usalama.
+
+## Vigezo muhimu vya mazingira
+
+Vigezo vikuu vipo kwenye faili ya `.env` katika hazina ya usambazaji.
+
+| Kigezo | Kinahitajika | Mfano | Kusudi |
+| --- | --- | --- | --- |
+| `POSTGRES_PASSWORD` | Ndiyo | `strong-password-here` | Nenosiri la mtumiaji wa PostgreSQL |
+| `APP_URL` | Ndiyo | `http://localhost:3000` | Anwani ya umma ya dashibodi |
+| `BETTER_AUTH_SECRET` | Ndiyo | thamani iliyotengenezwa | Siri ya kusaini na kulinda data ya uthibitishaji |
+| `SMTP_HOST` | Hiari | `smtp.example.org` | Jina la seva ya kutuma barua pepe |
+| `SMTP_PORT` | Hiari | `587` | Bandari ya seva ya barua |
+| `SMTP_USER` | Hiari | `alerts@example.org` | Jina la mtumiaji wa SMTP |
+| `SMTP_PASS` | Hiari | `mail-password` | Nenosiri la SMTP |
+
+## Mipangilio ya kwanza inayopendekezwa
+
+Kwa mazingira ya majaribio:
+
+- weka `APP_URL=http://localhost:3000`
+- tumia nenosiri imara la muda kwa hifadhidata
+- tengeneza `BETTER_AUTH_SECRET` mpya
+
+Kwa mazingira halisi ya hospitali:
+
+- tumia jina la DNS la ndani au domain ya kweli itakayotumiwa na wafanyakazi
+- hifadhi `.env` mahali salama na ruhusa ndogo za faili
+- weka nakala salama ya `BETTER_AUTH_SECRET` kwa ajili ya uokoaji wa majanga
+
+## Muunganisho wa hifadhidata
+
+Huduma ya web hutengeneza `DATABASE_URL` kiotomatiki ndani ya Docker kwa kutumia thamani za Compose. Mara nyingi huhitaji kubadilisha URL ya hifadhidata ndani ya programu.
+
+Ukihamia baadaye kwenye seva ya PostgreSQL ya nje, sasisha mwenyeji wa hifadhidata na taarifa za kuingia kwenye faili zako za usambazaji ili dashibodi iweze kuifikia kwa usalama.
+
+## Ushauri wa mtandao kwa timu za TEHAMA za hospitali
+
+Ikiwa hospitali yako ina mtandao wa ndani lakini mtandao wa intaneti ni mdogo:
+
+- host Temetro kwenye mashine inayobaki ndani ya eneo
+- ipe IP ya kudumu au jina la DNS la ndani
+- hakikisha kompyuta za wafanyakazi zinafikia bandari `80` au `3000` kulingana na usanidi wako
+- tumia HTTPS kupitia NGINX kabla ya kuruhusu ufikiaji wa mbali au wa kati ya majengo
+
+## Hifadhi rudufu
+
+Temetro huhifadhi data muhimu za uendeshaji katika PostgreSQL. Fanya nakala za hifadhidata kuwa sehemu ya kawaida ya utaratibu wako tangu siku ya kwanza.
+
+Kwa kiwango cha chini, hifadhi:
+
+- data ya PostgreSQL
+- faili ya `.env`
+- faili zozote maalum za reverse proxy au vyeti vya SSL
+
+## Nini cha kufanya baadaye
+
+Baada ya usanidi, fuata [Uendeshaji wa kwanza](./first-run) kuthibitisha kontena, kuingia, na kuandaa mtiririko wa msimamizi.

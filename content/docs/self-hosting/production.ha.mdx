@@ -1,0 +1,78 @@
+---
+title: Production
+description: Matsar da Temetro daga gwajin gida zuwa turawa mai ɗorewa ga asibiti.
+---
+
+Turawar production na nufin an amince da tsarin don amfani na yau da kullum. A wannan matakin, dogaro da tsaro suna da muhimmanci kamar app ɗin kansa.
+
+## Jerin dubawa na production
+
+Kafin a fara aiki, tabbatar da waɗannan:
+
+- sabar na da wutar lantarki mai ƙarfi da sanyaya mai kyau
+- an saita backup na database kullum ko bisa jadawali
+- `APP_URL` yana amfani da ainihin hostname da ma'aikata za su buɗe
+- `BETTER_AUTH_SECRET` an saita shi da ƙima mai ƙarfi da aka samar
+- an saita reverse proxy da HTTPS
+- an takaita damar shiga sabar ga admins da aka amince da su kawai
+
+## Yi amfani da production Compose override
+
+Fara stack da:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+Wannan yana ƙara sabis na NGINX kuma yana kunna halayen da suka dace da production.
+
+## Ayyukan NGINX
+
+A cikin stack na Temetro, NGINX yana da alhakin:
+
+- sauraron tashoshin `80` da `443`
+- tura dashboard zuwa web service
+- tura `/docs` zuwa docs service
+- sarrafa compression da security headers
+- samar da sauƙaƙƙen endpoint na `/health`
+
+## HTTPS
+
+A kowane muhalli da bayanan marasa lafiya ko ma'aikata ke wucewa ta hanyar sadarwa, HTTPS ya zama dole.
+
+Za ka iya saka certificates a cikin babban fayil na `ssl` da NGINX ke amfani da shi. Wasu ƙungiyoyi suna amfani da:
+
+- takardun shaida na ciki daga IT na asibiti
+- takardun shaida na jama'a daga hukumomin bayarwa
+- kayan aikin atomatik da ake sarrafawa a waje da stack na Temetro
+
+## Dabarar backup
+
+Mafi ƙarancin shiri mai kyau ya haɗa da:
+
+- PostgreSQL dumps na dare
+- cikakken snapshot na sabar ko VM kowane mako
+- kwafi mai tsaro na backup na baya-bayan nan a wajen na'urar
+- tsarin dawo da bayanai da aka rubuta kuma aka gwada
+
+## Dabarar sabuntawa
+
+Ga asibitocin da ke da ƙarancin lokacin kulawa:
+
+1. yi backup na database
+2. tsara lokacin canji bayan awannin aiki
+3. ja sabuwar code
+4. sake gina sabis
+5. tabbatar da shiga da dashboard na marasa lafiya
+
+## Tsarin tallafi
+
+Saboda Temetro bude-tushe ne, ya kamata asibitoci su yanke shawara tun da wuri wanene zai kula da:
+
+- patching na sabar
+- sabunta app
+- kula da shaidun shiga
+- backup na database
+- mayar da martani ga abubuwan da suka faru
+
+Idan waɗannan alhakin sun bayyana, ko ƙananan ƙungiyoyi ma za su iya gudanar da tsarin cikin kwanciyar hankali.
