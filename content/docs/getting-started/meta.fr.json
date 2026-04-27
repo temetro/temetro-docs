@@ -1,5 +1,6 @@
 {
   "title": "Démarrage",
+  "icon": "CirclePlay",
   "pages": [
     "installation",
     "configuration",

@@ -1,5 +1,6 @@
 {
   "title": "በራስ ማስተናገድ",
+  "icon": "Server",
   "pages": [
     "docker",
     "environment-variables",

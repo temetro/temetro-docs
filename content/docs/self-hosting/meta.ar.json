@@ -1,5 +1,6 @@
 {
   "title": "الاستضافة الذاتية",
+  "icon": "Server",
   "pages": [
     "docker",
     "environment-variables",

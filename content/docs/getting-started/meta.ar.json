@@ -1,5 +1,6 @@
 {
   "title": "البدء",
+  "icon": "CirclePlay",
   "pages": [
     "installation",
     "configuration",

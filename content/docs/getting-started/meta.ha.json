@@ -1,5 +1,6 @@
 {
   "title": "Farawa",
+  "icon": "CirclePlay",
   "pages": [
     "installation",
     "configuration",

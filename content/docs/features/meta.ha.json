@@ -1,5 +1,6 @@
 {
   "title": "Siffofi",
+  "icon": "LayoutGrid",
   "pages": [
     "patients",
     "appointments",

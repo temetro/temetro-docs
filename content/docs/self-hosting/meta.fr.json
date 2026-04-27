@@ -1,5 +1,6 @@
 {
   "title": "Auto-hébergement",
+  "icon": "Server",
   "pages": [
     "docker",
     "environment-variables",

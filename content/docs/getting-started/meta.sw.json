@@ -1,5 +1,6 @@
 {
   "title": "Kuanza",
+  "icon": "CirclePlay",
   "pages": [
     "installation",
     "configuration",

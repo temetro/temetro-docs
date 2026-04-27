@@ -1,5 +1,6 @@
 {
   "title": "Iskiis-u-martigelin",
+  "icon": "Server",
   "pages": [
     "docker",
     "environment-variables",

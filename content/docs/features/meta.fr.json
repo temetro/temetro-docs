@@ -1,5 +1,6 @@
 {
   "title": "Fonctionnalités",
+  "icon": "LayoutGrid",
   "pages": [
     "patients",
     "appointments",

@@ -1,5 +1,6 @@
 {
   "title": "Vipengele",
+  "icon": "LayoutGrid",
   "pages": [
     "patients",
     "appointments",

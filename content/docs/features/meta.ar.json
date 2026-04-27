@@ -1,5 +1,6 @@
 {
   "title": "الميزات",
+  "icon": "LayoutGrid",
   "pages": [
     "patients",
     "appointments",

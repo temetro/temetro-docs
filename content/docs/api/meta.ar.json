@@ -1,5 +1,6 @@
 {
   "title": "واجهة البرمجة",
+  "icon": "ShieldCheck",
   "pages": [
     "authentication"
   ]
