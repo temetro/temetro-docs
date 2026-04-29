@@ -13,7 +13,7 @@ Kafin ka fara, ka tabbatar cewa na'urar tana da:
 - Docker Compose v2 ta hanyar umarnin `docker compose`
 - Git a girke
 - aƙalla 2 GB RAM
-- tashoshin `3000`, `3001`, da `5432` a buɗe
+- tashoshin `3000`, `3001`, `4000`, da `5432` a buɗe
 
 ## 1. Clone ma'ajiyar turawa
 
@@ -52,7 +52,7 @@ openssl rand -base64 32
 docker compose up -d
 ```
 
-Docker zai sauke hotunan da ake buƙata, ya ƙirƙiri kontena na PostgreSQL, sannan ya fara ayyukan web da docs.
+Docker zai sauke hotunan da ake buƙata, ya ƙirƙiri kontena na PostgreSQL, sannan ya fara ayyukan web, API na ciki, da docs.
 
 ## 5. Tabbatar ayyukan suna gudana
 
@@ -63,6 +63,7 @@ docker compose ps
 Ya kamata ka ga kontena na:
 
 - `postgres`
+- `api`
 - `web`
 - `docs`
 

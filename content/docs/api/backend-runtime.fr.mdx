@@ -1,0 +1,45 @@
+---
+title: Architecture backend
+description: Comprenez comment Next.js, Better Auth et le service Express interne se partagent maintenant les responsabilités.
+---
+
+Temetro exécute désormais le backend du tableau de bord en deux couches au lieu d’une seule.
+
+## Répartition actuelle du runtime
+
+- Next.js sert l’interface du tableau de bord
+- Better Auth reste exécuté dans Next.js
+- un service Express interne fournit les données du tableau de bord
+
+Cela permet de conserver une application web stable côté utilisateur tout en déplaçant les contrats de données du tableau de bord vers un service backend dédié.
+
+## Routes internes
+
+Le service Express expose actuellement :
+
+- `GET /health`
+- `GET /dashboard/home/:role`
+
+Ces routes sont prévues pour un usage interne entre services, et non pour un accès public direct depuis le navigateur.
+
+## Environnement et liaison des services
+
+Le tableau de bord Next.js lit les données du service Express via :
+
+- `INTERNAL_API_URL`
+
+Dans Docker Compose, la valeur habituelle est :
+
+```text
+http://api:4000
+```
+
+## Pourquoi Temetro utilise cette séparation
+
+Cette phase apporte à Temetro :
+
+- une frontière plus claire pour les contrats de données du tableau de bord
+- plus d’espace pour faire évoluer la logique backend sans réécrire complètement l’authentification
+- un chemin plus simple vers une future extension de l’API
+
+L’authentification et le routage des pages restent dans Next.js pour l’instant afin de garder l’évolution maîtrisée.

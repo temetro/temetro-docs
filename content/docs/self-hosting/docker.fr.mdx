@@ -11,8 +11,11 @@ Docker Compose démarre plusieurs services connectés ensemble :
 
 - une base de données PostgreSQL pour les données applicatives
 - le tableau de bord Temetro
+- l’API interne Express du tableau de bord
 - le site de documentation Temetro
 - éventuellement un reverse proxy NGINX pour la production
+
+Le service `api` reste normalement interne à la pile. Le frontend du tableau de bord y accède via `INTERNAL_API_URL`.
 
 Au lieu d’installer chaque composant séparément, vous lancez une seule commande et Docker assemble la pile.
 

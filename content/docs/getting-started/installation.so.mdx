@@ -13,7 +13,7 @@ Kahor inta aanad bilaabin, xaqiiji in mashiinku leeyahay:
 - Docker Compose v2 oo laga heli karo amarka `docker compose`
 - Git la rakibay
 - ugu yaraan 2 GB RAM
-- dekedaha `3000`, `3001`, iyo `5432` oo bannaan
+- dekedaha `3000`, `3001`, `4000`, iyo `5432` oo bannaan
 
 ## 1. Soo qaado kaydka dejinta
 
@@ -52,7 +52,7 @@ openssl rand -base64 32
 docker compose up -d
 ```
 
-Docker waxa uu soo dejin doonaa sawirrada loo baahan yahay, abuuri doonaa kontaynarka PostgreSQL, wuxuuna bilaabi doonaa adeegyada web iyo docs.
+Docker waxa uu soo dejin doonaa sawirrada loo baahan yahay, abuuri doonaa kontaynarka PostgreSQL, wuxuuna bilaabi doonaa adeegyada web, API gudaha ah, iyo docs.
 
 ## 5. Xaqiiji in adeegyadu socdaan
 
@@ -63,6 +63,7 @@ docker compose ps
 Waa inaad aragtaa:
 
 - `postgres`
+- `api`
 - `web`
 - `docs`
 

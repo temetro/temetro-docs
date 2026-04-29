@@ -1,0 +1,45 @@
+---
+title: Tsarin backend
+description: Fahimci yadda Next.js, Better Auth, da sabis na Express na ciki suke raba ayyuka yanzu.
+---
+
+Yanzu Temetro yana tafiyar da backend na dashboard a matakai biyu maimakon guda ɗaya.
+
+## Rarrabuwar runtime a yanzu
+
+- Next.js yana ba da UI na dashboard
+- Better Auth har yanzu yana gudana a cikin Next.js
+- sabis na Express na ciki yana ba da bayanan dashboard
+
+Wannan yana sa web app ɗin da mai amfani yake gani ya kasance mai daidaito yayin da ake matsar da kwangilolin bayanan dashboard zuwa sabis na backend na musamman.
+
+## Hanyoyin cikin gida
+
+Sabis ɗin Express a yanzu yana bayar da:
+
+- `GET /health`
+- `GET /dashboard/home/:role`
+
+Waɗannan hanyoyin an yi su ne don amfani na cikin gida tsakanin sabis, ba don buɗaɗɗen amfani kai tsaye daga browser ba.
+
+## Muhalli da haɗin sabis
+
+Dashboard na Next.js yana karanta daga sabis na Express ta:
+
+- `INTERNAL_API_URL`
+
+A cikin Docker Compose, ƙimar da aka saba ita ce:
+
+```text
+http://api:4000
+```
+
+## Dalilin da Temetro ke amfani da wannan rarrabuwa
+
+Wannan matakin yana ba Temetro:
+
+- iyaka mafi tsabta ga kwangilolin bayanan dashboard
+- damar faɗaɗa backend ba tare da sake rubuta auth gaba ɗaya ba
+- hanya mafi sauƙi don faɗaɗa API a gaba
+
+Auth da routing na shafuka har yanzu suna cikin Next.js a yanzu domin canjin ya kasance cikin kulawa.

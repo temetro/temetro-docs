@@ -1,0 +1,45 @@
+---
+title: Backend Architecture
+description: Understand how Next.js, Better Auth, and the internal Express dashboard API now split responsibilities.
+---
+
+Temetro now runs the dashboard backend in two layers instead of one.
+
+## Current runtime split
+
+- Next.js serves the dashboard UI
+- Better Auth still runs inside Next.js
+- An internal Express service provides dashboard data payloads
+
+This keeps the user-facing web app stable while moving dashboard data contracts into a dedicated backend service.
+
+## Internal routes
+
+The Express service currently exposes:
+
+- `GET /health`
+- `GET /dashboard/home/:role`
+
+These routes are intended for internal service-to-service use, not for public browser access.
+
+## Environment and service wiring
+
+The Next.js dashboard reads from the Express service through:
+
+- `INTERNAL_API_URL`
+
+In Docker Compose, this is normally set to:
+
+```text
+http://api:4000
+```
+
+## Why Temetro uses this split
+
+This phase gives Temetro:
+
+- a cleaner boundary for dashboard data contracts
+- room to grow backend logic without forcing a full auth rewrite
+- a simpler path for future API expansion
+
+Authentication and page routing still stay in Next.js for now, so the stack changes remain controlled.

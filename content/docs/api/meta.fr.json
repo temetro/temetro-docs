@@ -1,7 +1,8 @@
 {
-  "title": "API",
+  "title": "API et backend",
   "icon": "ShieldCheck",
   "pages": [
+    "backend-runtime",
     "authentication"
   ]
 }

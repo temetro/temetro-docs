@@ -13,7 +13,7 @@ Kabla ya kuanza, hakikisha mashine ina:
 - Docker Compose v2 kupitia amri ya `docker compose`
 - Git iliyosakinishwa
 - angalau RAM ya GB 2
-- bandari `3000`, `3001`, na `5432` zipo wazi
+- bandari `3000`, `3001`, `4000`, na `5432` zipo wazi
 
 ## 1. Clone hazina ya usambazaji
 
@@ -52,7 +52,7 @@ openssl rand -base64 32
 docker compose up -d
 ```
 
-Docker itapakua picha zinazohitajika, itaunda kontena la PostgreSQL, na kuwasha huduma za web na docs.
+Docker itapakua picha zinazohitajika, itaunda kontena la PostgreSQL, na kuwasha huduma za web, API ya ndani, na docs.
 
 ## 5. Thibitisha huduma zinafanya kazi
 
@@ -63,6 +63,7 @@ docker compose ps
 Unapaswa kuona kontena za:
 
 - `postgres`
+- `api`
 - `web`
 - `docs`
 

@@ -13,7 +13,7 @@ Avant de commencer, vérifiez que la machine dispose de :
 - Docker Compose v2 disponible via la commande `docker compose`
 - Git installé
 - au moins 2 Go de RAM
-- les ports `3000`, `3001` et `5432` libres
+- les ports `3000`, `3001`, `4000` et `5432` libres
 
 ## 1. Cloner le dépôt de déploiement
 
@@ -52,7 +52,7 @@ openssl rand -base64 32
 docker compose up -d
 ```
 
-Docker téléchargera les images nécessaires, créera le conteneur PostgreSQL et démarrera les services web et documentation.
+Docker téléchargera les images nécessaires, créera le conteneur PostgreSQL et démarrera les services web, API interne et documentation.
 
 ## 5. Vérifier que les services fonctionnent
 
@@ -63,6 +63,7 @@ docker compose ps
 Vous devriez voir des conteneurs pour :
 
 - `postgres`
+- `api`
 - `web`
 - `docs`
 

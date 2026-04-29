@@ -13,7 +13,7 @@ description: Temetro ን በ Docker Compose በአካባቢዎ ላይ ይጫኑ 
 - Docker Compose v2 በ `docker compose` ትእዛዝ ይገኛል
 - Git ተጭኗል
 - ቢያንስ 2 GB RAM አለ
-- `3000`፣ `3001` እና `5432` ፖርቶች ነጻ ናቸው
+- `3000`፣ `3001`፣ `4000` እና `5432` ፖርቶች ነጻ ናቸው
 
 ## 1. የማሰማሪያ ሪፖዚቶሪውን ኮሎን ያድርጉ
 
@@ -52,7 +52,7 @@ openssl rand -base64 32
 docker compose up -d
 ```
 
-Docker የሚያስፈልጉትን ምስሎች ያወርዳል፣ የ PostgreSQL የውሂብ ጎታ ኮንቴነር ይፈጥራል፣ እና የዌብ እና የሰነዶች አገልግሎቶችን ያስጀምራል።
+Docker የሚያስፈልጉትን ምስሎች ያወርዳል፣ የ PostgreSQL የውሂብ ጎታ ኮንቴነር ይፈጥራል፣ እና የዌብ ፣ የውስጥ API እና የሰነዶች አገልግሎቶችን ያስጀምራል።
 
 ## 5. አገልግሎቶቹ እየሰሩ መሆናቸውን ያረጋግጡ
 
@@ -63,6 +63,7 @@ docker compose ps
 እነዚህን ኮንቴነሮች ማየት አለብዎት፦
 
 - `postgres`
+- `api`
 - `web`
 - `docs`
 

@@ -11,8 +11,11 @@ Docker Compose starts several connected services together:
 
 - A PostgreSQL database for application data
 - The Temetro dashboard
+- The internal Express dashboard API
 - The Temetro documentation site
 - Optionally, an NGINX reverse proxy for production traffic
+
+The `api` service normally stays internal to the stack. The dashboard frontend talks to it through `INTERNAL_API_URL`.
 
 Instead of installing each part manually, you run one command and Docker assembles the stack for you.
 

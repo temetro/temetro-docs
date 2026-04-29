@@ -1,7 +1,8 @@
 {
-  "title": "واجهة البرمجة",
+  "title": "الواجهة والخلفية",
   "icon": "ShieldCheck",
   "pages": [
+    "backend-runtime",
     "authentication"
   ]
 }

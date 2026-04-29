@@ -1,0 +1,45 @@
+---
+title: Qaab-dhismeedka backend-ka
+description: Faham sida Next.js, Better Auth, iyo adeegga gudaha ee Express ay hadda u qaybsadaan masuuliyadaha.
+---
+
+Temetro hadda waxa uu backend-ka dashboard-ka u maamulaa laba lakab halkii uu ka ahaan lahaa hal lakab.
+
+## Qaybsiga hadda jira
+
+- Next.js waxa uu bixiyaa muuqaalka dashboard-ka
+- Better Auth wali waxa uu ku dhex socdaa Next.js
+- adeeg gudaha ah oo Express ah ayaa bixiya xogta dashboard-ka
+
+Tani waxay xasilinaysaa app-ka webka ee dadka isticmaala halka qandaraasyada xogta dashboard-ka loo wareejinayo adeeg backend oo gaar ah.
+
+## Waddooyinka gudaha
+
+Adeegga Express wuxuu hadda bixiyaa:
+
+- `GET /health`
+- `GET /dashboard/home/:role`
+
+Waddooyinkan waxaa loogu talagalay adeegyada gudaha inay isugu yeeraan, ma aha isticmaalka tooska ah ee browser-ka dadweynaha.
+
+## Deegaanka iyo isku xirka adeegyada
+
+Dashboard-ka Next.js wuxuu ka akhriyaa adeegga Express isagoo adeegsanaya:
+
+- `INTERNAL_API_URL`
+
+Gudaha Docker Compose qiimaha caadiga ahi waa:
+
+```text
+http://api:4000
+```
+
+## Sababta Temetro u adeegsado qaybsigan
+
+Marxaladdan waxay Temetro siinaysaa:
+
+- xuduud cad oo loogu talagalay qandaraasyada xogta dashboard-ka
+- meel lagu ballaariyo caqliga backend-ka adigoon dib u qorin auth-ka oo dhan
+- waddo sahlan oo lagu ballaariyo API-ga mustaqbalka
+
+Auth-ka iyo routing-ka boggaga wali waxay ku jiraan Next.js hadda si isbeddelku u sii ahaado mid la xakameeyey.

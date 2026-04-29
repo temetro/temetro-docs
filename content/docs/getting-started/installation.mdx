@@ -13,7 +13,7 @@ Before you start, confirm that the machine has:
 - Docker Compose v2 available through the `docker compose` command
 - Git installed
 - At least 2 GB of RAM
-- Ports `3000`, `3001`, and `5432` available
+- Ports `3000`, `3001`, `4000`, and `5432` available
 
 ## 1. Clone the deployment repository
 
@@ -52,7 +52,7 @@ openssl rand -base64 32
 docker compose up -d
 ```
 
-Docker will download the required images, create the PostgreSQL database container, and start the web and docs services.
+Docker will download the required images, create the PostgreSQL database container, and start the web, internal API, and docs services.
 
 ## 5. Confirm the services are running
 
@@ -63,6 +63,7 @@ docker compose ps
 You should see containers for:
 
 - `postgres`
+- `api`
 - `web`
 - `docs`
 
