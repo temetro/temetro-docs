@@ -7,19 +7,13 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: (
         <>
-          <Image
-            src="/logo-light.png"
-            alt=""
-            width={26}
-            height={26}
-            className="rounded-md dark:hidden"
-          />
+          {/* white fox mark; inverted to black in light mode */}
           <Image
             src="/logo-dark.png"
             alt=""
-            width={26}
-            height={26}
-            className="hidden rounded-md dark:block"
+            width={28}
+            height={28}
+            className="invert dark:invert-0"
           />
           <span className="font-semibold">{appName}</span>
         </>

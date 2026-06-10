@@ -28,8 +28,8 @@ export default function Layout({ children }: LayoutProps<'/'>) {
       className={`${inter.className} ${geistMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="flex flex-col min-h-screen">
-        <RootProvider>{children}</RootProvider>
+      <body className="flex flex-col min-h-screen" suppressHydrationWarning>
+        <RootProvider theme={{ defaultTheme: 'dark' }}>{children}</RootProvider>
       </body>
     </html>
   );

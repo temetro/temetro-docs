@@ -33,19 +33,11 @@ export default function HomePage() {
     <main className="flex flex-1 flex-col items-center justify-center px-4 py-16">
       <div className="flex w-full max-w-3xl flex-col items-center text-center">
         <Image
-          src="/logo-light.png"
-          alt="temetro logo"
-          width={72}
-          height={72}
-          className="rounded-2xl dark:hidden"
-          priority
-        />
-        <Image
           src="/logo-dark.png"
           alt="temetro logo"
-          width={72}
-          height={72}
-          className="hidden rounded-2xl dark:block"
+          width={80}
+          height={80}
+          className="invert dark:invert-0"
           priority
         />
         <h1 className="mt-6 text-4xl font-semibold tracking-tight text-fd-foreground">

@@ -22,8 +22,8 @@
   --color-fd-card-foreground: var(--color-neutral-800);
   --color-fd-popover: var(--color-white);
   --color-fd-popover-foreground: var(--color-neutral-800);
-  --color-fd-primary: var(--color-neutral-800);
-  --color-fd-primary-foreground: var(--color-neutral-50);
+  --color-fd-primary: var(--color-blue-600);
+  --color-fd-primary-foreground: var(--color-white);
   --color-fd-secondary: --alpha(var(--color-black) / 4%);
   --color-fd-secondary-foreground: var(--color-neutral-800);
   --color-fd-muted: --alpha(var(--color-black) / 4%);
@@ -48,8 +48,8 @@
   --color-fd-card-foreground: var(--color-neutral-100);
   --color-fd-popover: color-mix(in srgb, var(--color-fd-background) 98%, var(--color-white));
   --color-fd-popover-foreground: var(--color-neutral-100);
-  --color-fd-primary: var(--color-neutral-100);
-  --color-fd-primary-foreground: var(--color-neutral-800);
+  --color-fd-primary: var(--color-blue-400);
+  --color-fd-primary-foreground: var(--color-blue-950);
   --color-fd-secondary: --alpha(var(--color-white) / 4%);
   --color-fd-secondary-foreground: var(--color-neutral-100);
   --color-fd-muted: --alpha(var(--color-white) / 4%);
