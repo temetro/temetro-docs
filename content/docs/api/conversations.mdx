@@ -15,7 +15,9 @@ of, regardless of role. All endpoints require a signed-in member with an active 
 | `POST` | `/api/conversations/{id}/messages` | Send a message |
 | `POST` | `/api/conversations/{id}/read` | Mark the conversation read |
 
-## Create a conversation
+## Endpoints
+
+### Create a conversation
 
 | Field | Type | Notes |
 | --- | --- | --- |
@@ -31,7 +33,7 @@ curl -b cookies.txt -X POST http://localhost:4000/api/conversations \
 Creating a DM with someone you already have a DM with returns the **existing**
 conversation instead of a duplicate.
 
-## Send a message
+### Send a message
 
 | Field | Type | Notes |
 | --- | --- | --- |

@@ -7,7 +7,12 @@ icon: BookOpen
 A few concepts come up everywhere in temetro. Five minutes here makes the rest of the
 docs much easier to follow.
 
-## Clinics
+## Clinics and roles
+
+Everything in temetro happens inside a clinic, and what you can do there depends on
+your role.
+
+### Clinics
 
 A **clinic** is a private workspace. Everything in temetro — patients, appointments,
 prescriptions, tasks, messages, the activity log — belongs to exactly one clinic, and
@@ -18,7 +23,7 @@ only that clinic's members can see it.
 - You can belong to several clinics and switch between them with the **clinic switcher**
   in the sidebar. Whatever you do happens in the currently active clinic.
 
-## Roles
+### Roles
 
 Every member of a clinic has a **role** that controls what they can see and do:
 
@@ -60,7 +65,9 @@ you as **record cards** you can open, read, and edit.
 ## Patient-owned records (the vision)
 
 The long-term goal that sets temetro apart: a patient's record shouldn't have to live
-only in the doctor's database. The planned model works like this:
+only in the doctor's database.
+
+### How it will work
 
 1. The record can be stored on the **patient's own device**.
 2. When a clinician adds or changes data, the change is **cryptographically signed** —
@@ -69,6 +76,8 @@ only in the doctor's database. The planned model works like this:
    then it cannot be silently modified.
 4. temetro can also read existing clinic databases and present them in the same card UI,
    so clinics don't have to switch everything at once.
+
+### Where things stand
 
 <Callout type="info" title="Not built yet">
   The signing flow, patient-owned storage, and the companion app are design goals, not

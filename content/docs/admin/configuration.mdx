@@ -7,7 +7,9 @@ icon: Wrench
 temetro is configured through environment variables — in Docker setups they live in
 `backend/.env` (created from `backend/.env.example`).
 
-## Backend
+## Environment variables
+
+### Backend
 
 | Variable | Required | Description |
 | --- | --- | --- |
@@ -19,7 +21,7 @@ temetro is configured through environment variables — in Docker setups they li
 | `POSTGRES_PORT` | No | Host port for the bundled Postgres (default `5432`). Change it if 5432 is taken. |
 | `NODE_ENV` | No | `development` or `production`. |
 
-## Email (SMTP)
+### Email (SMTP)
 
 All optional. **If `SMTP_HOST` is unset, outgoing emails (password resets,
 verifications, invitations) are printed to the backend logs** instead of being sent.
@@ -32,7 +34,7 @@ verifications, invitations) are printed to the backend logs** instead of being s
 | `SMTP_PASS` | SMTP password. |
 | `SMTP_FROM` | The From header, e.g. `temetro <no-reply@yourclinic.example>`. |
 
-## Frontend
+### Frontend
 
 | Variable | Description |
 | --- | --- |

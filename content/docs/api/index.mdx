@@ -37,13 +37,15 @@ What a request may do is decided by your **role** in the active clinic — see
 [Roles & permissions](/docs/admin/roles-permissions). The same matrix the app uses is
 enforced server-side on every endpoint.
 
-## Requests and responses
+## Conventions
+
+### Requests and responses
 
 - Request bodies are JSON (`Content-Type: application/json`).
 - Responses are JSON objects or arrays, with no envelope.
 - Creates return `201` with the created object; deletes return `204` with no body.
 
-## Errors
+### Errors
 
 Errors return an appropriate HTTP status and a JSON body:
 
@@ -65,7 +67,7 @@ Validation failures (`400`) include the issues:
 | `404` | Resource doesn't exist in your active clinic |
 | `429` | Rate limit hit |
 
-## Rate limits
+### Rate limits
 
 Authentication endpoints are rate limited per 60-second window: **5** sign-in
 attempts, **3** sign-ups, **3** password resets. Sessions last one week.

@@ -38,7 +38,9 @@ the [configuration reference](/docs/admin/configuration).
   Caddy or nginx with TLS) for any real clinic data.
 </Callout>
 
-## Database
+## Operating temetro
+
+### Database & backups
 
 - Patient data lives in the `db` service's PostgreSQL database, stored in the
   `temetro_pgdata` Docker volume — it **survives restarts and rebuilds**.
@@ -53,7 +55,7 @@ docker compose --profile tools up adminer
 # then open http://localhost:8080 (server: db, user/password/database: temetro)
 ```
 
-## Email
+### Email
 
 temetro sends emails for password resets, verification, and invitations. Configure an
 SMTP server via the `SMTP_*` settings in `.env`. **Without SMTP configured, emails are
@@ -61,6 +63,12 @@ printed to the backend's logs instead** — fine for evaluation, not for product
 
 Email verification is currently **not enforced** at sign-in (it's wired and planned to
 be enabled — see the [roadmap](/docs/roadmap#email-verification-enforcement)).
+
+### Port conflicts
+
+If port 5432 is already taken on the host (an existing Postgres installation), set
+`POSTGRES_PORT=5433` in `.env`. The containers keep talking to Postgres internally on
+5432; only the host-side port changes.
 
 ## Running without Docker (development)
 
@@ -82,9 +90,3 @@ npm run dev          # app on http://localhost:3000
 
 The frontend finds the API through `NEXT_PUBLIC_API_URL` (default
 `http://localhost:4000`).
-
-## Port conflicts
-
-If port 5432 is already taken on the host (an existing Postgres installation), set
-`POSTGRES_PORT=5433` in `.env`. The containers keep talking to Postgres internally on
-5432; only the host-side port changes.

@@ -8,7 +8,9 @@ Authentication is handled by [Better Auth](https://better-auth.com), mounted at
 `/api/auth/*`. These endpoints set and consume the **session cookie** used by the rest
 of the API.
 
-## Sign up
+## Accounts
+
+### Sign up
 
 ```bash
 curl -c cookies.txt -X POST http://localhost:4000/api/auth/sign-up/email \
@@ -24,7 +26,7 @@ A verification email is sent (printed to the backend logs if SMTP isn't configur
 Verification is currently **not required** to sign in — see the
 [roadmap](/docs/roadmap#email-verification-enforcement).
 
-## Sign in
+### Sign in
 
 By email:
 
