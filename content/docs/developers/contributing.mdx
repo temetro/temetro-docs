@@ -1,0 +1,70 @@
+---
+title: Contributing
+description: Set up a development environment and find a good first issue.
+icon: GitPullRequest
+---
+
+temetro is open source — contributions are welcome. The repository lives at
+[github.com/temetro/temetro](https://github.com/temetro/temetro).
+
+## Development setup
+
+You need **Node.js ≥ 20** and a PostgreSQL instance (Docker is the easy way to get
+one).
+
+```bash
+git clone https://github.com/temetro/temetro.git
+cd temetro
+
+# Backend
+cd backend
+npm install
+cp .env.example .env          # point DATABASE_URL at your Postgres
+npm run db:migrate            # apply migrations
+npm run dev                   # API on :4000 (tsx watch)
+
+# Frontend (second terminal)
+cd ../frontend
+npm install
+npm run dev                   # app on :3000 (Turbopack)
+```
+
+`frontend/` and `backend/` are **independent apps** — each has its own `package.json`
+and `node_modules`; always run `npm` from inside the app you're working on.
+
+## Useful backend commands
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Run the API with live reload |
+| `npm run typecheck` | TypeScript check without emitting |
+| `npm run db:generate` | Generate a SQL migration from schema changes |
+| `npm run db:migrate` | Apply migrations to your database |
+| `npm run auth:generate` | Regenerate the Better Auth schema after changing `src/auth.ts` |
+
+After changing the auth configuration, run the three generation steps in order:
+`auth:generate` → `db:generate` → `db:migrate`.
+
+## Things to know before writing code
+
+- **Customized Next.js 16** — the frontend runs a customized build whose conventions
+  differ from public docs in places (e.g. `proxy.ts` instead of `middleware.ts`). Read
+  the docs bundled at `frontend/node_modules/next/dist/docs/` before writing
+  routing code.
+- **COSS / Base UI, not Radix** — components compose via the `render` prop, not
+  `asChild`. Use semantic Tailwind tokens (`bg-muted`, `border-border`), never
+  hardcoded colors.
+- **RBAC lives in `backend/src/lib/access.ts`** — if you add a resource, define its
+  permission statements there and mirror them in `frontend/lib/access.ts`.
+
+## A good first contribution: the real AI chat
+
+The chat UI is complete, but free-form messages get a **mock reply** generated in the
+frontend (`components/chat/chat-panel.tsx`). The planned next step is a `/chat`
+endpoint on the backend that:
+
+1. receives the conversation and the active patient context,
+2. calls an LLM with tool access to the patients API,
+3. streams the answer back to the existing chat UI.
+
+If that sounds like fun, open an issue on GitHub to coordinate before you start.

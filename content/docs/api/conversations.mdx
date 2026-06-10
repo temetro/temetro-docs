@@ -1,0 +1,51 @@
+---
+title: Conversations
+description: Staff messaging — conversations, messages, and real-time events.
+---
+
+Conversations are **participant-scoped**: you only ever see conversations you are part
+of, regardless of role. All endpoints require a signed-in member with an active clinic.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/conversations` | Your conversations, with last message and unread count |
+| `GET` | `/api/conversations/members` | Clinic members you can start a conversation with |
+| `POST` | `/api/conversations` | Create a conversation (or reuse an existing DM) |
+| `GET` | `/api/conversations/{id}/messages` | Message history |
+| `POST` | `/api/conversations/{id}/messages` | Send a message |
+| `POST` | `/api/conversations/{id}/read` | Mark the conversation read |
+
+## Create a conversation
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `participantIds` | string[] | **Required.** User ids to include (at least one) |
+| `name` | string \| null | Optional group name (max 120 chars); DMs are unnamed |
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/conversations \
+  -H "Content-Type: application/json" \
+  -d '{ "participantIds": ["usr_def456"] }'
+```
+
+Creating a DM with someone you already have a DM with returns the **existing**
+conversation instead of a duplicate.
+
+## Send a message
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `body` | string | **Required.** 1–5000 characters |
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/conversations/CONV_ID/messages \
+  -H "Content-Type: application/json" \
+  -d '{ "body": "Labs for 1042 are back — HbA1c improving." }'
+```
+
+## Real-time delivery
+
+Messages are also pushed live over **Socket.io** (same origin, authenticated by the
+session cookie). Connected clients receive new-message events for their conversations
+and `notification:new` events for record changes — the REST endpoints above are the
+fallback and history source. The web app keeps both in sync automatically.

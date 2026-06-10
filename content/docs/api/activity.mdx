@@ -1,0 +1,45 @@
+---
+title: Activity
+description: The clinic's audit log.
+---
+
+| Method | Path | Access |
+| --- | --- | --- |
+| `GET` | `/api/activity` | Admins/owners see all clinic activity; everyone else sees their own |
+
+Every mutation in temetro — patients, appointments, prescriptions, tasks — writes an
+entry here automatically. The log is **append-only**: there are no endpoints to edit or
+delete entries.
+
+## The activity entry
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Entry id |
+| `actorId`, `actorName` | string | Who made the change |
+| `action` | string | Human-readable, e.g. `"Updated patient Hodan Warsame"` |
+| `entityType` | string | `patient`, `appointment`, `prescription`, `task`, … |
+| `entityId` | string | The affected record (file number for patients) |
+| `patientName`, `patientFileNumber` | string \| null | Set when the change concerns a patient |
+| `createdAt` | string | Timestamp |
+
+## Example
+
+```bash
+curl -b cookies.txt http://localhost:4000/api/activity
+```
+
+```json
+[
+  {
+    "id": "act_123",
+    "actorName": "Dr. Amina Yusuf",
+    "action": "Transferred patient Hodan Warsame to Dr. Omar Ali",
+    "entityType": "patient",
+    "entityId": "1042",
+    "patientName": "Hodan Warsame",
+    "patientFileNumber": "1042",
+    "createdAt": "2026-06-08T09:31:00.000Z"
+  }
+]
+```

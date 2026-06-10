@@ -1,0 +1,54 @@
+---
+title: Patient records
+description: Everything a patient's chart holds, and how to create, edit, and transfer it.
+icon: Users
+---
+
+The **Patients** page lists every patient in your clinic. Each patient also appears as
+**record cards** when you look them up in the [chat](/docs/guides/chat).
+
+## What a record holds
+
+| Section | Contents |
+| --- | --- |
+| **Demographics** | Name, age, sex, file number (MRN), primary care provider, status |
+| **Alerts** | Important flags shown prominently — e.g. severe allergies, fall risk |
+| **Vitals** | Blood pressure, heart rate, temperature, SpO₂, when they were taken — with small trend charts |
+| **Allergies** | Substance, reaction, and severity |
+| **Medications** | Name, dose, and frequency |
+| **Problems** | The problem list, with "since" dates |
+| **Labs** | Recent results with abnormal flags and a trend chart |
+| **Encounters** | Visit history: date, type, provider, and a summary |
+
+## Creating a patient
+
+1. Click **Add patient** — on the Patients page or right from the chat input.
+2. Fill in demographics. The **file number** must be unique in your clinic; it's how
+   you'll look the patient up later.
+3. Optionally add allergies, medications, problems, labs, and encounters — each section
+   is a list you can add rows to.
+4. Choose a **primary provider** (the clinician responsible for this patient) and save.
+
+## Editing
+
+Open a patient (from the list or by clicking a record card in chat) and click **Edit**.
+The same form opens with the current data filled in.
+
+<Callout type="info" title="Who can edit what">
+  Doctors, members, admins, and owners can edit full records. **Reception** can create
+  and edit demographics only — clinical sections (medications, labs, problems,
+  encounters) are not visible to them. **Viewers** can only read. Details in
+  [Roles & permissions](/docs/admin/roles-permissions).
+</Callout>
+
+## Transferring a patient
+
+When care moves from one clinician to another, open the patient and use **Transfer** to
+pick the new primary provider. The transfer is recorded in the
+[activity log](/docs/guides/activity-analytics).
+
+## Deleting
+
+Deleting a patient removes their record from the clinic and is restricted to roles with
+delete permission (owner and admin). Like every change, it is recorded in the activity
+log.

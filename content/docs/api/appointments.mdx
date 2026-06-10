@@ -1,0 +1,83 @@
+---
+title: Appointments
+description: Manage the clinic's schedule.
+---
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/appointments` | `appointment:read` |
+| `POST` | `/api/appointments` | `appointment:write` |
+| `PUT` | `/api/appointments/{id}` | `appointment:write` |
+| `DELETE` | `/api/appointments/{id}` | `appointment:delete` |
+
+## The appointment object
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Assigned by the server |
+| `fileNumber` | string | Patient's file number (may be empty for ad-hoc bookings) |
+| `name` | string | **Required.** Patient name |
+| `initials` | string | **Required.** 1–4 characters |
+| `date` | string | **Required.** `YYYY-MM-DD` |
+| `time` | string | **Required.** `HH:mm` |
+| `type` | string | **Required.** Visit type, e.g. `"Follow-up"` |
+| `provider` | string | **Required.** Provider display name |
+| `status` | enum | `confirmed` (default) \| `checked-in` \| `completed` \| `cancelled` |
+
+## Examples
+
+<Tabs items={['cURL', 'JavaScript']}>
+<Tab value="cURL">
+
+```bash
+# List
+curl -b cookies.txt http://localhost:4000/api/appointments
+
+# Create
+curl -b cookies.txt -X POST http://localhost:4000/api/appointments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fileNumber": "1042",
+    "name": "Hodan Warsame",
+    "initials": "HW",
+    "date": "2026-06-15",
+    "time": "10:30",
+    "type": "Follow-up",
+    "provider": "Dr. Amina Yusuf"
+  }'
+
+# Update (e.g. check the patient in)
+curl -b cookies.txt -X PUT http://localhost:4000/api/appointments/APPT_ID \
+  -H "Content-Type: application/json" \
+  -d '{ "...full appointment...": "", "status": "checked-in" }'
+
+# Delete
+curl -b cookies.txt -X DELETE http://localhost:4000/api/appointments/APPT_ID
+```
+
+</Tab>
+<Tab value="JavaScript">
+
+```js
+const created = await fetch('http://localhost:4000/api/appointments', {
+  method: 'POST',
+  credentials: 'include',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    fileNumber: '1042',
+    name: 'Hodan Warsame',
+    initials: 'HW',
+    date: '2026-06-15',
+    time: '10:30',
+    type: 'Follow-up',
+    provider: 'Dr. Amina Yusuf',
+  }),
+}).then((r) => r.json());
+```
+
+</Tab>
+</Tabs>
+
+Create returns `201` with the appointment; update returns the updated object; delete
+returns `204`. Reception has full access to appointments — scheduling is front-desk
+work.

@@ -1,0 +1,47 @@
+---
+title: Staff
+description: List clinicians and provision staff accounts.
+---
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/staff/providers` | any member |
+| `GET` | `/api/staff` | `member:create` (admin/owner) |
+| `POST` | `/api/staff` | `member:create` (admin/owner) |
+
+## List providers
+
+`GET /api/staff/providers` returns the clinic members who can act as a patient's
+**primary provider** — used to populate provider pickers. Any member can call it.
+
+## List staff
+
+`GET /api/staff` returns all clinic members with their usernames and roles.
+Admin/owner only.
+
+## Create a staff account
+
+Provision an account directly (no email invitation round-trip). The new member signs in
+with **username + password**.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `name` | string | **Required.** Display name |
+| `username` | string | **Required.** 3–32 chars; letters, numbers, dots, underscores |
+| `password` | string | **Required.** Minimum **12** characters |
+| `role` | enum | **Required.** `admin` \| `doctor` \| `reception` \| `viewer` |
+| `email` | string | Optional real email; a placeholder is generated if omitted |
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/staff \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Front Desk",
+    "username": "frontdesk1",
+    "password": "a-long-secure-password",
+    "role": "reception"
+  }'
+```
+
+Returns `201` with the created member. To add someone with their own existing account
+instead, use an [organization invitation](/docs/api/authentication#clinics-organizations).

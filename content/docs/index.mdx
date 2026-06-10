@@ -1,13 +1,63 @@
 ---
-title: Hello World
-description: Your first document
+title: Welcome to temetro
+description: An open-source clinical tool that puts an AI chat between you and your patients' records.
+icon: House
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+**temetro** is an open-source tool for clinics. Instead of clicking through menus and
+forms to find patient information, you simply *ask* — temetro's chat understands what
+you need and answers with organized, easy-to-read **record cards**: vitals, allergies,
+medications, labs, encounters, and more.
 
-## What is Next?
+Everything your clinic does day to day lives in one place:
+
+- **Patient records** — demographics, problems, allergies, medications, labs, and visit history.
+- **Appointments, prescriptions, and tasks** — schedule, prescribe, and keep the team on track.
+- **Staff messaging** — real-time chat between members of your clinic.
+- **Activity & analytics** — a full audit trail of every change, plus a clinic dashboard.
+
+temetro supports **multiple clinics**: each clinic is its own private workspace with its
+own patients, staff, and roles. You can belong to several clinics and switch between them.
+
+<Callout type="warn" title="The AI is not connected yet">
+  temetro is under active development. The chat interface works — including patient
+  lookups with the `/patient` command — but free-form questions currently get a
+  **placeholder reply**. Connecting a real AI model is the next item on the
+  [roadmap](/docs/roadmap).
+</Callout>
+
+## Where to start
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card
+    title="Quickstart"
+    description="Get temetro running on your computer in about five minutes."
+    href="/docs/quickstart"
+  />
+  <Card
+    title="Using temetro"
+    description="A tour of the chat, patient records, scheduling, and messaging — no technical knowledge needed."
+    href="/docs/guides/chat"
+  />
+  <Card
+    title="Self-hosting"
+    description="Install temetro on your own server and configure it for your clinic."
+    href="/docs/admin/self-hosting"
+  />
+  <Card
+    title="API reference"
+    description="For developers: every endpoint, with example requests and responses."
+    href="/docs/api"
+  />
 </Cards>
+
+## The bigger idea: patient-owned records
+
+Most medical software stores your record in the doctor's database, and you never see
+what changes. temetro is being built toward a different model: the patient's record can
+live on the **patient's own device**. When a clinician changes something, the change is
+**signed** and is not final until the patient **approves it** in a companion app.
+
+This part of temetro is still a vision — it is not built yet. You can read more about it
+in [Core concepts](/docs/concepts#patient-owned-records-the-vision) and follow progress
+on the [roadmap](/docs/roadmap).

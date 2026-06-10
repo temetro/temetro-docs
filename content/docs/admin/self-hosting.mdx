@@ -1,0 +1,90 @@
+---
+title: Self-hosting
+description: Run temetro on your own server with Docker Compose.
+icon: Server
+---
+
+temetro is designed to be self-hosted: your clinic's data stays on infrastructure you
+control. The supported setup is **Docker Compose**, which runs all three parts:
+
+| Service | What it is | Port |
+| --- | --- | --- |
+| `frontend` | The temetro web app (Next.js) | 3000 |
+| `backend` | The API server (Node.js + Express) | 4000 |
+| `db` | PostgreSQL 17 — your clinic's database | 5432 |
+| `adminer` | Optional database browser (off by default) | 8080 |
+
+## Installing
+
+The steps are the same as the [quickstart](/docs/quickstart): clone the repository,
+create `backend/.env` from the template, set `BETTER_AUTH_SECRET`, and run
+`docker compose up --build` from the `backend/` folder.
+
+```bash
+git clone https://github.com/temetro/temetro.git
+cd temetro/backend
+cp .env.example .env
+# edit .env — at minimum set BETTER_AUTH_SECRET (openssl rand -base64 32)
+docker compose up --build -d
+```
+
+For a real deployment, also set the URLs in `.env` to your server's public addresses
+(`BETTER_AUTH_URL` for the backend, `FRONTEND_URL` for the app) — the full list is in
+the [configuration reference](/docs/admin/configuration).
+
+<Callout type="warn" title="Use HTTPS in production">
+  temetro marks its session cookies as secure when `BETTER_AUTH_URL` starts with
+  `https://`. Run both the app and the API behind HTTPS (e.g. a reverse proxy such as
+  Caddy or nginx with TLS) for any real clinic data.
+</Callout>
+
+## Database
+
+- Patient data lives in the `db` service's PostgreSQL database, stored in the
+  `temetro_pgdata` Docker volume — it **survives restarts and rebuilds**.
+- Database **migrations run automatically** when the backend starts; upgrading temetro
+  is `git pull` + `docker compose up --build`.
+- Back up the volume (or run `pg_dump` against the database) on a schedule appropriate
+  for a clinical system.
+- To inspect the database in a browser, start the optional Adminer service:
+
+```bash
+docker compose --profile tools up adminer
+# then open http://localhost:8080 (server: db, user/password/database: temetro)
+```
+
+## Email
+
+temetro sends emails for password resets, verification, and invitations. Configure an
+SMTP server via the `SMTP_*` settings in `.env`. **Without SMTP configured, emails are
+printed to the backend's logs instead** — fine for evaluation, not for production.
+
+Email verification is currently **not enforced** at sign-in (it's wired and planned to
+be enabled — see the [roadmap](/docs/roadmap#email-verification-enforcement)).
+
+## Running without Docker (development)
+
+For development you can run the pieces directly:
+
+```bash
+# Terminal 1 — backend (needs a local Postgres; point DATABASE_URL at it)
+cd backend
+npm install
+cp .env.example .env
+npm run db:migrate
+npm run dev          # API on http://localhost:4000
+
+# Terminal 2 — frontend
+cd frontend
+npm install
+npm run dev          # app on http://localhost:3000
+```
+
+The frontend finds the API through `NEXT_PUBLIC_API_URL` (default
+`http://localhost:4000`).
+
+## Port conflicts
+
+If port 5432 is already taken on the host (an existing Postgres installation), set
+`POSTGRES_PORT=5433` in `.env`. The containers keep talking to Postgres internally on
+5432; only the host-side port changes.

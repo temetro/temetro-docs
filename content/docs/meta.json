@@ -1,0 +1,18 @@
+{
+  "title": "temetro",
+  "pages": [
+    "index",
+    "quickstart",
+    "concepts",
+    "---Using temetro---",
+    "...guides",
+    "---Administration---",
+    "...admin",
+    "---Developers---",
+    "...developers",
+    "---API Reference---",
+    "...api",
+    "---Project---",
+    "roadmap"
+  ]
+}

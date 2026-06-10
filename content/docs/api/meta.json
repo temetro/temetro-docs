@@ -1,0 +1,16 @@
+{
+  "title": "API Reference",
+  "pages": [
+    "index",
+    "authentication",
+    "patients",
+    "appointments",
+    "prescriptions",
+    "tasks",
+    "notes",
+    "staff",
+    "conversations",
+    "activity",
+    "analytics"
+  ]
+}

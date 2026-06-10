@@ -1,0 +1,52 @@
+---
+title: The chat
+description: temetro's home screen — ask for a chart and get record cards back.
+icon: MessageSquare
+---
+
+When you sign in, temetro opens on the **chat**. It works like any messaging app: type
+at the bottom, and the conversation appears above.
+
+## Pulling up a patient
+
+The fastest way to open a chart is the **patient command**. Type a slash, the word
+`patient`, and the patient's file number:
+
+```text
+/patient 1042
+```
+
+A shorter form works too — just the slash and the number:
+
+```text
+/1042
+```
+
+temetro replies with the patient's **record cards**: a row of cards summarizing
+demographics, alerts, vitals, allergies, medications, problems, recent labs, and
+encounters. Click any card to open the full details in a dialog, where you can also
+edit the record (if your role allows it).
+
+## Adding a patient from the chat
+
+Next to the message box there is an **Add patient** button. It opens the new-patient
+form directly — you don't have to leave the chat to register someone. The same form is
+available on the [Patients page](/docs/guides/patients).
+
+## Asking questions in plain language
+
+<Callout type="warn" title="Placeholder replies for now">
+  The chat is designed for natural questions like *"what were her last three blood
+  pressure readings?"* — but the AI model is **not connected yet**. Anything that isn't
+  a `/patient` command currently gets a placeholder reply explaining this. Follow the
+  [roadmap](/docs/roadmap) for progress.
+</Callout>
+
+## Tips
+
+- File numbers are unique within your clinic — see
+  [Core concepts](/docs/concepts#patients-and-file-numbers).
+- Everything you can reach from the chat is also available from the sidebar pages
+  (Patients, Appointments, Prescriptions, Tasks, Messages, Notes, Activity, Analysis).
+- What you can see and edit depends on your [role](/docs/admin/roles-permissions) —
+  reception staff, for example, see demographics but not clinical details.

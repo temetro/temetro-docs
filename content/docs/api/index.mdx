@@ -1,0 +1,77 @@
+---
+title: API overview
+description: Conventions shared by every temetro endpoint — auth, errors, and rate limits.
+icon: Code
+---
+
+The temetro backend is a REST API. The frontend is its main consumer, but anything that
+can hold a session cookie can use it — scripts, integrations, or your own tools.
+
+## Base URL
+
+```text
+http://localhost:4000
+```
+
+(or wherever your [self-hosted backend](/docs/admin/self-hosting) runs — the value of
+`BETTER_AUTH_URL`.)
+
+A health check is available without authentication:
+
+```bash
+curl http://localhost:4000/health
+# {"status":"ok"}
+```
+
+## Authentication
+
+The API uses **session cookies**, not API keys. Sign in through the
+[auth endpoints](/docs/api/authentication) and include the returned cookie on every
+request (`curl -b cookies.txt`, or `credentials: 'include'` in `fetch`).
+
+Every `/api/*` resource additionally requires an **active organization** — the clinic
+your requests operate on. The session tracks it; you set it once via the auth API after
+signing in. All data you read and write is scoped to that clinic.
+
+What a request may do is decided by your **role** in the active clinic — see
+[Roles & permissions](/docs/admin/roles-permissions). The same matrix the app uses is
+enforced server-side on every endpoint.
+
+## Requests and responses
+
+- Request bodies are JSON (`Content-Type: application/json`).
+- Responses are JSON objects or arrays, with no envelope.
+- Creates return `201` with the created object; deletes return `204` with no body.
+
+## Errors
+
+Errors return an appropriate HTTP status and a JSON body:
+
+```json
+{ "error": "Patient not found." }
+```
+
+Validation failures (`400`) include the issues:
+
+```json
+{ "error": "Validation failed", "details": [ /* one entry per invalid field */ ] }
+```
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid input |
+| `401` | Not signed in (or session expired) |
+| `403` | Signed in, but your role doesn't allow this |
+| `404` | Resource doesn't exist in your active clinic |
+| `429` | Rate limit hit |
+
+## Rate limits
+
+Authentication endpoints are rate limited per 60-second window: **5** sign-in
+attempts, **3** sign-ups, **3** password resets. Sessions last one week.
+
+## Real-time
+
+Record changes and new messages are also pushed over **Socket.io** on the same origin,
+authenticated by the same session cookie — see
+[Conversations](/docs/api/conversations) for the events.

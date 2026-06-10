@@ -1,0 +1,51 @@
+---
+title: Roles & permissions
+description: Exactly what each role in a clinic can see and do.
+icon: Shield
+---
+
+Every member of a clinic has one of six roles. Roles are assigned when someone is
+invited (or their account is created) and can be changed later by an owner or admin in
+[Settings](/docs/guides/settings).
+
+## The roles
+
+| | Patients | Appointments | Prescriptions | Tasks | Team & settings |
+| --- | --- | --- | --- | --- | --- |
+| **Owner** | read / write / delete | read / write / delete | read / write / delete | read / write / delete | full control |
+| **Admin** | read / write / delete | read / write / delete | read / write / delete | read / write / delete | members, invites, settings |
+| **Doctor** | read / write | read / write / delete | read / write / delete | read / write / delete | — |
+| **Member** | read / write | read / write / delete | read / write / delete | read / write / delete | — |
+| **Reception** | demographics only | read / write / delete | no access | read / write | — |
+| **Viewer** | read | read | read | read | — |
+
+## Notes on specific roles
+
+### Reception
+
+Reception is built for the front desk: full scheduling power, but **no clinical data**.
+Reception staff can create patients and edit demographics (name, age, contact details,
+file number), and they manage the appointment book — but medications, labs, problems,
+encounters, and prescriptions are hidden from them. This is enforced by the server, not
+just the interface.
+
+### Owner vs. admin
+
+Both have full access to records and team management. The difference is the clinic
+itself: the **owner** created the clinic and holds ultimate control over it (including
+the ability to manage admins).
+
+### Viewer
+
+Read-only everywhere. Useful for auditors, trainees, or anyone who needs to see the
+clinic without the ability to change anything.
+
+## Things every member can do
+
+Regardless of role, every clinic member can:
+
+- use the [chat](/docs/guides/chat) (within their read permissions),
+- send and receive [messages](/docs/guides/messages),
+- keep private [notes](/docs/guides/notes),
+- view the [analytics dashboard](/docs/guides/activity-analytics),
+- see their own entries in the activity feed (admins and owners see everyone's).

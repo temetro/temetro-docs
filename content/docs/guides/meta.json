@@ -1,0 +1,14 @@
+{
+  "title": "Using temetro",
+  "pages": [
+    "chat",
+    "patients",
+    "appointments",
+    "prescriptions",
+    "tasks",
+    "messages",
+    "notes",
+    "activity-analytics",
+    "settings"
+  ]
+}

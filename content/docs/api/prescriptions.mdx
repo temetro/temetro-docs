@@ -1,0 +1,50 @@
+---
+title: Prescriptions
+description: The clinic's prescription ledger.
+---
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/prescriptions` | `prescription:read` |
+| `POST` | `/api/prescriptions` | `prescription:write` |
+| `PUT` | `/api/prescriptions/{id}` | `prescription:write` |
+| `DELETE` | `/api/prescriptions/{id}` | `prescription:delete` |
+
+**Reception has no access to prescriptions** — they are clinical data.
+
+## The prescription object
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Assigned by the server |
+| `fileNumber` | string | Patient's file number |
+| `name` | string | **Required.** Patient name |
+| `initials` | string | **Required.** 1–4 characters |
+| `medication` | string | **Required** |
+| `dose` | string | e.g. `"500 mg"` |
+| `frequency` | string | **Required.** e.g. `"3× daily"` |
+| `prescriber` | string | Defaults to the signed-in user |
+| `prescribedAt` | string | `YYYY-MM-DD`; defaults to today |
+| `status` | enum | `active` (default) \| `completed` \| `expired` |
+| `duration` | string \| null | e.g. `"7 days"` |
+| `notes` | string \| null | Free text |
+
+## Example
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/prescriptions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fileNumber": "1042",
+    "name": "Hodan Warsame",
+    "initials": "HW",
+    "medication": "Amoxicillin",
+    "dose": "500 mg",
+    "frequency": "3x daily",
+    "duration": "7 days"
+  }'
+```
+
+Create returns `201` with the prescription (prescriber filled in); `PUT` updates with
+the same payload shape; `DELETE` returns `204`. Changes appear in the
+[activity log](/docs/api/activity).

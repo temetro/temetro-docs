@@ -1,0 +1,77 @@
+---
+title: Core concepts
+description: Clinics, roles, patient records, and the ideas behind temetro.
+icon: BookOpen
+---
+
+A few concepts come up everywhere in temetro. Five minutes here makes the rest of the
+docs much easier to follow.
+
+## Clinics
+
+A **clinic** is a private workspace. Everything in temetro — patients, appointments,
+prescriptions, tasks, messages, the activity log — belongs to exactly one clinic, and
+only that clinic's members can see it.
+
+- When you sign up, onboarding asks you to **create a clinic** (you become its owner)
+  or **accept an invitation** to an existing one.
+- You can belong to several clinics and switch between them with the **clinic switcher**
+  in the sidebar. Whatever you do happens in the currently active clinic.
+
+## Roles
+
+Every member of a clinic has a **role** that controls what they can see and do:
+
+| Role | In short |
+| --- | --- |
+| **Owner** | Created the clinic; full control, including clinic settings. |
+| **Admin** | Manages members, invitations, and settings; full access to records. |
+| **Doctor** | Full clinical work: patients, appointments, prescriptions, tasks. |
+| **Reception** | Front-desk work: scheduling and patient demographics — **no clinical details** like medications or labs. |
+| **Member** | General clinical staff; similar to doctor for day-to-day records. |
+| **Viewer** | Read-only access. |
+
+The full permission matrix is in
+[Roles & permissions](/docs/admin/roles-permissions).
+
+## Patients and file numbers
+
+Every patient has a **file number** (also called an MRN — medical record number) that is
+unique within your clinic. It's the fastest way to pull up a chart: type
+`/patient 1042` (or just `/1042`) in the chat and the record cards appear.
+
+A patient record holds demographics, alerts, vitals (with trend charts), and five lists:
+**allergies**, **medications**, **problems**, **labs**, and **encounters** (visit
+history). Each patient also has a **primary provider** — the clinician responsible for
+their care — and a patient can be transferred from one provider to another.
+
+## Chat-first workflow
+
+temetro's home screen is a chat, not a dashboard. The idea: you shouldn't have to
+remember where things live in a menu — you ask, and temetro brings the information to
+you as **record cards** you can open, read, and edit.
+
+<Callout type="warn" title="Current status">
+  Today the chat reliably handles **commands** like `/patient <fileNumber>`. Free-form
+  questions ("show me Mrs. Hassan's latest labs") get a placeholder reply — the real AI
+  model isn't connected yet. See the [roadmap](/docs/roadmap).
+</Callout>
+
+## Patient-owned records (the vision)
+
+The long-term goal that sets temetro apart: a patient's record shouldn't have to live
+only in the doctor's database. The planned model works like this:
+
+1. The record can be stored on the **patient's own device**.
+2. When a clinician adds or changes data, the change is **cryptographically signed** —
+   similar to how a blockchain transaction is signed.
+3. The change is **pending** until the patient **approves it** in a companion app. Until
+   then it cannot be silently modified.
+4. temetro can also read existing clinic databases and present them in the same card UI,
+   so clinics don't have to switch everything at once.
+
+<Callout type="info" title="Not built yet">
+  The signing flow, patient-owned storage, and the companion app are design goals, not
+  shipped features. Today temetro stores records in your clinic's own database, with a
+  full [activity log](/docs/guides/activity-analytics) of every change.
+</Callout>

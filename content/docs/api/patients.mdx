@@ -1,0 +1,129 @@
+---
+title: Patients
+description: Create, read, update, transfer, and delete patient records.
+---
+
+Patient records are identified by their **file number** (MRN), unique within a clinic.
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/patients` | `patient:read` |
+| `GET` | `/api/patients/{fileNumber}` | `patient:read` |
+| `POST` | `/api/patients` | `patient:write` |
+| `PUT` | `/api/patients/{fileNumber}` | `patient:write` |
+| `POST` | `/api/patients/{fileNumber}/transfer` | `patient:write` |
+| `DELETE` | `/api/patients/{fileNumber}` | `patient:delete` |
+
+<Callout type="info" title="Role-based scoping">
+  Two roles see a filtered view, enforced server-side:
+  **doctors** (without an additional elevated role) see only patients whose primary
+  provider they are; **reception** sees demographics only — clinical fields
+  (medications, problems, labs, encounters, vitals) are omitted from their responses
+  and ignored in their writes.
+</Callout>
+
+## List patients
+
+<Tabs items={['cURL', 'JavaScript']}>
+<Tab value="cURL">
+
+```bash
+curl -b cookies.txt http://localhost:4000/api/patients
+```
+
+</Tab>
+<Tab value="JavaScript">
+
+```js
+const patients = await fetch('http://localhost:4000/api/patients', {
+  credentials: 'include',
+}).then((r) => r.json());
+```
+
+</Tab>
+</Tabs>
+
+Returns an array of full patient objects (see below).
+
+## Get a patient
+
+```bash
+curl -b cookies.txt http://localhost:4000/api/patients/1042
+```
+
+```json
+{
+  "fileNumber": "1042",
+  "name": "Hodan Warsame",
+  "age": 58,
+  "sex": "F",
+  "pcp": "Dr. Amina Yusuf",
+  "primaryProviderId": "usr_abc123",
+  "status": "active",
+  "initials": "HW",
+  "alerts": ["Penicillin allergy"],
+  "vitals": { "bp": "128/82", "hr": "74", "temp": "36.8", "spo2": "97", "takenAt": "2026-06-08 09:30" },
+  "vitalsTrend": { "label": "BP (systolic)", "unit": "mmHg", "points": [134, 131, 128] },
+  "allergies": [{ "substance": "Penicillin", "reaction": "Rash", "severity": "moderate" }],
+  "medications": [{ "name": "Metformin", "dose": "500 mg", "frequency": "2× daily" }],
+  "problems": [{ "label": "Type 2 diabetes", "since": "2019" }],
+  "labs": [{ "name": "HbA1c", "value": "6.9%", "flag": "high", "takenAt": "2026-05-30" }],
+  "labTrend": { "label": "HbA1c", "unit": "%", "points": [7.4, 7.1, 6.9] },
+  "encounters": [
+    { "date": "2026-05-30", "type": "Follow-up", "provider": "Dr. Amina Yusuf", "summary": "Diabetes review; HbA1c improving." }
+  ]
+}
+```
+
+`404` if the file number doesn't exist in your active clinic.
+
+## Create a patient
+
+`POST /api/patients` with the full record. Returns `201` and the created patient.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `fileNumber` | string | **Required.** Digits only; unique per clinic |
+| `name` | string | **Required** |
+| `age` | number | **Required.** 0–150 |
+| `sex` | `"M"` \| `"F"` | **Required** |
+| `status` | `"active"` \| `"inpatient"` \| `"discharged"` | **Required** |
+| `initials` | string | **Required.** 1–4 characters |
+| `pcp` | string | Display name of the primary care provider |
+| `primaryProviderId` | string \| null | User id of the responsible clinician |
+| `alerts` | string[] | Prominent warnings |
+| `allergies` | array | `{ substance, reaction, severity: mild\|moderate\|severe }` |
+| `medications` | array | `{ name, dose, frequency }` |
+| `problems` | array | `{ label, since }` |
+| `labs` | array | `{ name, value, flag: normal\|high\|low\|critical, takenAt }` |
+| `encounters` | array | `{ date, type, provider, summary }` |
+| `vitals` | object | `{ bp, hr, temp, spo2, takenAt }` |
+| `vitalsTrend`, `labTrend` | object | `{ label, unit, points: number[] }` |
+
+## Update a patient
+
+`PUT /api/patients/{fileNumber}` takes the **same full payload** as create (the app
+sends the whole record on edit) and returns the updated patient.
+
+## Transfer a patient
+
+Reassign the patient to another clinician in the same clinic:
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/patients/1042/transfer \
+  -H "Content-Type: application/json" \
+  -d '{ "providerId": "usr_def456" }'
+```
+
+`400` if the provider isn't a member of the clinic; returns the updated patient.
+
+## Delete a patient
+
+```bash
+curl -b cookies.txt -X DELETE http://localhost:4000/api/patients/1042
+```
+
+Returns `204`. Requires `patient:delete` (owner or admin).
+
+Every mutation is written to the [activity log](/docs/api/activity) and notifies the
+clinic's members in real time.

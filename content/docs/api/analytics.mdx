@@ -1,0 +1,20 @@
+---
+title: Analytics
+description: Clinic-level aggregates for the dashboard.
+---
+
+| Method | Path | Access |
+| --- | --- | --- |
+| `GET` | `/api/analytics` | Any clinic member |
+
+Returns the aggregate numbers behind the app's **Analysis** dashboard — patient
+counts, appointment volume, prescription and task throughput — computed for the active
+clinic.
+
+```bash
+curl -b cookies.txt http://localhost:4000/api/analytics
+```
+
+The response is a single JSON object of aggregates; its exact fields evolve with the
+dashboard, so treat the dashboard UI (`/analysis` in the app) as the reference for
+what's available.

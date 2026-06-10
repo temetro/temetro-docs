@@ -1,0 +1,130 @@
+---
+title: Quickstart
+description: Run temetro on your own computer in about five minutes.
+icon: Rocket
+---
+
+This guide gets a complete temetro installation — the app, the server, and the
+database — running on one computer. You don't need to be a programmer; you just need to
+be comfortable copying a few commands into a terminal.
+
+## Before you begin
+
+You need two things installed:
+
+- **[Docker Desktop](https://www.docker.com/products/docker-desktop/)** — runs temetro's
+  three parts (app, server, database) in one step. Install it and make sure it is running.
+- **[Git](https://git-scm.com/downloads)** — downloads the temetro code.
+
+## Install and run
+
+<Steps>
+<Step>
+
+### Download temetro
+
+Open a terminal (on a Mac: the **Terminal** app) and run:
+
+```bash
+git clone https://github.com/temetro/temetro.git
+cd temetro/backend
+```
+
+</Step>
+<Step>
+
+### Create your settings file
+
+temetro reads its settings from a file named `.env`. Start from the included template:
+
+```bash
+cp .env.example .env
+```
+
+</Step>
+<Step>
+
+### Set a secret key
+
+The server needs one random secret to keep sign-ins secure. Generate one:
+
+```bash
+openssl rand -base64 32
+```
+
+Copy the output, open the `.env` file in any text editor, and paste it after
+`BETTER_AUTH_SECRET=`:
+
+```dotenv title=".env"
+BETTER_AUTH_SECRET=PASTE_YOUR_RANDOM_VALUE_HERE
+```
+
+<Callout type="info">
+  If something on your computer already uses port 5432 (a previous Postgres
+  installation, for example), also set `POSTGRES_PORT=5433` in the same file.
+</Callout>
+
+</Step>
+<Step>
+
+### Start everything
+
+```bash
+docker compose up --build
+```
+
+The first start takes a few minutes while Docker downloads and builds everything. When
+the log output settles down, temetro is running:
+
+| Address | What it is |
+| --- | --- |
+| [http://localhost:3000](http://localhost:3000) | The temetro app — this is what you use |
+| http://localhost:4000 | The API server (used by the app) |
+
+</Step>
+<Step>
+
+### Create your account and clinic
+
+1. Open [http://localhost:3000](http://localhost:3000) in your browser.
+2. Click **Sign up** and create your account.
+3. You'll be guided through **onboarding**: give your clinic a name, and you're in.
+
+You are now the **owner** of your clinic. From here you can add patients, invite staff,
+and explore the app — the [Using temetro](/docs/guides/chat) guides walk through every
+screen.
+
+</Step>
+</Steps>
+
+## Stopping and restarting
+
+- To stop temetro, press <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal (or run
+  `docker compose down` from the `backend` folder).
+- To start it again later, run `docker compose up` from the `backend` folder. Your
+  data is kept between restarts.
+
+## Next steps
+
+<Cards>
+  <Card
+    title="Take the tour"
+    description="Learn the chat, patient cards, and everything else."
+    href="/docs/guides/chat"
+  />
+  <Card
+    title="Invite your team"
+    description="Add staff accounts and assign roles."
+    href="/docs/guides/settings"
+  />
+  <Card
+    title="Production setup"
+    description="Run temetro on a real server for your clinic."
+    href="/docs/admin/self-hosting"
+  />
+  <Card
+    title="Configuration reference"
+    description="Every setting in the .env file, explained."
+    href="/docs/admin/configuration"
+  />
+</Cards>

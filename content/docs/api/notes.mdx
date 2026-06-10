@@ -1,0 +1,35 @@
+---
+title: Notes
+description: The caller's private notes.
+---
+
+Notes are **author-scoped**: every endpoint operates only on the signed-in user's own
+notes, so no special role permission is required (any clinic member can use them).
+
+| Method | Path | Returns |
+| --- | --- | --- |
+| `GET` | `/api/notes` | Your notes |
+| `POST` | `/api/notes` | `201` + the created note |
+| `GET` | `/api/notes/{id}` | One note |
+| `PUT` | `/api/notes/{id}` | The updated note |
+| `DELETE` | `/api/notes/{id}` | `204` |
+
+## The note object
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Assigned by the server |
+| `title` | string | **Required.** Max 200 characters |
+| `content` | string | Rich text stored as HTML; up to 100 000 characters |
+| `createdAt`, `updatedAt` | string | Timestamps |
+
+## Example
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/notes \
+  -H "Content-Type: application/json" \
+  -d '{ "title": "Ward round prep", "content": "<p>Check 1042 labs before 9am.</p>" }'
+```
+
+Requesting a note that belongs to someone else returns `404` — notes are never visible
+across users, regardless of role.

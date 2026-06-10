@@ -1,0 +1,4 @@
+{
+  "title": "Administration",
+  "pages": ["roles-permissions", "self-hosting", "configuration"]
+}

@@ -1,0 +1,77 @@
+---
+title: Authentication
+description: Sign up, sign in, manage sessions and clinics via the /api/auth endpoints.
+icon: KeyRound
+---
+
+Authentication is handled by [Better Auth](https://better-auth.com), mounted at
+`/api/auth/*`. These endpoints set and consume the **session cookie** used by the rest
+of the API.
+
+## Sign up
+
+```bash
+curl -c cookies.txt -X POST http://localhost:4000/api/auth/sign-up/email \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Dr. Amina Yusuf",
+    "email": "amina@example.com",
+    "password": "a-long-secure-password"
+  }'
+```
+
+A verification email is sent (printed to the backend logs if SMTP isn't configured).
+Verification is currently **not required** to sign in — see the
+[roadmap](/docs/roadmap#email-verification-enforcement).
+
+## Sign in
+
+By email:
+
+```bash
+curl -c cookies.txt -X POST http://localhost:4000/api/auth/sign-in/email \
+  -H "Content-Type: application/json" \
+  -d '{ "email": "amina@example.com", "password": "a-long-secure-password" }'
+```
+
+Staff accounts [created by an admin](/docs/api/staff) sign in by **username** instead:
+
+```bash
+curl -c cookies.txt -X POST http://localhost:4000/api/auth/sign-in/username \
+  -H "Content-Type: application/json" \
+  -d '{ "username": "frontdesk1", "password": "a-long-secure-password" }'
+```
+
+Both set the session cookie. Reuse it on subsequent requests with `-b cookies.txt`
+(cURL) or `credentials: 'include'` (fetch).
+
+## Clinics (organizations)
+
+Clinics are Better Auth **organizations**. The endpoints you'll use most:
+
+| Endpoint | Purpose |
+| --- | --- |
+| `POST /api/auth/organization/create` | Create a clinic (you become its owner) |
+| `GET /api/auth/organization/list` | List clinics you belong to |
+| `POST /api/auth/organization/set-active` | Choose the **active clinic** for your session |
+| `POST /api/auth/organization/invite-member` | Invite someone by email with a role |
+| `POST /api/auth/organization/accept-invitation` | Accept an invitation |
+
+<Callout type="warn" title="Set an active clinic first">
+  Every `/api/*` data endpoint returns `403` until your session has an active
+  organization. After sign-in, call `organization/set-active` with the clinic's id
+  (the app does this for you automatically).
+</Callout>
+
+## Other account endpoints
+
+| Endpoint | Purpose |
+| --- | --- |
+| `GET /api/auth/get-session` | Current session and user |
+| `POST /api/auth/sign-out` | Sign out (clears the cookie) |
+| `POST /api/auth/forget-password` | Send a password-reset email |
+| `POST /api/auth/reset-password` | Complete a reset with the emailed token |
+
+These are standard Better Auth routes — the
+[Better Auth documentation](https://better-auth.com/docs) covers their exact payloads.
+Sign-in is rate limited to **5 attempts per minute** (sign-up 3, reset 3).
