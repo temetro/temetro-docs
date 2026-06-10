@@ -35,8 +35,8 @@ export default function HomePage() {
         <Image
           src="/logo-dark.png"
           alt="temetro logo"
-          width={80}
-          height={80}
+          width={96}
+          height={96}
           className="invert dark:invert-0"
           priority
         />

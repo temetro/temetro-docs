@@ -5,6 +5,6 @@ export const docsContentRoute = '/llms.mdx/docs';
 
 export const gitConfig = {
   user: 'temetro',
-  repo: 'temetro',
+  repo: 'temetro-docs',
   branch: 'main',
 };

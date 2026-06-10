@@ -11,8 +11,8 @@ export function baseOptions(): BaseLayoutProps {
           <Image
             src="/logo-dark.png"
             alt=""
-            width={28}
-            height={28}
+            width={34}
+            height={34}
             className="invert dark:invert-0"
           />
           <span className="font-semibold">{appName}</span>
