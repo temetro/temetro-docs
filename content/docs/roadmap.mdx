@@ -18,7 +18,21 @@ where things stand.
 | Appointments, prescriptions, tasks (kanban) | ✅ Working |
 | Real-time staff messaging & notifications | ✅ Working |
 | Activity log (audit trail) & analytics dashboard | ✅ Working |
+| Per-user settings (notification preferences) & account deletion | ✅ Working |
 | Self-hosting with Docker Compose | ✅ Working |
+
+## Mobile apps
+
+Native clinician apps are in the works alongside the web app:
+
+| App | Status |
+| --- | --- |
+| **iOS app** | 🚧 In progress — actively being built |
+| **Android app** | 🚧 In development — runs as a **separate effort** on its own track and timeline |
+
+Both will talk to the same backend API as the web app. The
+[patient companion app](#patient-owned-records--signing) (for approving record
+changes) is a separate, later project.
 
 ## In progress / planned
 
@@ -48,6 +62,21 @@ Verification emails are already sent (and the `/verify-email` page exists), but
 sign-in currently does **not require** a verified address. Enforcement is wired and can
 be switched on; it will be enabled by default once email delivery setup is documented
 for production.
+
+### Catching up with established EHRs
+
+temetro focuses on the AI-chat + patient-owned-records core first. Features that
+established clinic systems offer and temetro **doesn't yet** — all planned for later:
+
+| Feature | Status |
+| --- | --- |
+| Billing & invoicing (incl. insurance claims) | 📋 Planned |
+| e-Prescribing to pharmacies | 📋 Planned |
+| Lab system integrations (HL7 / FHIR) | 📋 Planned |
+| Telehealth / video visits | 📋 Planned |
+| Patient portal (self-service booking, results) | 📋 Planned |
+| Document & imaging attachments on the chart | 📋 Planned |
+| Multi-language UI (i18n plumbing exists; English only today) | 📋 Planned |
 
 ## Contributing
 

@@ -1,0 +1,47 @@
+---
+title: Settings
+description: Per-user preferences.
+---
+
+Settings are **user-scoped** (not per clinic): they follow the signed-in user across
+clinics and devices. Only authentication is required — no role permission.
+
+| Method | Path | Returns |
+| --- | --- | --- |
+| `GET` | `/api/settings` | `{ "preferences": { … } }` |
+| `PUT` | `/api/settings` | The saved preferences |
+
+## The preferences object
+
+A **flat map** of preference keys to booleans or short strings — the frontend's
+Settings → Profile tab (notification toggles, clinic/contact fields) reads and writes
+it. Keys are free-form (max 64 chars, up to 100 keys; string values capped at 500
+chars), so features can add settings without an API change.
+
+```json
+{
+  "preferences": {
+    "notif.newLab": true,
+    "notif.recordUpdated": false,
+    "clinic": "Main Hospital",
+    "contactEmail": "doc@example.org"
+  }
+}
+```
+
+## Example
+
+```bash
+curl -b cookies.txt -X PUT http://localhost:4000/api/settings \
+  -H "Content-Type: application/json" \
+  -d '{ "preferences": { "notif.newLab": false } }'
+```
+
+`PUT` **replaces** the whole map (upsert) — send the full set of preferences, not a
+diff.
+
+## Account deletion
+
+Deleting an account goes through Better Auth, not this endpoint: the frontend calls
+`deleteUser` with the user's password (`POST /api/auth/delete-user`). Stored settings
+are removed with the user (`ON DELETE CASCADE`).

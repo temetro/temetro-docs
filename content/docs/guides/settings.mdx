@@ -1,11 +1,30 @@
 ---
 title: Clinic settings & team
-description: Invite staff, manage members, and run more than one clinic.
+description: Your profile and preferences, the care team, and running more than one clinic.
 icon: Settings
 ---
 
-The **Settings** page is where owners and admins manage the clinic itself — most
-importantly, the **care team**.
+The **Settings** page is where you manage your own profile and preferences, and where
+owners and admins manage the clinic itself — most importantly, the **care team**.
+
+## Your profile & preferences
+
+The **Profile** tab holds your display name, contact details, and notification
+switches (patient notifications, account notifications). These are real, persisted
+settings:
+
+- Changes are tracked as you make them — a **Save changes** bar appears at the bottom
+  of the page (and stays visible while you scroll) whenever something is unsaved.
+- Saved preferences are stored **per user on the server**
+  ([`/api/settings`](/docs/api/settings)), so they follow you across devices.
+- The **Features** section (patient-owned storage, required signing) previews
+  [roadmap](/docs/roadmap) functionality and isn't active yet.
+
+### Deleting your account
+
+At the bottom of the Profile tab, **Delete account** opens a confirmation dialog that
+asks for your **password**. Confirming permanently deletes the account, signs you out
+everywhere, and cannot be undone.
 
 ## Managing your team
 
@@ -26,9 +45,23 @@ in with their **username** instead of an email address — handy for front-desk 
 
 ### Managing members
 
-From the same page you can see every member and their role, change roles, and remove
-members. Only owners and admins can manage the team; the
-[permission matrix](/docs/admin/roles-permissions) has the details.
+From the same page you can see every member and their role. **Click a team member** to
+open their detail dialog: it shows exactly what their role lets them do (per-resource
+permission chips for patients, appointments, prescriptions, and tasks), and lets
+admins **change the role** or **remove the member**. Only owners and admins can manage
+the team; the [permission matrix](/docs/admin/roles-permissions) has the details.
+
+## Records, Signing & Developers tabs
+
+Owners and admins also see three more tabs:
+
+- **Records** — where patient records come from (the clinic database today,
+  patient-owned storage later), import/export, and retention.
+- **Signing** — your signing key and identity, and how the
+  [patient-approval flow](/docs/concepts#patient-owned-records-the-vision) will work.
+  Illustrative until signing ships.
+- **Developers** — the API base URL and a preview of personal access tokens
+  (see the [API reference](/docs/api)).
 
 ## Multiple clinics
 
