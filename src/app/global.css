@@ -2,6 +2,73 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+@theme {
+  /* COSS radius scale (base 0.875rem) */
+  --radius-sm: 0.525rem;
+  --radius-md: 0.7rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.225rem;
+  --radius-2xl: 1.575rem;
+  --radius-3xl: 1.925rem;
+  --radius-4xl: 2.275rem;
+  --font-mono: var(--font-geist-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+/* COSS light palette mapped onto fumadocs tokens */
+:root {
+  --color-fd-background: var(--color-white);
+  --color-fd-foreground: var(--color-neutral-800);
+  --color-fd-card: var(--color-white);
+  --color-fd-card-foreground: var(--color-neutral-800);
+  --color-fd-popover: var(--color-white);
+  --color-fd-popover-foreground: var(--color-neutral-800);
+  --color-fd-primary: var(--color-neutral-800);
+  --color-fd-primary-foreground: var(--color-neutral-50);
+  --color-fd-secondary: --alpha(var(--color-black) / 4%);
+  --color-fd-secondary-foreground: var(--color-neutral-800);
+  --color-fd-muted: --alpha(var(--color-black) / 4%);
+  --color-fd-muted-foreground: color-mix(in srgb, var(--color-neutral-500) 90%, var(--color-black));
+  --color-fd-accent: --alpha(var(--color-black) / 4%);
+  --color-fd-accent-foreground: var(--color-neutral-800);
+  --color-fd-border: --alpha(var(--color-black) / 8%);
+  --color-fd-ring: var(--color-neutral-400);
+  --color-fd-overlay: --alpha(var(--color-black) / 20%);
+  /* COSS semantic colors (Callout types) */
+  --color-fd-info: var(--color-blue-500);
+  --color-fd-success: var(--color-emerald-500);
+  --color-fd-warning: var(--color-amber-500);
+  --color-fd-error: var(--color-red-500);
+}
+
+/* COSS dark palette */
+.dark {
+  --color-fd-background: color-mix(in srgb, var(--color-neutral-950) 95%, var(--color-white));
+  --color-fd-foreground: var(--color-neutral-100);
+  --color-fd-card: color-mix(in srgb, var(--color-fd-background) 98%, var(--color-white));
+  --color-fd-card-foreground: var(--color-neutral-100);
+  --color-fd-popover: color-mix(in srgb, var(--color-fd-background) 98%, var(--color-white));
+  --color-fd-popover-foreground: var(--color-neutral-100);
+  --color-fd-primary: var(--color-neutral-100);
+  --color-fd-primary-foreground: var(--color-neutral-800);
+  --color-fd-secondary: --alpha(var(--color-white) / 4%);
+  --color-fd-secondary-foreground: var(--color-neutral-100);
+  --color-fd-muted: --alpha(var(--color-white) / 4%);
+  --color-fd-muted-foreground: color-mix(in srgb, var(--color-neutral-500) 90%, var(--color-white));
+  --color-fd-accent: --alpha(var(--color-white) / 4%);
+  --color-fd-accent-foreground: var(--color-neutral-100);
+  --color-fd-border: --alpha(var(--color-white) / 6%);
+  --color-fd-ring: var(--color-neutral-500);
+  --color-fd-overlay: --alpha(var(--color-black) / 40%);
+  --color-fd-error: color-mix(in srgb, var(--color-red-500) 90%, var(--color-white));
+}
+
+/* neutral.css paints the dark sidebar grey; bring it back to the COSS near-black canvas */
+.dark #nd-sidebar {
+  --color-fd-muted: --alpha(var(--color-white) / 4%);
+  --color-fd-secondary: --alpha(var(--color-white) / 6%);
+  --color-fd-muted-foreground: var(--color-neutral-400);
+}
+
 html {
   scrollbar-gutter: stable;
 }
