@@ -1,0 +1,40 @@
+---
+title: Changelog
+description: Notable changes, updates, and releases — newest first.
+icon: ScrollText
+---
+
+All notable changes to temetro are posted here, newest first. For where the project is
+headed, see the [roadmap](/docs/roadmap).
+
+## June 11, 2026
+
+### Department roles: Pharmacy & Lab
+
+- **New Pharmacy role** — read patients and appointments, review and update
+  prescriptions (mark courses completed), but never prescribe or delete. Pharmacy
+  members land on a new **Pharmacy dashboard**: stat cards (active prescriptions,
+  expiring within 7 days, patients on medication) over a searchable dispensing queue.
+- **New Lab role** — its own task queue plus the ability to **submit analysis
+  results** to a patient's record through a dedicated `lab` permission, without
+  patient-edit rights. Lab members land on a new **Lab dashboard** with an
+  "Add result" flow.
+- **New API endpoint:** [`POST /api/patients/{fileNumber}/labs`](/docs/api/patients#append-lab-results)
+  appends lab results without replacing the rest of the record.
+- **Tasks** can now be assigned to five departments: Admin, Doctor, Reception,
+  **Pharmacy**, and **Lab**.
+- **Removed the read-only Viewer role.** Members who held it were migrated to
+  Member automatically.
+
+### Improvements
+
+- **Messages** — avatars and numeric unread badges in the inbox, day separators
+  (Today / Yesterday / date) and grouped consecutive messages in threads, and a
+  "Start a conversation" button on the empty state.
+- **Tasks** — the New Task dialog's assignee picker is now a proper tab control
+  (Myself / Other) with the department select inside the "Other" tab.
+
+---
+
+_Earlier changes predate this changelog; see the
+[git history](https://github.com/temetro/temetro/commits/main) for the full record._
