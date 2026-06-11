@@ -12,6 +12,7 @@ Patient records are identified by their **file number** (MRN), unique within a c
 | `POST` | `/api/patients` | `patient:write` |
 | `PUT` | `/api/patients/{fileNumber}` | `patient:write` |
 | `POST` | `/api/patients/{fileNumber}/transfer` | `patient:write` |
+| `POST` | `/api/patients/{fileNumber}/labs` | `lab:write` |
 | `DELETE` | `/api/patients/{fileNumber}` | `patient:delete` |
 
 <Callout type="info" title="Role-based scoping">
@@ -118,6 +119,30 @@ curl -b cookies.txt -X POST http://localhost:4000/api/patients/1042/transfer \
 ```
 
 `400` if the provider isn't a member of the clinic; returns the updated patient.
+
+### Append lab results
+
+`POST /api/patients/{fileNumber}/labs` appends one or more analysis results to the
+record **without replacing anything else** — unlike the full `PUT` update. It is gated
+by the dedicated `lab:write` permission (the **Lab** role and full clinicians), so lab
+staff can submit results without patient-edit rights.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `labs` | array | **Required.** 1–50 entries |
+| `labs[].name` | string | **Required.** Test name, e.g. `"Hemoglobin"` |
+| `labs[].value` | string | **Required.** e.g. `"14.2 g/dL"` |
+| `labs[].flag` | enum | **Required.** `normal` \| `high` \| `low` \| `critical` |
+| `labs[].takenAt` | string | **Required.** Display date, e.g. `"Jun 11, 2026"` |
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/patients/1042/labs \
+  -H "Content-Type: application/json" \
+  -d '{ "labs": [{ "name": "Hemoglobin", "value": "14.2 g/dL", "flag": "normal", "takenAt": "Jun 11, 2026" }] }'
+```
+
+Returns `201` with the full updated patient; `404` if the file number doesn't exist.
+New results are appended after the existing ones.
 
 ### Delete a patient
 

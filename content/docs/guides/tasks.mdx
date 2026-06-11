@@ -1,32 +1,39 @@
 ---
 title: Tasks
-description: A shared to-do board for the whole clinic.
+description: A shared to-do list for the whole clinic, organized by department.
 icon: ListTodo
 ---
 
-The **Tasks** page is a **kanban board** — a shared to-do list for your clinic, with
-cards you drag between columns as work progresses.
+The **Tasks** page is a shared to-do list for your clinic. A task is either
+**personal** (assigned to yourself) or assigned to a **department** — every member of
+that department sees it in their list.
 
-## Using the board
+## Using the list
 
 ### Creating a task
 
 1. Open **Tasks** and click **New task**.
-2. Give it a **title** ("Call Mrs. Hassan with lab results"), and optionally:
-   - an **assignee** (a member of your clinic) and their role,
-   - a **due date**,
-   - a **priority**,
-   - a linked **patient**,
-   - free-text **notes**.
-3. Save. The card appears on the board for everyone in the clinic.
+2. Give it a **subject** ("Call Mrs. Hassan with lab results"), and optionally
+   free-text **details**.
+3. Under **Assignee**, pick a tab:
+   - **Myself** — a personal task only you (and admins) see.
+   - **Other** — choose a **department**: Admin, Doctor, Reception, **Pharmacy**, or
+     **Lab**.
+4. Optionally set a **due date** and a **priority** (high / medium / low), then add it.
 
-### Working the board
+### Working the list
 
-- Drag cards between columns, or open a card to update it.
-- Mark a task **done** when it's finished — done tasks stay in the history rather than
-  vanishing.
-- Each card shows who created it, so it's easy to follow up with questions.
+- Filter by **All / Open / Done** at the top.
+- Tick the checkbox to mark a task **done** — done tasks stay in the history rather
+  than vanishing. Open a task to see its full details.
+- Each task shows which department it's for and who created it, so it's easy to follow
+  up with questions.
 
-Everyone except viewers can create and update tasks; viewers can read the board.
+<Callout type="info" title="Who sees what">
+  You see tasks you created plus tasks assigned to your department; owners and admins
+  see every task in the clinic. Lab members also get their department's queue on the
+  Lab dashboard.
+</Callout>
+
 Task changes appear in the [activity feed](/docs/guides/activity-analytics) like every
 other change in temetro.

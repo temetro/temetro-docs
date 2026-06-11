@@ -26,9 +26,24 @@ everything a patient is currently taking is quick.
 
 <Callout type="info" title="Who can prescribe">
   Doctors, members, admins, and owners can create and manage prescriptions.
-  **Reception cannot see prescriptions at all** — they are clinical data. Viewers can
-  read but not change them. See [Roles & permissions](/docs/admin/roles-permissions).
+  **Reception cannot see prescriptions at all** — they are clinical data. **Pharmacy**
+  can review and update prescriptions (e.g. mark them completed) but cannot create or
+  delete them. See [Roles & permissions](/docs/admin/roles-permissions).
 </Callout>
+
+## Pharmacy dashboard
+
+Members with the **Pharmacy** role land on the **Pharmacy** page — a dispensing view
+over the same ledger:
+
+- **At a glance:** active prescriptions, courses expiring within 7 days (computed from
+  the duration), and how many patients are currently on medication.
+- **Dispensing queue:** active prescriptions, oldest first, with the same search box.
+  Courses nearing their end carry an **Expiring** badge.
+- **Mark completed:** one click on a queue row closes out a dispensed course; clicking
+  the row itself opens the full prescription detail.
+
+Clinicians can also open the Pharmacy page for an oversight view of the queue.
 
 Prescription changes are recorded in the
 [activity log](/docs/guides/activity-analytics), giving you a full history of who

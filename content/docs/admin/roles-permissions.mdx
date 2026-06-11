@@ -4,20 +4,21 @@ description: Exactly what each role in a clinic can see and do.
 icon: Shield
 ---
 
-Every member of a clinic has one of six roles. Roles are assigned when someone is
+Every member of a clinic has one of seven roles. Roles are assigned when someone is
 invited (or their account is created) and can be changed later by an owner or admin in
 [Settings](/docs/guides/settings).
 
 ## The roles
 
-| | Patients | Appointments | Prescriptions | Tasks | Team & settings |
-| --- | --- | --- | --- | --- | --- |
-| **Owner** | read / write / delete | read / write / delete | read / write / delete | read / write / delete | full control |
-| **Admin** | read / write / delete | read / write / delete | read / write / delete | read / write / delete | members, invites, settings |
-| **Doctor** | read / write | read / write / delete | read / write / delete | read / write / delete | — |
-| **Member** | read / write | read / write / delete | read / write / delete | read / write / delete | — |
-| **Reception** | demographics only | read / write / delete | no access | read / write | — |
-| **Viewer** | read | read | read | read | — |
+| | Patients | Appointments | Prescriptions | Lab results | Tasks | Team & settings |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Owner** | read / write / delete | read / write / delete | read / write / delete | read / write | read / write / delete | full control |
+| **Admin** | read / write / delete | read / write / delete | read / write / delete | read / write | read / write / delete | members, invites, settings |
+| **Doctor** | read / write | read / write / delete | read / write / delete | read / write | read / write / delete | — |
+| **Member** | read / write | read / write / delete | read / write / delete | read / write | read / write / delete | — |
+| **Reception** | demographics only | read / write / delete | no access | no access | read / write | — |
+| **Pharmacy** | read | read | read / write | no access | read / write | — |
+| **Lab** | read | read | no access | read / write | read / write | — |
 
 ## Notes on specific roles
 
@@ -29,23 +30,44 @@ file number), and they manage the appointment book — but medications, labs, pr
 encounters, and prescriptions are hidden from them. This is enforced by the server, not
 just the interface.
 
+### Pharmacy
+
+Pharmacy is built for dispensing: read access to patients (allergies, current
+medications) and appointments, plus read/write access to prescriptions so a course can
+be reviewed and marked completed once dispensed. Pharmacy **cannot create or delete
+prescriptions** — prescribing stays with clinicians. Pharmacy members land on the
+[Pharmacy dashboard](/docs/guides/prescriptions#pharmacy-dashboard), a dispensing queue
+over the clinic's active prescriptions; the AI chat, notes, analysis, and activity pages
+are not part of their workspace.
+
+### Lab
+
+Lab is built for the laboratory workflow: read access to patients and appointments,
+their own task queue, and the ability to **submit analysis results** to a patient's
+record through a dedicated lab permission — without being able to edit the rest of the
+record. Lab members land on the Lab dashboard, which shows tasks assigned to the Lab
+department and an "Add result" flow. Medications and prescriptions are hidden from them.
+
 ### Owner vs. admin
 
 Both have full access to records and team management. The difference is the clinic
 itself: the **owner** created the clinic and holds ultimate control over it (including
 the ability to manage admins).
 
-### Viewer
+## Departments and tasks
 
-Read-only everywhere. Useful for auditors, trainees, or anyone who needs to see the
-clinic without the ability to change anything.
+The provisionable roles double as **departments** for [tasks](/docs/guides/tasks): a
+task can be assigned to Admin, Doctor, Reception, Pharmacy, or Lab, and every member of
+that department sees it in their list.
 
 ## Things every member can do
 
 Regardless of role, every clinic member can:
 
-- use the [chat](/docs/guides/chat) (within their read permissions),
 - send and receive [messages](/docs/guides/messages),
-- keep private [notes](/docs/guides/notes),
-- view the [analytics dashboard](/docs/guides/activity-analytics),
+- keep private [notes](/docs/guides/notes) (where their workspace includes notes),
+- work their [task](/docs/guides/tasks) queue,
 - see their own entries in the activity feed (admins and owners see everyone's).
+
+> **Removed role:** earlier versions had a read-only **Viewer** role. It has been
+> removed; any members who held it were migrated to **Member**.

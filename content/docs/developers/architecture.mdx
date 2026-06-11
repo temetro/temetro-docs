@@ -69,6 +69,10 @@ scoping every query to the caller's active organization.
 Better Auth's **organization plugin** models clinics. A user signs up, then either
 creates an organization (becoming `owner`) or joins one via invitation. The session
 tracks an **active organization**; the backend resolves it on every request and scopes
-all reads and writes to it. Roles (`owner`, `admin`, `doctor`, `reception`, `member`,
-`viewer`) and their permission statements live in `backend/src/lib/access.ts`, with a
-mirror in `frontend/lib/access.ts` so the UI can hide what the server would reject.
+all reads and writes to it. Roles (`owner`, `admin`, `doctor`, `reception`,
+`pharmacy`, `lab`, `member`) and their permission statements (`patient`,
+`appointment`, `prescription`, `task`, `lab`) live in `backend/src/lib/access.ts`,
+with a mirror in `frontend/lib/access.ts` so the UI can hide what the server would
+reject. The frontend derives its route gating from the same permissions: full
+clinicians are probed via `prescription:delete`, the pharmacy area via
+`prescription:write`, and the lab area via `lab:write`.
