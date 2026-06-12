@@ -5,6 +5,7 @@
     "patients",
     "appointments",
     "prescriptions",
+    "pharmacy",
     "tasks",
     "messages",
     "notes",

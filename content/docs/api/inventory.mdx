@@ -1,0 +1,56 @@
+---
+title: Inventory
+description: The pharmacy's medication stock.
+icon: Boxes
+---
+
+The clinic's pharmacy stock — what medications are held, how much, and where.
+Searchable from the **Pharmacy → Inventory** page.
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/inventory` | `inventory:read` |
+| `POST` | `/api/inventory` | `inventory:write` |
+| `PUT` | `/api/inventory/{id}` | `inventory:write` |
+| `DELETE` | `/api/inventory/{id}` | `inventory:delete` |
+
+**Pharmacy** holds `inventory:read` / `inventory:write` (not `delete`); full clinicians
+(owner / admin / doctor / member) hold all three. Reception and Lab have no access.
+
+## The inventory object
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Assigned by the server |
+| `name` | string | **Required.** Medication name |
+| `form` | string | e.g. `"Tablet"`, `"Capsule"`, `"Injection"` |
+| `strength` | string | e.g. `"500 mg"` |
+| `unit` | string | Stock unit, e.g. `"tablets"`, `"vials"` |
+| `stockQuantity` | number | Whole units on hand; defaults to `0` |
+| `reorderThreshold` | number | Low-stock trigger; defaults to `0` |
+| `location` | string | Shelf / bin label |
+| `expiresAt` | string \| null | `YYYY-MM-DD` |
+| `notes` | string \| null | Free text |
+
+**Availability** (`in-stock` / `low` / `out`) is **derived on the client**, not stored:
+`out` when `stockQuantity` is `0`, `low` when it's at or below `reorderThreshold`,
+otherwise `in-stock`.
+
+## Example
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/inventory \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Amoxicillin",
+    "form": "Capsule",
+    "strength": "500 mg",
+    "unit": "capsules",
+    "stockQuantity": 90,
+    "reorderThreshold": 100,
+    "location": "B1"
+  }'
+```
+
+Create returns `201` with the item; `PUT` updates with the same payload shape; `DELETE`
+returns `204`. Writes appear in the [activity log](/docs/api/activity).

@@ -6,6 +6,7 @@
     "patients",
     "appointments",
     "prescriptions",
+    "inventory",
     "tasks",
     "notes",
     "staff",

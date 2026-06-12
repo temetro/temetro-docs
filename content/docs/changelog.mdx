@@ -7,6 +7,29 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 12, 2026
+
+### Pharmacy inventory
+
+- **New Inventory page** under Pharmacy — search the clinic's medication stock and check
+  availability at a glance (in stock / low / out, derived from a per-item reorder
+  threshold). The Pharmacy sidebar entry now expands into **Pharmacy** (dispensing queue)
+  and **Inventory**.
+- **New API:** [`/api/inventory`](/docs/api/inventory) — org-scoped CRUD for stock items.
+  Pharmacy and full clinicians can edit it; reception and lab have no access.
+
+### Fixes & refinements
+
+- **Pharmacy:** the **Expiring** badge now appears only for courses ending within the
+  next 7 days — previously it showed for courses that had already elapsed.
+- **Lab — Add analysis result:** the patient picker no longer lists patients until you
+  type, and supports **arrow-key + Enter** selection. The test field offers a catalog of
+  common analyses (with an **Advanced** option for custom analyses and a reference range),
+  and submitted results now appear immediately in a new **Recent results** feed instead of
+  requiring a refresh.
+- **Analysis:** added a **Live** panel (real-time line chart of patients in the building)
+  and replaced the flat trend sparklines with area and bar **charts**.
+
 ## June 11, 2026
 
 ### Department roles: Pharmacy & Lab

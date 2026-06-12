@@ -1,0 +1,39 @@
+---
+title: Pharmacy
+description: Work the dispensing queue and check medication stock.
+icon: Cross
+---
+
+The **Pharmacy** area is where pharmacy staff review prescriptions and check stock. In
+the sidebar it expands into two pages: **Pharmacy** (the dispensing queue) and
+**Inventory** (medication stock).
+
+## Dispensing queue
+
+The **Pharmacy** page lists the clinic's **active** prescriptions, oldest first, with
+three stat cards at the top: active prescriptions, **expiring within 7 days**, and
+patients on medication. Search by patient, file number, medication, or prescriber, then
+**Mark completed** once a course has been dispensed.
+
+A prescription is flagged **Expiring** only when its course ends **within the next 7
+days** — courses that have already elapsed are no longer flagged.
+
+Pharmacy can read and update prescriptions but never delete or create them — prescribing
+stays with clinicians.
+
+## Inventory
+
+The **Inventory** page is a searchable view of the pharmacy's medication stock. Each
+item shows its strength and form, quantity on hand, shelf location, and an availability
+badge:
+
+- **In stock** — above the reorder threshold.
+- **Low stock** — at or below the reorder threshold.
+- **Out of stock** — none on hand.
+
+The stat cards summarise total medications, how many are low, and how many are out.
+Search by name, form, strength, or location.
+
+Inventory is stored per clinic and exposed through the
+[Inventory API](/docs/api/inventory). Pharmacy and full clinicians can edit it;
+reception and lab have no access.
