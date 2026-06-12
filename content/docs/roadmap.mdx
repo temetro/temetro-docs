@@ -58,6 +58,15 @@ None of this is built yet. Today, accountability is provided by the
 [activity log](/docs/guides/activity-analytics), which records every change with who
 made it and when.
 
+### Hospital ledger (blockchain)
+
+A future, hospital-side **blockchain-style ledger**: every clinical change hash-chained
+to the previous one and signed by the clinic, so the hospital's own record history is
+tamper-evident and verifiable end-to-end. This is the on-prem counterpart to — and a
+stepping stone toward — the patient-owned signing above. Today it's approximated by the
+plain [activity log](/docs/guides/activity-analytics); the chained-and-signed version is
+planned.
+
 ### Email verification enforcement
 
 Verification emails are already sent (and the `/verify-email` page exists), but
@@ -75,7 +84,7 @@ established clinic systems offer and temetro **doesn't yet** — all planned for
 | Billing & invoicing (incl. insurance claims) | 📋 Planned |
 | e-Prescribing to pharmacies | 📋 Planned |
 | Lab system integrations (HL7 / FHIR) | 📋 Planned |
-| Telehealth / video visits | 📋 Planned |
+| Internal video visits (doctor ↔ hospital-staff consults, not patient-facing) | 📋 Planned |
 | Patient portal (self-service booking, results) | 📋 Planned |
 | Document & imaging attachments on the chart | 📋 Planned |
 | Multi-language UI (i18n plumbing exists; English only today) | 📋 Planned |
