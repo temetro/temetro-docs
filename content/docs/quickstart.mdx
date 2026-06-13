@@ -33,45 +33,21 @@ cd temetro/backend
 </Step>
 <Step>
 
-### Create your settings file
-
-temetro reads its settings from a file named `.env`. Start from the included template:
-
-```bash
-cp .env.example .env
-```
-
-</Step>
-<Step>
-
-### Set a secret key
-
-The server needs one random secret to keep sign-ins secure. Generate one:
-
-```bash
-openssl rand -base64 32
-```
-
-Copy the output, open the `.env` file in any text editor, and paste it after
-`BETTER_AUTH_SECRET=`:
-
-```dotenv title=".env"
-BETTER_AUTH_SECRET=PASTE_YOUR_RANDOM_VALUE_HERE
-```
-
-<Callout type="info">
-  If something on your computer already uses port 5432 (a previous Postgres
-  installation, for example), also set `POSTGRES_PORT=5433` in the same file.
-</Callout>
-
-</Step>
-<Step>
-
 ### Start everything
 
 ```bash
 docker compose up --build
 ```
+
+That's it — no configuration needed. temetro generates the secret keys it needs on
+first start and remembers them, so sign-ins stay secure across restarts.
+
+<Callout type="info">
+  Want to customize something (your own secret key, email/SMTP, or a different
+  database port)? Copy the template with `cp .env.example .env` and edit it before
+  starting. For example, if port 5432 is already in use, set `POSTGRES_PORT=5433`.
+  Anything you don't set is handled for you.
+</Callout>
 
 The first start takes a few minutes while Docker downloads and builds everything. When
 the log output settles down, temetro is running:

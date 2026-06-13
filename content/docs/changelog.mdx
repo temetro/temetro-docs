@@ -31,6 +31,17 @@ headed, see the [roadmap](/docs/roadmap).
 - The chat input's five clinical dropdowns are replaced by a single **model + effort**
   picker; AI configuration moved to Settings → AI.
 
+### Zero-setup Docker & reliability
+
+- **`docker compose up` now works with no setup** — the backend generates and persists
+  its secret keys on first start (stored in a Docker volume, stable across restarts). No
+  more hand-editing `.env` or running `openssl`.
+- The chat **uses whichever provider you've configured**, even if the model picker shows a
+  different one, so a single saved key just works.
+- AI failures now show a **clear alert** (banner + toast) instead of silently doing
+  nothing.
+- Model list refreshed to current IDs (e.g. **Gemini 2.5 Pro/Flash**).
+
 ## June 12, 2026
 
 ### Pharmacy inventory

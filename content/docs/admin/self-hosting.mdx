@@ -16,21 +16,22 @@ control. The supported setup is **Docker Compose**, which runs all three parts:
 
 ## Installing
 
-The steps are the same as the [quickstart](/docs/quickstart): clone the repository,
-create `backend/.env` from the template, set `BETTER_AUTH_SECRET`, and run
-`docker compose up --build` from the `backend/` folder.
+The steps are the same as the [quickstart](/docs/quickstart): clone the repository and
+run `docker compose up --build` from the `backend/` folder. No `.env` is required — the
+backend generates and persists the secrets it needs on first start.
 
 ```bash
 git clone https://github.com/temetro/temetro.git
 cd temetro/backend
-cp .env.example .env
-# edit .env — at minimum set BETTER_AUTH_SECRET (openssl rand -base64 32)
 docker compose up --build -d
 ```
 
-For a real deployment, also set the URLs in `.env` to your server's public addresses
-(`BETTER_AUTH_URL` for the backend, `FRONTEND_URL` for the app) — the full list is in
-the [configuration reference](/docs/admin/configuration).
+The generated secrets are stored in the `temetro_secrets` Docker volume and stay stable
+across restarts. For a real deployment you'll usually still create a `.env`
+(`cp .env.example .env`) to set your server's public URLs (`BETTER_AUTH_URL` for the
+backend, `FRONTEND_URL` for the app) and, if you want to manage them yourself, your own
+`BETTER_AUTH_SECRET` / `AI_CREDENTIALS_KEY` — the full list is in the
+[configuration reference](/docs/admin/configuration).
 
 <Callout type="warn" title="Use HTTPS in production">
   temetro marks its session cookies as secure when `BETTER_AUTH_URL` starts with

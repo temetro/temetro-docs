@@ -4,8 +4,9 @@ description: Every environment variable temetro reads, in one table.
 icon: Wrench
 ---
 
-temetro is configured through environment variables — in Docker setups they live in
-`backend/.env` (created from `backend/.env.example`).
+temetro is configured through environment variables. In Docker setups a `.env` is
+**optional** — the backend generates any missing secrets on first start (see below).
+Create `backend/.env` (from `backend/.env.example`) only to override defaults.
 
 ## Environment variables
 
@@ -13,13 +14,20 @@ temetro is configured through environment variables — in Docker setups they li
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `BETTER_AUTH_SECRET` | **Yes** | Secret key for signing sessions. Generate with `openssl rand -base64 32`. Keep it private; changing it signs everyone out. |
+| `BETTER_AUTH_SECRET` | Auto | Secret key for signing sessions. **Auto-generated and persisted** if unset (Docker). Set your own to control it; changing it signs everyone out. |
+| `AI_CREDENTIALS_KEY` | Auto | Key used to encrypt stored AI provider API keys at rest. **Auto-generated and persisted** if unset (Docker). Changing it invalidates saved provider keys (they must be re-entered). |
 | `DATABASE_URL` | **Yes** | PostgreSQL connection string. The Docker default (`postgres://temetro:temetro@db:5432/temetro`) points at the bundled database. |
 | `BETTER_AUTH_URL` | **Yes** | Public URL of the **backend** (default `http://localhost:4000`). An `https://` URL switches session cookies to secure mode. |
 | `FRONTEND_URL` | **Yes** | Public URL of the **app** (default `http://localhost:3000`). Used for CORS and for links in emails. |
 | `PORT` | No | Port the API listens on (default `4000`). |
 | `POSTGRES_PORT` | No | Host port for the bundled Postgres (default `5432`). Change it if 5432 is taken. |
 | `NODE_ENV` | No | `development` or `production`. |
+
+<Callout type="info">
+  In Docker, auto-generated secrets are stored in the `temetro_secrets` volume and reused
+  on every restart. They're only regenerated if you remove that volume (e.g.
+  `docker compose down -v`).
+</Callout>
 
 ### Email (SMTP)
 
