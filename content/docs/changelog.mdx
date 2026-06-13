@@ -7,6 +7,20 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 14, 2026
+
+### Guide: migrating from another system
+
+- **New migration guide.** A dedicated [Migrating from another system](/docs/guides/migration)
+  page walks through moving your patients off an existing EHR: **export** a CSV/JSON, attach
+  it in the chat, and the agent maps and validates it into a **preview** you **approve**
+  before anything is written. Includes export tips for Epic, Oracle Health (Cerner),
+  athenahealth, eClinicalWorks, NextGen, Practice Fusion, DrChrono, and OpenEMR, plus the
+  500-records-per-import limit and privacy notes (run a local model to keep bulk loads on
+  your own infrastructure).
+- **Clearer chat prompt.** The chat input placeholder now reads *"Ask anything, or type
+  /patient 10293"* — reflecting that the agent does far more than patient lookups.
+
 ## June 13, 2026
 
 ### The chat can act — and it feels alive

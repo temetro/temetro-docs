@@ -1,0 +1,178 @@
+---
+title: Migrating from another system
+description: Export your patient data from your current EHR and let the AI chat import it — with a preview and your approval before anything is written.
+icon: Database
+---
+
+Already using another system? You don't have to re-type your patients. temetro can take a
+**database export** from your current EHR/EMR, read it with the AI chat, map it to
+temetro's record shape, and import it — all in a few minutes, with a **preview and your
+approval** before a single record is written.
+
+Nothing happens to your old system: temetro only **reads the export file you hand it**. It
+never connects to your other software.
+
+<Callout type="info" title="Export, then import">
+  temetro has no direct HL7/FHIR or live-database connectors yet. Migration works by
+  **exporting** a file from your current system and **importing** it here through the chat.
+  Almost every EHR can export to CSV or JSON, which is all temetro needs.
+</Callout>
+
+## How it works
+
+<Steps>
+<Step>
+
+### Export your data
+
+In your current system, export the patients you want to move as **CSV** or **JSON**.
+temetro also accepts `.tsv`, `.txt`, `.md`, `.xml`, and `.ndjson`. You don't need to
+rename or reorder columns — the AI figures out which column is which.
+
+</Step>
+<Step>
+
+### Attach the file and ask to import
+
+In the [chat](/docs/guides/chat), use the **Attach file** button to add your export, then
+ask in plain language:
+
+```text
+Import these patients into my clinic.
+```
+
+The agent reads the file, maps each row to a patient record, and **validates** every one.
+You'll see a **Thinking…** trace as it parses and checks the records — but nothing is
+saved yet.
+
+</Step>
+<Step>
+
+### Review the preview
+
+The agent replies with an **import preview card** showing how many records are **ready**,
+how many were **skipped**, and the **total** it read. If any rows were skipped, the card
+lists the first few with the reason (for example, a missing file number), so you know
+exactly what to fix.
+
+</Step>
+<Step>
+
+### Approve
+
+Click **Approve** to write the ready records. temetro **re-checks every record on the
+server** and saves it through the same audited path used everywhere else — so the import
+shows up in your [activity log](/docs/guides/activity-analytics). Click **Reject** and
+nothing is written.
+
+</Step>
+</Steps>
+
+## Exporting from popular systems
+
+Every system names its export differently, but the file you want is a **CSV (or JSON)** of
+patients and their clinical data. Look under **Reports**, **Data export**, or
+**Patients → Export**:
+
+| System | Where to find an export |
+| --- | --- |
+| **Epic** | Reporting Workbench / Chronicles extracts, or an admin CSV report. |
+| **Oracle Health (Cerner)** | Discern / HealtheAnalytics report exported to CSV. |
+| **athenahealth** | Reports → Report Library; export results to CSV. |
+| **eClinicalWorks** | Reports / eBO → export to CSV or Excel. |
+| **NextGen** | NextGen reporting → export to CSV. |
+| **Practice Fusion** | Reports → export patient list / data to CSV. |
+| **DrChrono** | Account → Data Export (Patient and clinical CSVs). |
+| **OpenEMR** | Reports → Clients → Patient List, or a direct CSV export. |
+| **Any other system** | Anything that exports **CSV or JSON** works. |
+
+<Callout type="info" title="You don't have to match temetro's columns">
+  The AI infers the mapping from whatever your export calls things — `MRN`, `PatientID`,
+  `DOB`, `Sex`, `Allergies`, and so on — to temetro's record shape. Just export what you
+  have; you don't need to pre-format it.
+</Callout>
+
+## What gets mapped
+
+temetro maps your export into a patient record made up of demographics plus five clinical
+lists. The more of these your export includes, the richer the imported chart:
+
+- **File number (MRN)** — required, and **unique within your clinic**. See
+  [Core concepts](/docs/concepts#patients-and-file-numbers).
+- **Name**, **age**, **sex**, **primary provider**, and **status**.
+- **Allergies**, **medications**, **problems**, **labs**, and **encounters** (visit
+  history), plus **vitals**.
+
+Anything your export doesn't include is simply left empty — you can fill it in later from
+the chat or the [patient record](/docs/guides/patients).
+
+## Limits & what to expect
+
+<Callout type="warn" title="Import in batches of 500">
+  Each import writes up to **500 records**. For a larger dataset, split the export into
+  batches and import them one after another. temetro also reads about **200 KB of text per
+  attached file**, so very large files should be split too.
+</Callout>
+
+- **Skipped rows don't block the import.** Valid records are imported; invalid ones are
+  skipped and reported with the reason. Fix those rows in your export and import them
+  again — duplicates of file numbers already in your clinic will simply fail and be
+  reported, so re-running is safe.
+- **The AI never writes directly.** It only proposes; the server re-validates and writes
+  after you approve. See the [import API](/docs/api/ai#importing-records).
+
+## Privacy during migration
+
+Migration data is patient data, so temetro's safeguards apply:
+
+<Callout type="info" title="Keep sensitive bulk loads local">
+  For cloud providers, **Veil** de-identifies patient details before the file leaves your
+  clinic. For the most sensitive migrations, connect a **local model with Ollama** —
+  Veil's local mode keeps the data entirely on your own infrastructure. See
+  [AI setup & safeguards](/docs/guides/ai-safeguards).
+</Callout>
+
+## Permissions
+
+Importing needs a role that can **write patient records** — **doctor**, **admin**,
+**owner**, or **member**. **Reception** can import too, but only **demographics** (no
+clinical fields), matching what reception can see elsewhere. See
+[Roles & permissions](/docs/admin/roles-permissions).
+
+## Troubleshooting
+
+If records show up as **skipped**, the preview card tells you why. The most common causes:
+
+- **Missing or duplicate file number.** Every patient needs a unique file number (MRN);
+  rows without one, or that collide with an existing patient, are skipped.
+- **Unexpected `sex` value.** temetro expects `M` or `F`; map other values in your export
+  first.
+- **Malformed dates or ages.** Make sure ages are numbers and dates are readable.
+
+Fix the flagged rows in your export and import that file again — already-imported patients
+are left untouched.
+
+## Related
+
+<Cards>
+  <Card
+    title="The chat"
+    description="How to attach files, ask questions, and read record cards."
+    href="/docs/guides/chat"
+  />
+  <Card
+    title="Patient records"
+    description="Everything a chart holds, and how to edit it after import."
+    href="/docs/guides/patients"
+  />
+  <Card
+    title="AI setup & safeguards"
+    description="Connect a model and understand how Veil protects PHI."
+    href="/docs/guides/ai-safeguards"
+  />
+  <Card
+    title="Import API"
+    description="The endpoint behind the import, for developers."
+    href="/docs/api/ai#importing-records"
+  />
+</Cards>
