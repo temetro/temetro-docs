@@ -40,19 +40,36 @@ available on the [Patients page](/docs/guides/patients).
 Beyond the `/patient` command, you can ask in plain language — *"what were her last three
 blood pressure readings?"* or *"show me 10293's labs"*. The chat runs an AI agent that
 looks up the right records and replies with **record cards** and **lab charts**, not just
-text. Pick the model and effort from the model picker in the input.
+text. Pick the model and effort from the model picker in the input. As it works, a
+**Thinking…** indicator and a **step trace** show what the agent is doing — looking up a
+patient, searching, or validating records.
 
 You bring your own model: connect an **OpenAI, Anthropic, or Gemini** API key, or run a
 **local model with Ollama** — all configured under **Settings → AI**. Because this is
 patient data, two safeguards are always in play: **Veil** de-identifies records before
-anything reaches a cloud provider, and any data **import** waits for your approval before
-it's written. See [AI setup & safeguards](/docs/guides/ai-safeguards).
+anything reaches a cloud provider, and any **add** waits for your approval before it's
+written. The first time a message would leave your clinic for a cloud provider, an inline
+**Veil** confirmation appears above the input (you can also switch to a local model) — it
+asks just once per session. See [AI setup & safeguards](/docs/guides/ai-safeguards).
+
+### Displaying and adding records
+
+Ask to **see** the schedule, open tasks, or prescriptions — *"show today's
+appointments"*, *"list open tasks"* — and the agent renders them as list cards.
+
+You can also ask it to **add** things — *"book a follow-up for 10293 next Tuesday at 9:30
+with Dr Lee"*, *"add a task to call the lab"*, *"prescribe amoxicillin 500mg twice daily
+for 7 days for 10293"*. The agent **proposes** the record as a one-click approval card;
+nothing is written until you click **Add**, and the action still respects your
+[role's permissions](/docs/admin/roles-permissions). The agent only **displays** and
+**adds** — it never edits, deletes, or changes existing records.
 
 ### Importing an existing database
 
-Attach a database export (CSV/JSON) and ask temetro to import it. The agent maps it to
-temetro's record shape and shows a **preview** — how many records are ready and which were
-skipped. Nothing is written until you **approve**.
+Attach a database export (CSV/JSON) and ask temetro to import it — a great way to
+**migrate from another program**. The agent maps it to temetro's record shape and shows a
+**preview** — how many records are ready and which were skipped. Nothing is written until
+you **approve**.
 
 ## Tips
 
