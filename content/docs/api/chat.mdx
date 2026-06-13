@@ -1,0 +1,51 @@
+---
+title: Chat agent
+description: The AI chat endpoint — a tool-using agent over patient data.
+icon: MessageSquare
+---
+
+The chat endpoint runs a tool-using AI agent over the clinic's patient data. It requires
+a signed-in user, an active clinic, and `patient:read`.
+
+| Method | Path | Auth | Returns |
+| --- | --- | --- | --- |
+| `POST` | `/api/chat` | `patient:read` | A streamed UI-message response (SSE) |
+
+## Request
+
+```json
+{
+  "messages": [ /* AI SDK UI messages */ ],
+  "model": "claude-sonnet-4-6",
+  "effort": "medium"
+}
+```
+
+The `model` selects the provider too (e.g. a `claude-*` id routes to Anthropic, `gpt-*`
+to OpenAI, `gemini-*` to Gemini, the `ollama` sentinel to your local model). The matching
+provider key from [your AI config](/docs/api/ai) is used. If no key is configured for the
+chosen provider, the request fails with a clear message.
+
+## What the agent can do
+
+The agent has read tools and one gated write path:
+
+- **`getPatient`** — look up a patient by file number and render record cards.
+- **`getPatientLabs`** — pull labs + trend and render a lab chart with high/low flags.
+- **`searchPatients`** — find patients by name, then look one up.
+- **`previewImport`** — a **dry run** for migration: validates records parsed from an
+  uploaded export and shows an approval card. Nothing is written until the clinician
+  approves and the client calls [`POST /api/ai/import`](/docs/api/ai).
+
+All tools run under the caller's role scoping (a `doctor` only sees their own panel;
+`reception` sees demographics only) — identical to the [patient routes](/docs/api/patients).
+
+## Response
+
+The endpoint streams an AI-SDK **UI-message stream**. Alongside the assistant's text it
+emits custom **data parts** the clinician's UI renders as rich cards:
+`data-patientCard`, `data-labCard`, `data-importPreview`, and a `data-veilNotice` flag.
+
+These data parts carry the **real** record data straight to the clinician. On external
+providers the model itself only ever receives [Veil](/docs/guides/ai-safeguards)-redacted
+results.

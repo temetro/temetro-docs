@@ -1,0 +1,80 @@
+---
+title: AI configuration
+description: Per-user AI provider settings and the migration import endpoint.
+icon: Bot
+---
+
+AI settings are **user-scoped** (like [`/api/settings`](/docs/api/settings)) — they follow
+the signed-in user across clinics. Provider API keys are **encrypted at rest** and never
+returned by the API.
+
+| Method | Path | Auth | Returns |
+| --- | --- | --- | --- |
+| `GET` | `/api/ai/config` | Signed in | Non-secret config + `apiKeySet` |
+| `PUT` | `/api/ai/config` | Signed in | The saved config |
+| `POST` | `/api/ai/test` | Signed in | `{ ok, message }` |
+| `POST` | `/api/ai/import` | `patient:write` | `{ created, failed }` |
+
+## The config object
+
+```json
+{
+  "config": {
+    "mode": "local",
+    "provider": "anthropic",
+    "ollamaBaseUrl": "http://localhost:11434",
+    "ollamaModel": "llama3.1",
+    "defaultModel": "claude-sonnet-4-6",
+    "defaultEffort": "medium",
+    "veilLevel": "full",
+    "apiKeySet": { "openai": false, "anthropic": true, "gemini": false }
+  }
+}
+```
+
+- **`mode`** — `"api"` (a cloud provider key) or `"local"` (Ollama on your own
+  infrastructure).
+- **`provider`** — the active cloud provider: `"openai"`, `"anthropic"`, or `"gemini"`.
+- **`veilLevel`** — [Veil](/docs/guides/ai-safeguards) de-identification strictness:
+  `"full"`, `"names"`, or `"off"`.
+- **`apiKeySet`** — which providers have a stored key. The keys themselves are never
+  returned.
+
+## Saving config
+
+`PUT` accepts any subset of the fields above, plus an optional **`apiKey`** (plaintext)
+for the currently selected provider — it is encrypted before storage and used only to
+call the provider. Send `"apiKey": ""` to clear it.
+
+```bash
+curl -b cookies.txt -X PUT http://localhost:4000/api/ai/config \
+  -H "Content-Type: application/json" \
+  -d '{ "mode": "api", "provider": "anthropic", "apiKey": "sk-ant-…" }'
+```
+
+## Testing connectivity
+
+`POST /api/ai/test` does a lightweight probe before you rely on a setting: for local
+mode it pings Ollama's `/api/tags`; for API mode it confirms a key is stored (it does
+not spend a token).
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/ai/test \
+  -H "Content-Type: application/json" \
+  -d '{ "mode": "local", "ollamaBaseUrl": "http://localhost:11434" }'
+```
+
+## Importing records
+
+`POST /api/ai/import` commits patient records the clinician **approved** in the chat
+import preview (see [the chat agent](/docs/api/chat)). The body is `{ "records": [...] }`
+of patient objects in temetro's [patient shape](/docs/api/patients). The server
+**re-validates every record** and writes via the audited patient service — the AI never
+writes to the database directly.
+
+```json
+{
+  "created": ["10293", "10294"],
+  "failed": [{ "fileNumber": "10295", "error": "fileNumber: Required" }]
+}
+```

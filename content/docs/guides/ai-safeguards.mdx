@@ -1,0 +1,89 @@
+---
+title: AI setup & safeguards
+description: Choose a model, connect a provider, and understand how Veil protects PHI.
+icon: ShieldCheck
+---
+
+temetro's chat is powered by an AI model **you choose** and runs behind two safeguards
+built for patient data: **Veil** (de-identification) and an **approval gate** for any
+write. You configure all of this under **Settings → AI**.
+
+## Choosing how the AI runs
+
+Open **Settings → AI** and pick an **inference mode**:
+
+- **Cloud API key** — connect **OpenAI**, **Anthropic**, or **Gemini** with your own key.
+  Pick the provider, paste the key (it is encrypted at rest and never shown again), and
+  choose a default model + effort. You can store a key per provider and switch between
+  them.
+- **Local model (Ollama)** — point temetro at an [Ollama](https://ollama.com) server on
+  your own infrastructure. **No patient data ever leaves the clinic.** Set the base URL
+  and model name, then use **Test connection** to confirm it's reachable.
+
+The model + effort you pick also appear in the chat input's model picker, so you can
+switch per conversation.
+
+## Veil — de-identification
+
+When you use a **cloud** provider, patient data would otherwise leave your infrastructure.
+**Veil** sits between the records and the model:
+
+- **Tool results are redacted** — names, file numbers (MRNs), and provider names are
+  replaced with stable tokens like `[PATIENT_1]` / `[MRN_1]` before the model sees them.
+  Clinical values (labs, vitals, problems, medications) pass through unchanged.
+- **Tool calls are resolved** — when the model asks for more (e.g. a patient's labs by
+  `[MRN_1]`), Veil maps the token back to the real file number **on the server**, so the
+  external model never needs the real MRN.
+- **The answer is rehydrated** — tokens are swapped back to real identifiers before you
+  read the reply.
+
+You set the strictness in Settings → AI (**Full**, **Names only**, or **Off**). **Local
+Ollama mode skips Veil entirely** — there's nothing to protect against because the data
+never leaves. Every external request is recorded in the [activity log](/docs/api/activity)
+with the provider and Veil level used.
+
+## The approval gate
+
+The agent can read freely, but it **never writes silently**. Anything that changes the
+database — importing an existing patient database — is proposed as a **preview** you must
+approve. You see how many records are ready, which were skipped and why, and only on
+**Approve** are they written (re-validated server-side).
+
+## How it fits together
+
+```text
+   Clinician message
+          │
+          ▼
+     /api/chat agent
+          │
+   ┌──────┴───────────────┐
+   │  Inference mode?      │
+   └──────┬───────────────┘
+          │
+   ┌──────┴───────────────┐                 ┌───────────────────────────┐
+   │ Local (Ollama)       │                 │ Cloud API key             │
+   │ full PHI —           │                 │ Veil: redact PHI → tokens │
+   │ never leaves clinic  │                 │ (consent on first send)   │
+   └──────┬───────────────┘                 └──────────────┬────────────┘
+          │                                                │
+          │                                  External provider (sees tokens only)
+          │                                                │
+          │                                  Veil: rehydrate identifiers
+          │                                                │
+          └──────────────────┬─────────────────────────────┘
+                             ▼
+                     ┌──────────────┐
+                     │  Tool call?  │
+                     └──┬───────┬───┘
+              read      │       │   write / import
+        (patient/labs)  │       │   (bulk)
+                        ▼       ▼
+              RBAC service   Approval gate ── clinician approves ──► write + audit
+                        │       │
+                        ▼       ▼
+            Stream answer + record / lab cards to the clinician
+```
+
+Read tools (patient lookup, labs, search) run under your role's scoping and return
+results to both you and the model. Writes always pause for your approval.

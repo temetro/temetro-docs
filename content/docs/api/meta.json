@@ -4,6 +4,8 @@
     "index",
     "authentication",
     "patients",
+    "chat",
+    "ai",
     "appointments",
     "prescriptions",
     "inventory",

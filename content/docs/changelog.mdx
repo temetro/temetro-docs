@@ -7,6 +7,30 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 13, 2026
+
+### The AI chat is live
+
+- **Real AI chat.** Free-form messages now run a tool-using agent that looks up records
+  and answers with **record cards** and **lab charts** (with a high/low flag in the card's
+  top-right corner), not just text. The `/patient <fileNumber>` shortcut still works
+  instantly. New APIs: [`/api/chat`](/docs/api/chat) and [`/api/ai`](/docs/api/ai).
+- **Bring your own model.** Connect an **OpenAI, Anthropic, or Gemini** API key, or run a
+  **local model with Ollama** — all under the new **Settings → AI** tab. Keys are
+  encrypted at rest and never shown again.
+- **Veil — PHI safeguards.** On cloud providers, [Veil](/docs/guides/ai-safeguards)
+  de-identifies patient identifiers (names, MRNs, providers) to tokens before anything
+  leaves your infrastructure, then restores them in the answer. Local Ollama keeps all
+  data in the clinic. Every external request is audited.
+- **Database import with approval.** Attach an existing patient-database export and the
+  agent maps it to temetro's shape, shows a **preview**, and writes only after you
+  **approve** it.
+
+### Cleaner chat input
+
+- The chat input's five clinical dropdowns are replaced by a single **model + effort**
+  picker; AI configuration moved to Settings → AI.
+
 ## June 12, 2026
 
 ### Pharmacy inventory

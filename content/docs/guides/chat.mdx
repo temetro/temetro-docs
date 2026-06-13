@@ -37,12 +37,22 @@ available on the [Patients page](/docs/guides/patients).
 
 ## Asking questions in plain language
 
-<Callout type="warn" title="Placeholder replies for now">
-  The chat is designed for natural questions like *"what were her last three blood
-  pressure readings?"* — but the AI model is **not connected yet**. Anything that isn't
-  a `/patient` command currently gets a placeholder reply explaining this. Follow the
-  [roadmap](/docs/roadmap) for progress.
-</Callout>
+Beyond the `/patient` command, you can ask in plain language — *"what were her last three
+blood pressure readings?"* or *"show me 10293's labs"*. The chat runs an AI agent that
+looks up the right records and replies with **record cards** and **lab charts**, not just
+text. Pick the model and effort from the model picker in the input.
+
+You bring your own model: connect an **OpenAI, Anthropic, or Gemini** API key, or run a
+**local model with Ollama** — all configured under **Settings → AI**. Because this is
+patient data, two safeguards are always in play: **Veil** de-identifies records before
+anything reaches a cloud provider, and any data **import** waits for your approval before
+it's written. See [AI setup & safeguards](/docs/guides/ai-safeguards).
+
+### Importing an existing database
+
+Attach a database export (CSV/JSON) and ask temetro to import it. The agent maps it to
+temetro's record shape and shows a **preview** — how many records are ready and which were
+skipped. Nothing is written until you **approve**.
 
 ## Tips
 

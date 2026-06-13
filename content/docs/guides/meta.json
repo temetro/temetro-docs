@@ -2,6 +2,7 @@
   "title": "Using temetro",
   "pages": [
     "chat",
+    "ai-safeguards",
     "patients",
     "appointments",
     "prescriptions",
