@@ -64,6 +64,25 @@ asks just once per session. See [AI setup & safeguards](/docs/guides/ai-safeguar
 Ask to **see** the schedule, open tasks, or prescriptions — *"show today's
 appointments"*, *"list open tasks"* — and the agent renders them as list cards.
 
+It can also answer about the **whole clinic**: *"what's my clinic called?"*, your
+**analytics and earnings** (*"how much have we billed this month?"* renders KPIs and an
+earnings chart), and your **inventory** (*"what's running low?"*). These are clinic
+aggregates, not individual charts.
+
+### Building an invoice from a file
+
+Hand the chat a list of medications or items a client bought (a CSV/PDF/text export) and
+ask it to invoice them. The agent reads the prices from the file, drafts an **invoice**
+with line items, and shows it as an approval card — nothing is billed until you **Add** it.
+If the client isn't a patient yet, approving it also creates their record. See
+[Invoices](/docs/guides/invoices).
+
+### Your chat history
+
+Conversations are **saved automatically**. Past chats appear in the **sidebar** — click
+one to reopen it exactly as it was (record cards and all), or delete it. **New chat**
+starts a fresh thread. History is private to you within your clinic.
+
 You can also ask it to **add** things — *"book a follow-up for 10293 next Tuesday at 9:30
 with Dr Lee"*, *"add a task to call the lab"*, *"prescribe amoxicillin 500mg twice daily
 for 7 days for 10293"*. The agent **proposes** the record as a one-click approval card;

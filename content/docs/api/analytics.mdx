@@ -7,15 +7,31 @@ icon: ChartColumn
 | Method | Path | Access |
 | --- | --- | --- |
 | `GET` | `/api/analytics` | Any clinic member |
+| `GET` | `/api/analytics/live` | Any clinic member |
 
-Returns the aggregate numbers behind the app's **Analysis** dashboard — patient
-counts, appointment volume, prescription and task throughput — computed for the active
-clinic.
+`GET /api/analytics` returns the aggregate numbers behind the app's **Analysis**
+dashboard — patient counts, appointment volume, prescription and task throughput, and
+**earnings** — computed for the active clinic.
 
 ```bash
 curl -b cookies.txt http://localhost:4000/api/analytics
 ```
 
-The response is a single JSON object of aggregates; its exact fields evolve with the
-dashboard, so treat the dashboard UI (`/analysis` in the app) as the reference for
-what's available.
+Earnings are computed from invoices and look like:
+
+```json
+{
+  "earnings": {
+    "totalBilled": 4200,
+    "totalPaid": 3100,
+    "totalOutstanding": 1100,
+    "byMonth": [{ "label": "Jun", "billed": 900, "paid": 600 }]
+  }
+}
+```
+
+The rest of the response is a single JSON object of aggregates; its exact fields evolve
+with the dashboard, so treat the dashboard UI (`/analysis` in the app) as the reference.
+
+`GET /api/analytics/live` returns `{ "value": <number> }` — patients **checked in
+today** — a cheap metric the Analysis **Live** card polls.

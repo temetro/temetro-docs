@@ -10,6 +10,10 @@ a signed-in user, an active clinic, and `patient:read`.
 | Method | Path | Auth | Returns |
 | --- | --- | --- | --- |
 | `POST` | `/api/chat` | `patient:read` | A streamed UI-message response (SSE) |
+| `GET` | `/api/chat/threads` | `patient:read` | Your saved conversations |
+| `GET` | `/api/chat/threads/{id}` | `patient:read` | One conversation + messages |
+| `PUT` | `/api/chat/threads/{id}` | `patient:read` | Save a conversation snapshot |
+| `DELETE` | `/api/chat/threads/{id}` | `patient:read` | Delete a conversation |
 
 ## Request
 
@@ -40,6 +44,10 @@ endpoint (so an under-privileged role is rejected at commit).
 - **`searchPatients`** — find patients by name, then look one up.
 - **`listAppointments`** / **`listTasks`** / **`listPrescriptions`** — render the clinic's
   schedule, task queue, or prescriptions as list cards.
+- **`getClinicInfo`** — the clinic's name / basic info.
+- **`getAnalytics`** — clinic KPIs **and earnings** (billed/paid/outstanding, by month),
+  rendered with an earnings chart.
+- **`listInventory`** — stock levels and low-stock items.
 
 **Add (propose → approve, nothing written until approved):**
 
@@ -47,6 +55,9 @@ endpoint (so an under-privileged role is rejected at commit).
   record and show an approval card. On **Add**, the client commits via
   [`/api/appointments`](/docs/api/appointments), [`/api/tasks`](/docs/api/tasks), or
   [`/api/prescriptions`](/docs/api/prescriptions).
+- **`proposeInvoice`** — parse an uploaded purchase/medication list into invoice line
+  items and show an approval card; on **Add**, commits via
+  [`/api/invoices`](/docs/api/invoices) (creating/linking a patient when needed).
 - **`previewImport`** — a **dry run** for migration (or a single add): validates records
   parsed from an uploaded export and shows an approval card. Nothing is written until the
   clinician approves and the client calls [`POST /api/ai/import`](/docs/api/ai).
@@ -59,8 +70,12 @@ All tools run under the caller's role scoping (a `doctor` only sees their own pa
 The endpoint streams an AI-SDK **UI-message stream**. Alongside the assistant's text it
 emits custom **data parts** the clinician's UI renders as rich cards:
 `data-patientCard`, `data-labCard`, `data-importPreview`, `data-appointmentList`,
-`data-taskList`, `data-prescriptionList`, `data-actionPreview` (an add awaiting approval),
+`data-taskList`, `data-prescriptionList`, `data-inventoryList`, `data-clinicCard`,
+`data-analyticsCard`, `data-actionPreview` (an add awaiting approval),
 `data-step` (a live Chain-of-Thought step), and a `data-veilNotice` flag.
+
+Conversations are persisted per user via the `/api/chat/threads` endpoints (the client
+saves a snapshot after each exchange and lists/opens them in the sidebar history).
 
 These data parts carry the **real** record data straight to the clinician. On external
 providers the model itself only ever receives [Veil](/docs/guides/ai-safeguards)-redacted
