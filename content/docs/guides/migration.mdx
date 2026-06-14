@@ -51,9 +51,10 @@ saved yet.
 ### Review the preview
 
 The agent replies with an **import preview card** showing how many records are **ready**,
-how many were **skipped**, and the **total** it read. If any rows were skipped, the card
-lists the first few with the reason (for example, a missing file number), so you know
-exactly what to fix.
+how many were **skipped**, and the **total** it read. temetro is lenient: a row only needs
+a **name** — gaps (including a missing file number) are filled with safe placeholders and
+the record is tagged **Added by AI** for review, so most rows come through ready. Rows that
+can't be used at all are listed with the reason.
 
 </Step>
 <Step>
@@ -97,14 +98,17 @@ patients and their clinical data. Look under **Reports**, **Data export**, or
 temetro maps your export into a patient record made up of demographics plus five clinical
 lists. The more of these your export includes, the richer the imported chart:
 
-- **File number (MRN)** — required, and **unique within your clinic**. See
+- **File number (MRN)** — **unique within your clinic**; if a row doesn't have one,
+  temetro **auto-assigns** the next available number. See
   [Core concepts](/docs/concepts#patients-and-file-numbers).
-- **Name**, **age**, **sex**, **primary provider**, and **status**.
+- **Name** (the one field a row really needs), plus **age**, **sex**, **primary
+  provider**, and **status**.
 - **Allergies**, **medications**, **problems**, **labs**, and **encounters** (visit
   history), plus **vitals**.
 
-Anything your export doesn't include is simply left empty — you can fill it in later from
-the chat or the [patient record](/docs/guides/patients).
+Anything your export doesn't include is filled with a safe placeholder and the record is
+tagged **Added by AI**, so you can find and complete it later from the chat or the
+[patient record](/docs/guides/patients).
 
 ## Limits & what to expect
 
@@ -114,10 +118,10 @@ the chat or the [patient record](/docs/guides/patients).
   attached file**, so very large files should be split too.
 </Callout>
 
-- **Skipped rows don't block the import.** Valid records are imported; invalid ones are
-  skipped and reported with the reason. Fix those rows in your export and import them
-  again — duplicates of file numbers already in your clinic will simply fail and be
-  reported, so re-running is safe.
+- **Gaps don't block the import.** Missing fields are filled with placeholders and the
+  record is tagged **Added by AI**; a missing file number is auto-assigned. Only rows that
+  can't be used (e.g. no name) — or that duplicate a file number already in your clinic —
+  are skipped and reported, so re-running is safe.
 - **The AI never writes directly.** It only proposes; the server re-validates and writes
   after you approve. See the [import API](/docs/api/ai#importing-records).
 
@@ -143,14 +147,13 @@ clinical fields), matching what reception can see elsewhere. See
 
 If records show up as **skipped**, the preview card tells you why. The most common causes:
 
-- **Missing or duplicate file number.** Every patient needs a unique file number (MRN);
-  rows without one, or that collide with an existing patient, are skipped.
-- **Unexpected `sex` value.** temetro expects `M` or `F`; map other values in your export
-  first.
-- **Malformed dates or ages.** Make sure ages are numbers and dates are readable.
+- **No name.** A row needs at least a patient name; nameless rows are skipped.
+- **Duplicate file number.** A row whose file number already exists in your clinic is
+  skipped (a missing file number, by contrast, is auto-assigned).
 
-Fix the flagged rows in your export and import that file again — already-imported patients
-are left untouched.
+Other gaps no longer skip a row — they're filled with placeholders and the record is
+tagged **Added by AI** so you can complete it afterwards. Fix any flagged rows in your
+export and import that file again; already-imported patients are left untouched.
 
 ## Related
 

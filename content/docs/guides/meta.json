@@ -6,6 +6,7 @@
     "patients",
     "migration",
     "appointments",
+    "invoices",
     "prescriptions",
     "pharmacy",
     "tasks",

@@ -1,0 +1,42 @@
+---
+title: Invoices
+description: Bill patients, split into installments, and export a PDF.
+icon: Receipt
+---
+
+The **Invoices** page (under **Patients** in the sidebar) is where you bill
+patients. Each invoice links a patient, a set of line items, an issue/due date,
+and a status.
+
+## Creating an invoice
+
+1. Open **Invoices** and click **New invoice**.
+2. Search for the **patient** (by name or file number) using the keyboard-friendly
+   picker — arrow keys to move, Enter to select.
+3. Add **line items** (description, quantity, unit price). The **total** updates
+   as you type.
+4. Set the **issue date**, an optional **due date**, a **status**
+   (draft / sent / paid / void), and any **notes**.
+5. Save. A human invoice number (e.g. `INV-1001`) is assigned automatically.
+
+## Splitting into installments
+
+Open an invoice and use **Split into installments** — choose how many (1–36) and
+temetro divides the total into roughly-equal amounts, one month apart from the
+issue date. The amounts always add back up to the exact total.
+
+## Downloading a PDF
+
+**Download PDF** opens a clean, print-styled copy of the invoice and your
+browser's print dialog — choose **Save as PDF** to keep or email it. No extra
+software is needed.
+
+## Who can bill
+
+Owners, admins, doctors, members, and **reception** (front-desk billing) can
+create, edit, split, and delete invoices. Pharmacy and lab staff have no access.
+
+<Callout type="info">
+  Invoices created from the AI chat carry an **Added by AI** badge so you can
+  review them before sending. See [AI safeguards](/docs/guides/ai-safeguards).
+</Callout>

@@ -9,6 +9,46 @@ headed, see the [roadmap](/docs/roadmap).
 
 ## June 14, 2026
 
+### Invoices
+
+- **New Invoices page** (under **Patients**). Create invoices with inline line items and a
+  live total, set issue/due dates and a status, **split** a bill into equal monthly
+  installments, and **Download PDF** (a clean, print-styled copy via your browser's
+  "Save as PDF" — no extra software). Backed by a new org-scoped
+  [invoices API](/docs/api/invoices). See the [Invoices guide](/docs/guides/invoices).
+- Billing access goes to clinicians **and reception** (front-desk billing); pharmacy and lab
+  have none. See [Roles & permissions](/docs/admin/roles-permissions).
+
+### AI-added records save instead of stalling
+
+- The chat no longer refuses incomplete data. Imports and proposals with gaps now **save
+  with safe placeholders**, a **missing file number is auto-assigned**, and the record is
+  tagged **Added by AI** so you can review and complete it on the Patients, Appointments,
+  Prescriptions, or Invoices pages. Only rows with no usable identity (or a duplicate file
+  number) are skipped. See [Migrating from another system](/docs/guides/migration).
+
+### Appointments: edit from the schedule
+
+- **Click any appointment** to open a detail panel and edit its date, time, type, provider,
+  or status — or delete it. The **New appointment** dialog's patient search and provider
+  field are now searchable, keyboard-navigable pickers (arrow keys + Enter). See the
+  [Appointments guide](/docs/guides/appointments).
+
+### Chat: more like a real assistant
+
+- Each tool the agent runs shows as a collapsible **tool card**; a **reasoning** block
+  surfaces the model's thinking when available; the empty chat offers **suggestion chips**;
+  and messages sent while the agent is busy now **queue** and send automatically when it's
+  free. See [The chat](/docs/guides/chat).
+
+### Fixes
+
+- **Analysis page:** chart axis labels no longer spill outside their cards, the
+  patient-growth chart labels every month, and the **Live** card only streams after you
+  press **Go live** (it's idle by default).
+- **Chat:** the error banner can now be **dismissed**, and the import preview no longer
+  balloons when many rows have issues.
+
 ### Guide: migrating from another system
 
 - **New migration guide.** A dedicated [Migrating from another system](/docs/guides/migration)

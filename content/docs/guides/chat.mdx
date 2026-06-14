@@ -42,7 +42,14 @@ blood pressure readings?"* or *"show me 10293's labs"*. The chat runs an AI agen
 looks up the right records and replies with **record cards** and **lab charts**, not just
 text. Pick the model and effort from the model picker in the input. As it works, a
 **Thinking…** indicator and a **step trace** show what the agent is doing — looking up a
-patient, searching, or validating records.
+patient, searching, or validating records. Each tool the agent runs also appears as a
+collapsible **tool card** (its inputs, result, and status), and on models that support
+it a **reasoning** block shows the model's thinking.
+
+On a fresh chat, **suggestion chips** offer quick starts ("Show today's schedule",
+"List open tasks", …). And if you send another message while the agent is still
+responding, it joins a **queue** above the input and sends automatically when the
+agent is free — so you can line up follow-ups without waiting.
 
 You bring your own model: connect an **OpenAI, Anthropic, or Gemini** API key, or run a
 **local model with Ollama** — all configured under **Settings → AI**. Because this is

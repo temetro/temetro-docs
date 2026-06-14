@@ -1,0 +1,70 @@
+---
+title: Invoices
+description: Patient billing — line items, installments, and PDF export.
+icon: Receipt
+---
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/invoices` | `invoice:read` |
+| `POST` | `/api/invoices` | `invoice:write` |
+| `PUT` | `/api/invoices/{id}` | `invoice:write` |
+| `POST` | `/api/invoices/{id}/split` | `invoice:write` |
+| `DELETE` | `/api/invoices/{id}` | `invoice:delete` |
+
+`invoice` is a clinic resource granted to the full clinicians (owner / admin /
+doctor / member) **and** reception (front-desk billing). Pharmacy and lab have no
+access. See [Roles & permissions](/docs/admin/roles-permissions).
+
+## The invoice object
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Assigned by the server |
+| `fileNumber` | string | Patient's file number (may be empty) |
+| `name` | string | **Required.** Patient name |
+| `initials` | string | 1–4 chars; derived from the name when omitted |
+| `number` | string | Human invoice number (e.g. `INV-1001`); auto-generated when omitted |
+| `issuedAt` | string | `YYYY-MM-DD`; defaults to today |
+| `dueAt` | string \| null | `YYYY-MM-DD` |
+| `status` | enum | `draft` (default) \| `sent` \| `paid` \| `void` |
+| `lineItems` | array | `{ description, quantity, unitPrice }[]` |
+| `installments` | array | `{ label, amount, dueAt, paid }[]` (set by split) |
+| `notes` | string \| null | Free text |
+| `source` | enum | `manual` (default) \| `ai` |
+
+The invoice **total** is computed from the line items
+(`Σ quantity × unitPrice`); it is not stored.
+
+## Splitting into installments
+
+`POST /api/invoices/{id}/split` with `{ "count": N }` (1–36) divides the total
+into `N` roughly-equal installments staggered one month apart from `issuedAt`.
+Amounts are computed in cents so they always sum back to the exact total.
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/invoices/<id>/split \
+  -H "Content-Type: application/json" -d '{ "count": 3 }'
+```
+
+## Example
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/invoices \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fileNumber": "1042",
+    "name": "Hodan Warsame",
+    "status": "sent",
+    "lineItems": [
+      { "description": "Consultation", "quantity": 1, "unitPrice": 60 },
+      { "description": "Lab panel", "quantity": 1, "unitPrice": 40 }
+    ]
+  }'
+```
+
+Create returns `201` with the invoice (number assigned); `PUT` updates with the
+same payload shape (send `number` and `installments` to preserve them); `DELETE`
+returns `204`. Changes appear in the [activity log](/docs/api/activity). PDF
+export is client-side (the app prints a styled invoice to the browser's
+"Save as PDF").

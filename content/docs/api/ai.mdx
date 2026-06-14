@@ -70,11 +70,14 @@ curl -b cookies.txt -X POST http://localhost:4000/api/ai/test \
 import preview (see [the chat agent](/docs/api/chat)). The body is `{ "records": [...] }`
 of patient objects in temetro's [patient shape](/docs/api/patients). The server
 **re-validates every record** and writes via the audited patient service — the AI never
-writes to the database directly.
+writes to the database directly. Imported records are stamped `source: "ai"` (surfaced as
+an "Added by AI" badge), gaps are filled with safe placeholders, and a missing
+`fileNumber` is auto-assigned — so only rows with no usable identity (e.g. no name) or a
+duplicate file number land in `failed`.
 
 ```json
 {
   "created": ["10293", "10294"],
-  "failed": [{ "fileNumber": "10295", "error": "fileNumber: Required" }]
+  "failed": [{ "fileNumber": "10295", "error": "name: Patient name is required." }]
 }
 ```

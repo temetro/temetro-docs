@@ -87,12 +87,13 @@ curl -b cookies.txt http://localhost:4000/api/patients/1042
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `fileNumber` | string | **Required.** Digits only; unique per clinic |
+| `fileNumber` | string | Digits only; unique per clinic. **Auto-assigned** when empty |
 | `name` | string | **Required** |
-| `age` | number | **Required.** 0–150 |
-| `sex` | `"M"` \| `"F"` | **Required** |
-| `status` | `"active"` \| `"inpatient"` \| `"discharged"` | **Required** |
-| `initials` | string | **Required.** 1–4 characters |
+| `age` | number | 0–150; defaults to `0` when omitted |
+| `sex` | `"M"` \| `"F"` | Defaults to `"M"` when omitted |
+| `status` | `"active"` \| `"inpatient"` \| `"discharged"` | Defaults to `"active"` |
+| `initials` | string | 1–4 chars; derived from the name when omitted |
+| `source` | enum | `manual` (default) \| `ai` — `ai` rows show an "Added by AI" badge |
 | `pcp` | string | Display name of the primary care provider |
 | `primaryProviderId` | string \| null | User id of the responsible clinician |
 | `alerts` | string[] | Prominent warnings |
@@ -103,6 +104,10 @@ curl -b cookies.txt http://localhost:4000/api/patients/1042
 | `encounters` | array | `{ date, type, provider, summary }` |
 | `vitals` | object | `{ bp, hr, temp, spo2, takenAt }` |
 | `vitalsTrend`, `labTrend` | object | `{ label, unit, points: number[] }` |
+
+Only `name` is strictly required; the rest accept safe defaults so sparse records
+(e.g. from an [AI import](/docs/api/ai#importing-records)) still save. The import
+path stamps `source: "ai"`, and a missing `fileNumber` is auto-assigned.
 
 ### Update a patient
 

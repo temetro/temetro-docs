@@ -18,12 +18,13 @@ icon: CalendarClock
 | `id` | string | Assigned by the server |
 | `fileNumber` | string | Patient's file number (may be empty for ad-hoc bookings) |
 | `name` | string | **Required.** Patient name |
-| `initials` | string | **Required.** 1–4 characters |
+| `initials` | string | 1–4 chars; derived from the name when omitted |
 | `date` | string | **Required.** `YYYY-MM-DD` |
 | `time` | string | **Required.** `HH:mm` |
-| `type` | string | **Required.** Visit type, e.g. `"Follow-up"` |
-| `provider` | string | **Required.** Provider display name |
+| `type` | string | Visit type, e.g. `"Follow-up"`; defaults to `"Unspecified"` |
+| `provider` | string | Provider display name; defaults to `"Unassigned"` |
 | `status` | enum | `confirmed` (default) \| `checked-in` \| `completed` \| `cancelled` |
+| `source` | enum | `manual` (default) \| `ai` — `ai` rows show an "Added by AI" badge |
 
 ## Examples
 
