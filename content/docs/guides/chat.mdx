@@ -71,6 +71,12 @@ nothing is written until you click **Add**, and the action still respects your
 [role's permissions](/docs/admin/roles-permissions). The agent only **displays** and
 **adds** — it never edits, deletes, or changes existing records.
 
+When it proposes **many** records at once (for example from an imported file), they're
+grouped into a **single approval** instead of one card each: **Review & add** opens a
+dialog listing every record where you can remove any you don't want and **Add all** in one
+go. Booking an appointment for someone who isn't a patient yet also **creates their patient
+record** (with a file number), so they show up on the Patients page.
+
 ### Importing an existing database
 
 Attach a database export (CSV/JSON) and ask temetro to import it — a great way to **migrate

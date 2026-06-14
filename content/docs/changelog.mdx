@@ -26,6 +26,9 @@ headed, see the [roadmap](/docs/roadmap).
   tagged **Added by AI** so you can review and complete it on the Patients, Appointments,
   Prescriptions, or Invoices pages. Only rows with no usable identity (or a duplicate file
   number) are skipped. See [Migrating from another system](/docs/guides/migration).
+- **Importing appointments now creates patients.** When you import a schedule for people who
+  aren't in the system yet, each gets a **patient record with a file number** (deduped by
+  name) so they appear on the Patients page — appointments are no longer left unlinked.
 
 ### Appointments: edit from the schedule
 
@@ -40,14 +43,18 @@ headed, see the [roadmap](/docs/roadmap).
   surfaces the model's thinking when available; the empty chat offers **suggestion chips**;
   and messages sent while the agent is busy now **queue** and send automatically when it's
   free. See [The chat](/docs/guides/chat).
+- **Bulk approval.** When the agent proposes many records at once (e.g. an imported file),
+  they're collapsed into **one approval** — **Review & add** opens a dialog listing every
+  record (remove any you don't want) and **Add all** commits them together.
 
 ### Fixes
 
 - **Analysis page:** chart axis labels no longer spill outside their cards, the
   patient-growth chart labels every month, and the **Live** card only streams after you
-  press **Go live** (it's idle by default).
-- **Chat:** the error banner can now be **dismissed**, and the import preview no longer
-  balloons when many rows have issues.
+  press **Go live** (it's idle by default). The live value pill stays inside the card.
+- **Chat:** the error banner can now be **dismissed**, the import preview no longer
+  balloons when many rows have issues, and the **input toolbar** (attach, add-patient,
+  model picker, mic, send) no longer gets clipped on the empty chat screen.
 
 ### Guide: migrating from another system
 
