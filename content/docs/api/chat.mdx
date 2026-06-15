@@ -5,7 +5,9 @@ icon: MessageSquare
 ---
 
 The chat endpoint runs a tool-using AI agent over the clinic's patient data. It requires
-a signed-in user, an active clinic, and `patient:read`.
+a signed-in user, an active clinic, and `patient:read`. It also honours the clinic's
+[AI policy](/docs/api/ai): if the assistant is disabled for the caller, `POST /api/chat`
+returns `403`.
 
 | Method | Path | Auth | Returns |
 | --- | --- | --- | --- |
@@ -29,6 +31,12 @@ The `model` selects the provider too (e.g. a `claude-*` id routes to Anthropic, 
 to OpenAI, `gemini-*` to Gemini, the `ollama` sentinel to your local model). The matching
 provider key from [your AI config](/docs/api/ai) is used. If no key is configured for the
 chosen provider, the request fails with a clear message.
+
+**File attachments.** Messages may include AI-SDK `file` parts (uploaded files). The
+server reads text-like files (CSV/JSON/TXT/…) into the prompt so the agent can parse them
+(e.g. a medications list to stock, or a database export to import); images and PDFs are
+passed through for vision-capable providers. In the UI these render as attachment chips,
+not raw text.
 
 ## What the agent can do
 
@@ -55,6 +63,10 @@ endpoint (so an under-privileged role is rejected at commit).
   record and show an approval card. On **Add**, the client commits via
   [`/api/appointments`](/docs/api/appointments), [`/api/tasks`](/docs/api/tasks), or
   [`/api/prescriptions`](/docs/api/prescriptions).
+- **`proposeInventory`** — parse an uploaded stock/medications list (names, quantities,
+  prices) into inventory items and show an approval card; on **Add**, commits via
+  [`/api/inventory`](/docs/api/inventory). Use this to *stock* inventory, vs.
+  `proposeInvoice` which *bills* a patient.
 - **`proposeInvoice`** — parse an uploaded purchase/medication list into invoice line
   items and show an approval card; on **Add**, commits via
   [`/api/invoices`](/docs/api/invoices) (creating/linking a patient when needed).

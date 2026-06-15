@@ -21,10 +21,15 @@ icon: ListTodo
 | `assigneeRole` | string \| null | Department/role of the assignee |
 | `due` | string | Free text, defaults to `"No due date"` |
 | `priority` | enum | `high` \| `medium` (default) \| `low` |
+| `status` | enum | `todo` (default) \| `in_progress` \| `done` — the board column |
 | `patient` | string \| null | Linked patient, if any |
 | `notes` | string \| null | Free text |
-| `done` | boolean | Completion state |
+| `done` | boolean | Completion state — kept in sync with `status` (`done === status === "done"`) |
 | `createdByName` | string | Who created the task |
+
+`status` drives the **kanban board** column. It stays consistent with `done`: setting
+`status` to `done` marks the task done (and vice-versa); patching `done` maps it to
+`done`/`todo`. Send either field in a `PATCH` to move a task between columns.
 
 ## Examples
 

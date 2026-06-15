@@ -15,6 +15,8 @@ of, regardless of role. All endpoints require a signed-in member with an active 
 | `GET` | `/api/conversations/{id}/messages` | Message history |
 | `POST` | `/api/conversations/{id}/messages` | Send a message |
 | `POST` | `/api/conversations/{id}/read` | Mark the conversation read |
+| `POST` | `/api/conversations/attachments` | Upload a file, get its id back |
+| `GET` | `/api/conversations/attachments/{id}` | Download a file (clinic-scoped) |
 
 ## Endpoints
 
@@ -38,12 +40,38 @@ conversation instead of a duplicate.
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `body` | string | **Required.** 1–5000 characters |
+| `body` | string | Up to 5000 characters. Optional **if** `attachments` are present |
+| `attachments` | array | Optional. Up to 10 file refs / appointment snapshots |
 
 ```bash
 curl -b cookies.txt -X POST http://localhost:4000/api/conversations/CONV_ID/messages \
   -H "Content-Type: application/json" \
   -d '{ "body": "Labs for 1042 are back — HbA1c improving." }'
+```
+
+Each attachment is one of:
+
+- **File** — `{ "kind": "file", "attachmentId", "fileName", "mimeType", "size" }` (the
+  `attachmentId` comes from the upload endpoint below).
+- **Appointment** — `{ "kind": "appointment", "appointment": { fileNumber, name, date,
+  time, type, provider, status } }`. The appointment is stored as a **snapshot** so the
+  card renders without a refetch and survives the appointment later changing.
+
+### Attachments (files)
+
+Files are uploaded separately, then referenced by id when sending. Bytes are stored
+clinic-scoped (base64), capped at **10MB**.
+
+```bash
+# 1) Upload — returns { attachmentId, fileName, mimeType, size }
+curl -b cookies.txt -X POST http://localhost:4000/api/conversations/attachments \
+  -H "Content-Type: application/json" \
+  -d '{ "fileName": "results.pdf", "mimeType": "application/pdf", "size": 12345,
+        "data": "<base64-without-data-prefix>" }'
+
+# 2) Send a message that references it (see "attachments" above)
+# 3) Download — authenticated, clinic-scoped
+curl -b cookies.txt http://localhost:4000/api/conversations/attachments/ATTACHMENT_ID -o results.pdf
 ```
 
 ## Real-time delivery

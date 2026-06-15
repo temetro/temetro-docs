@@ -7,6 +7,37 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 15, 2026
+
+### Tasks are a kanban board
+
+- The **Tasks** page is now a **To Do / In Progress / Done** board. Drag cards between
+  columns (or use **Move to** in a task's details), add tasks straight into a column, and
+  see due date + priority at a glance. Tasks gained a `status` field — see the
+  [Tasks guide](/docs/guides/tasks) and [tasks API](/docs/api/tasks).
+
+### Turn the AI on or off
+
+- Owners/admins get an **Availability** switch under **Settings → AI**: disable the
+  assistant clinic-wide, or **only for employees** (owners/admins keep access). When off,
+  the AI page and sidebar entry disappear and the chat endpoint is blocked — enforced on
+  the server. See the [Settings guide](/docs/guides/settings) and
+  [AI policy API](/docs/api/ai).
+
+### Stock inventory with the AI
+
+- Hand the chat a **medications/stock list** and ask it to **add to inventory** — it parses
+  the items and shows an approval card; on **Add** they're saved to your inventory (distinct
+  from invoicing a patient). See [The chat](/docs/guides/chat).
+
+### Files in messages and chat
+
+- **Messages** now support attachments: the **+** button shares **files** (up to 10MB) and
+  **appointments** (as a snapshot card). See the [Messages guide](/docs/guides/messages).
+- In the **AI chat**, uploaded files render as **attachment chips** instead of raw pasted
+  text, and you can attach a file even when the box already has text. The Chain-of-Thought
+  trace now stays **collapsed** by default.
+
 ## June 14, 2026
 
 ### The AI can see the whole clinic

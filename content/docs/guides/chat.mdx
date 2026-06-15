@@ -69,6 +69,14 @@ It can also answer about the **whole clinic**: *"what's my clinic called?"*, you
 earnings chart), and your **inventory** (*"what's running low?"*). These are clinic
 aggregates, not individual charts.
 
+### Attaching files
+
+Use the **+** button by the message box to attach files (CSV, JSON, PDF, images, …). They
+show as tidy **attachment chips** in the conversation — not as a wall of pasted text.
+Behind the scenes temetro reads text-like files into the prompt so the agent can parse
+them, and passes images/PDFs to vision-capable models. You can attach a file whether or
+not the box already has text.
+
 ### Building an invoice from a file
 
 Hand the chat a list of medications or items a client bought (a CSV/PDF/text export) and
@@ -76,6 +84,13 @@ ask it to invoice them. The agent reads the prices from the file, drafts an **in
 with line items, and shows it as an approval card — nothing is billed until you **Add** it.
 If the client isn't a patient yet, approving it also creates their record. See
 [Invoices](/docs/guides/invoices).
+
+### Stocking inventory from a file
+
+Upload a stock or purchase list (names, quantities, optionally prices) and ask temetro to
+**add it to inventory**. The agent parses the items and shows an **approval card**; on
+**Add** the items are saved to your [inventory](/docs/guides/pharmacy). This is distinct
+from invoicing — use it to *stock* the clinic rather than *bill* a patient.
 
 ### Your chat history
 

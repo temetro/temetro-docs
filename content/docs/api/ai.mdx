@@ -14,6 +14,8 @@ returned by the API.
 | `PUT` | `/api/ai/config` | Signed in | The saved config |
 | `POST` | `/api/ai/test` | Signed in | `{ ok, message }` |
 | `POST` | `/api/ai/import` | `patient:write` | `{ created, failed }` |
+| `GET` | `/api/ai/policy` | Member of clinic | The clinic's AI policy |
+| `PUT` | `/api/ai/policy` | Owner/admin | The saved policy |
 
 ## The config object
 
@@ -62,6 +64,33 @@ not spend a token).
 curl -b cookies.txt -X POST http://localhost:4000/api/ai/test \
   -H "Content-Type: application/json" \
   -d '{ "mode": "local", "ollamaBaseUrl": "http://localhost:11434" }'
+```
+
+## Clinic-wide AI policy
+
+Unlike the per-user config above, the **AI policy is clinic-scoped** (org-wide) and only
+**owners/admins** can change it. It is the kill-switch behind [the chat](/docs/api/chat):
+when AI is off for a caller, `POST /api/chat` returns `403`, and the frontend hides the AI
+page and sidebar entry.
+
+```json
+{
+  "aiEnabled": true,
+  "disabledForEmployees": false
+}
+```
+
+- **`aiEnabled`** — master switch. `false` disables the AI for **everyone** in the clinic.
+- **`disabledForEmployees`** — when `true` (and `aiEnabled` is `true`), the AI is hidden and
+  blocked for staff; **owners and admins keep access**.
+
+`GET` is readable by any member (the app needs it to gate the UI); `PUT` requires
+owner/admin and returns the saved policy.
+
+```bash
+curl -b cookies.txt -X PUT http://localhost:4000/api/ai/policy \
+  -H "Content-Type: application/json" \
+  -d '{ "aiEnabled": true, "disabledForEmployees": true }'
 ```
 
 ## Importing records
