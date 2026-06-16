@@ -11,15 +11,25 @@ the sidebar it expands into two pages: **Pharmacy** (the dispensing queue) and
 ## Dispensing queue
 
 The **Pharmacy** page lists the clinic's **active** prescriptions, oldest first, with
-three stat cards at the top: active prescriptions, **expiring within 7 days**, and
-patients on medication. Search by patient, file number, medication, or prescriber, then
-**Mark completed** once a course has been dispensed.
+three stat cards at the top: active prescriptions, **expiring soon**, and patients on
+medication. Search by patient, file number, medication, or prescriber, then **Dispense**
+once a course has been handed over.
 
-A prescription is flagged **Expiring** only when its course ends **within the next 7
-days** — courses that have already elapsed are no longer flagged.
+A prescription is flagged **Expiring** only when its course is **about to run out (≤2 days
+left)** — using the prescription's **end date** when one is set, otherwise the start/
+prescribed date plus its duration. This keeps freshly-issued short courses from all
+showing as expiring.
 
 Pharmacy can read and update prescriptions but never delete or create them — prescribing
 stays with clinicians.
+
+### Dispensing & the dispensed feed
+
+Pressing **Dispense** does two things: it marks the course **completed** and records a
+**dispense** — a ledger entry of who received which medication, dispensed by whom and
+when. These appear under **Recently dispensed** below the queue, so you can see at a glance
+who has collected medication from the pharmacy. The ledger is exposed through the
+[Dispenses API](/docs/api/dispenses) (gated on the inventory permission).
 
 ## Inventory
 
@@ -32,7 +42,8 @@ badge:
 - **Out of stock** — none on hand.
 
 The stat cards summarise total medications, how many are low, and how many are out.
-Search by name, form, strength, or location.
+Search by name, form, strength, or location. **Click any item** to open its details —
+stock and reorder level, form, strength, shelf location, expiry and notes.
 
 ### Adding an item
 

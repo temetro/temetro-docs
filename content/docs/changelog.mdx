@@ -7,6 +7,42 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 16, 2026
+
+### Pharmacy: dispensing ledger + clickable stock
+
+- The pharmacy **dispensing queue** now records each fulfilment: pressing **Dispense**
+  writes a **dispense** (who received which medication, by whom, when) and a new
+  **Recently dispensed** feed lists them. See the [Pharmacy guide](/docs/guides/pharmacy)
+  and the new [dispenses API](/docs/api/dispenses).
+- Inventory rows are **clickable** — open an item to see stock, reorder level, location,
+  expiry and notes. The "expiring soon" badge now flags only courses with **≤2 days left**
+  (it previously fired on nearly every freshly-issued short course).
+
+### Prescriptions: inventory link, dates, keyboard nav
+
+- The **New prescription** dialog suggests medications from your **inventory** as you type
+  (free text still works when there's no match), supports **arrow-key + Enter** navigation
+  in the patient search, and can record optional **start / end dates** behind an **Add
+  dates** toggle. When set, the **end date** drives expiry instead of the duration text.
+  Prescriptions gained `startDate` / `endDate` — see the
+  [prescriptions API](/docs/api/prescriptions) and
+  [Prescriptions guide](/docs/guides/prescriptions).
+
+### Lab: work-queue detail
+
+- The **Lab work queue** rows now **expand** to show the full task — notes, status,
+  patient, assignee and creator — alongside the complete button. See the
+  [Tasks guide](/docs/guides/tasks).
+
+### Smaller fixes
+
+- The **AI chat** appointment results are now a **condensed card** with a **View in
+  calendar** link (instead of one dense row per appointment), the composer reads as a
+  lighter, clearly-bordered box, and attaching a file works with or without text.
+- **Tasks** gained a top-level **New task** button; the **sidebar** now scrolls as one when
+  the navigation grows tall.
+
 ## June 15, 2026
 
 ### Tasks are a kanban board

@@ -10,6 +10,7 @@
     "invoices",
     "prescriptions",
     "inventory",
+    "dispenses",
     "tasks",
     "notes",
     "staff",

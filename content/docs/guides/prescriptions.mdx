@@ -12,10 +12,17 @@ prescribed, to whom, by whom, and its current status.
 ### Writing a prescription
 
 1. Open **Prescriptions** and click **New prescription**.
-2. Pick the **patient** (by file number).
-3. Enter the **medication**, **dose**, and **frequency** (e.g. "Amoxicillin", "500 mg",
-   "3× daily"), and optionally a **duration** and free-text **notes**.
-4. The **prescriber** defaults to you. Save.
+2. Pick the **patient** — search by name or file number and use the **arrow keys + Enter**
+   to choose without leaving the keyboard.
+3. Enter the **medication**: as you type, matching items from your
+   [inventory](/docs/guides/pharmacy) are suggested (with stock levels). Pick one, or just
+   type a name freely when there's no match.
+4. Set the **dose** and **frequency** (e.g. "500 mg", "3× daily"), and optionally a
+   **duration** and free-text **notes**.
+5. *(Optional)* Click **Add start/end dates** to record an explicit course window. When an
+   **end date** is set it drives the expiry/"expiring" badge on the pharmacy queue instead
+   of the duration text.
+6. The **prescriber** defaults to you. Save.
 
 ### Tracking
 
@@ -36,12 +43,14 @@ everything a patient is currently taking is quick.
 Members with the **Pharmacy** role land on the **Pharmacy** page — a dispensing view
 over the same ledger:
 
-- **At a glance:** active prescriptions, courses expiring within 7 days (computed from
-  the duration), and how many patients are currently on medication.
+- **At a glance:** active prescriptions, courses **expiring soon** (≤2 days left, from the
+  end date when set, else the start/prescribed date plus duration), and how many patients
+  are currently on medication.
 - **Dispensing queue:** active prescriptions, oldest first, with the same search box.
-  Courses nearing their end carry an **Expiring** badge.
-- **Mark completed:** one click on a queue row closes out a dispensed course; clicking
-  the row itself opens the full prescription detail.
+  Courses about to run out carry an **Expiring** badge.
+- **Dispense:** one click on a queue row hands over the course — it's marked completed and
+  logged to the **Recently dispensed** feed; clicking the row itself opens the full
+  prescription detail.
 
 Clinicians can also open the Pharmacy page for an oversight view of the queue.
 

@@ -26,6 +26,8 @@ icon: Pill
 | `frequency` | string | **Required.** e.g. `"3× daily"` |
 | `prescriber` | string | Defaults to the signed-in user |
 | `prescribedAt` | string | `YYYY-MM-DD`; defaults to today |
+| `startDate` | string \| null | `YYYY-MM-DD`; optional course start |
+| `endDate` | string \| null | `YYYY-MM-DD`; optional course end — drives expiry when set |
 | `status` | enum | `active` (default) \| `completed` \| `expired` |
 | `duration` | string \| null | e.g. `"7 days"` |
 | `notes` | string \| null | Free text |

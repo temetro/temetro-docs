@@ -1,0 +1,60 @@
+---
+title: Dispenses
+description: The pharmacy's dispensing ledger.
+icon: PackageCheck
+---
+
+The record of medications actually **handed to patients** at the pharmacy — distinct
+from [prescriptions](/docs/api/prescriptions) (the order) and
+[inventory](/docs/api/inventory) (standing stock). A new dispense is written when the
+pharmacy **dispenses** a course from the dispensing queue, and the feed appears under
+**Pharmacy → Recently dispensed**.
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/dispenses` | `inventory:read` |
+| `POST` | `/api/dispenses` | `inventory:write` |
+
+Gated on the **inventory** statement (no new role): **Pharmacy** holds
+`inventory:read` / `inventory:write`, as do full clinicians (owner / admin / doctor /
+member). Reception and Lab have no access. The ledger is **append-only** — there is no
+update or delete.
+
+## The dispense object
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `id` | string | Assigned by the server |
+| `fileNumber` | string | Patient's file number |
+| `name` | string | **Required.** Patient name |
+| `initials` | string | 1–4 characters |
+| `medication` | string | **Required** |
+| `dose` | string | e.g. `"500 mg"` |
+| `quantity` | number | Whole units dispensed; defaults to `0` |
+| `unit` | string | e.g. `"tablets"` |
+| `prescriptionId` | string \| null | Links back to the source prescription |
+| `dispensedBy` | string \| null | User id of the dispenser (set on the server) |
+| `dispensedByName` | string | Dispenser's display name (set on the server) |
+| `dispensedAt` | string | ISO timestamp; defaults to now |
+| `notes` | string \| null | Free text |
+
+The dispenser identity (`dispensedBy` / `dispensedByName`) and `dispensedAt` are filled
+from the signed-in user on the server and ignored if sent by the client.
+
+## Example
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/dispenses \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fileNumber": "1042",
+    "name": "Hodan Warsame",
+    "initials": "HW",
+    "medication": "Amoxicillin",
+    "dose": "500 mg",
+    "prescriptionId": "…"
+  }'
+```
+
+`GET` returns the ledger newest-first. Create returns `201` with the dispense and writes
+to the [activity log](/docs/api/activity).
