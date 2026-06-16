@@ -12,7 +12,14 @@ export async function GET(_req: Request, { params }: RouteContext<'/og/docs/[...
   if (!page) notFound();
 
   return new ImageResponse(
-    <DefaultImage title={page.data.title} description={page.data.description} site={appName} />,
+    <DefaultImage
+      title={page.data.title}
+      description={page.data.description}
+      site={appName}
+      // Match temetro's monochrome brand instead of fumadocs' default pink.
+      primaryColor="rgba(250,250,250,0.25)"
+      primaryTextColor="#fafafa"
+    />,
     {
       width: 1200,
       height: 630,
