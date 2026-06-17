@@ -7,6 +7,49 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 17, 2026
+
+### Patients: record graph, fuller chart, delete
+
+- A patient's chart now opens a **Record graph** — an Obsidian-style view linking the
+  patient's **problems (illnesses) to their visits**, draggable and zoomable. The same
+  graph powers the new chat **Graph mode** (below).
+- The patient sheet now aggregates the patient's **appointments, prescriptions and
+  invoices** alongside the clinical record, for a 360° view.
+- Charts can be **deleted** (owner / admin) via the patient sheet, with confirmation.
+  New endpoint: `DELETE /api/patients/{fileNumber}` (already shipped) plus
+  `DELETE /api/patients/{fileNumber}/labs` to remove a single result. See the
+  [patients API](/docs/api/patients).
+
+### AI chat: situation modes
+
+- The composer's model picker is replaced by **Chat / Analysis / Graph** modes — clinicians
+  pick what they want, not which LLM runs (the model is set in **Settings → AI**).
+  **Analysis** steers the assistant toward interpreting patterns; **Graph** renders the
+  record graph for a patient.
+
+### Billing: invoice payments
+
+- Invoices gained a **Mark paid** action and **per-installment Pay** buttons with
+  **Paid** / **Overdue** badges; the installment plan now shows its **due-through
+  timeframe** and is hidden once an invoice is settled.
+
+### Deleting records everywhere
+
+- Every page that adds items can now **delete** them too, each behind a confirmation:
+  **lab results**, **dispense records** (`DELETE /api/dispenses/{id}`), **prescriptions**,
+  **inventory items** and **tasks** (appointments and notes already had it).
+
+### Messages
+
+- Fixed file attachments silently failing (and the missing attachment chip); **shared
+  appointments are now clickable**, opening a detail dialog for both sender and recipient.
+
+### Analysis
+
+- The realtime **Live** card is replaced by a **Patient visits** area chart over the last
+  six months.
+
 ## June 16, 2026
 
 ### Pharmacy: dispensing ledger + clickable stock

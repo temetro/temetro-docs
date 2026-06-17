@@ -14,6 +14,7 @@ Patient records are identified by their **file number** (MRN), unique within a c
 | `PUT` | `/api/patients/{fileNumber}` | `patient:write` |
 | `POST` | `/api/patients/{fileNumber}/transfer` | `patient:write` |
 | `POST` | `/api/patients/{fileNumber}/labs` | `lab:write` |
+| `DELETE` | `/api/patients/{fileNumber}/labs` | `lab:write` |
 | `DELETE` | `/api/patients/{fileNumber}` | `patient:delete` |
 
 <Callout type="info" title="Role-based scoping">
@@ -149,6 +150,26 @@ curl -b cookies.txt -X POST http://localhost:4000/api/patients/1042/labs \
 
 Returns `201` with the full updated patient; `404` if the file number doesn't exist.
 New results are appended after the existing ones.
+
+### Delete a lab result
+
+`DELETE /api/patients/{fileNumber}/labs` removes a single result from a patient's
+record. The lab has no id on the client, so it's identified by its fields.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `name` | string | **Required.** Test name |
+| `value` | string | **Required.** The recorded value |
+| `takenAt` | string | **Required.** The recorded date |
+
+```bash
+curl -b cookies.txt -X DELETE http://localhost:4000/api/patients/1042/labs \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Hemoglobin", "value": "14.2 g/dL", "takenAt": "Jun 11, 2026" }'
+```
+
+Returns `200` with the updated patient; `404` if the file number doesn't exist.
+Gated by `lab:write` (like appending), so lab staff can correct their own entries.
 
 ### Delete a patient
 

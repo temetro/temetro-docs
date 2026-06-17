@@ -14,11 +14,12 @@ pharmacy **dispenses** a course from the dispensing queue, and the feed appears 
 | --- | --- | --- |
 | `GET` | `/api/dispenses` | `inventory:read` |
 | `POST` | `/api/dispenses` | `inventory:write` |
+| `DELETE` | `/api/dispenses/{id}` | `inventory:write` |
 
 Gated on the **inventory** statement (no new role): **Pharmacy** holds
 `inventory:read` / `inventory:write`, as do full clinicians (owner / admin / doctor /
-member). Reception and Lab have no access. The ledger is **append-only** — there is no
-update or delete.
+member). Reception and Lab have no access. Entries can be **deleted** to correct the
+ledger (the medication itself isn't un-dispensed), but never updated.
 
 ## The dispense object
 
@@ -58,3 +59,10 @@ curl -b cookies.txt -X POST http://localhost:4000/api/dispenses \
 
 `GET` returns the ledger newest-first. Create returns `201` with the dispense and writes
 to the [activity log](/docs/api/activity).
+
+```bash
+curl -b cookies.txt -X DELETE http://localhost:4000/api/dispenses/{id}
+```
+
+`DELETE` returns `204`; `404` if the id doesn't exist. Removing a ledger entry is a
+correction, also written to the activity log.

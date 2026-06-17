@@ -23,7 +23,8 @@ returns `403`.
 {
   "messages": [ /* AI SDK UI messages */ ],
   "model": "claude-sonnet-4-6",
-  "effort": "medium"
+  "effort": "medium",
+  "mode": "analysis"
 }
 ```
 
@@ -31,6 +32,12 @@ The `model` selects the provider too (e.g. a `claude-*` id routes to Anthropic, 
 to OpenAI, `gemini-*` to Gemini, the `ollama` sentinel to your local model). The matching
 provider key from [your AI config](/docs/api/ai) is used. If no key is configured for the
 chosen provider, the request fails with a clear message.
+
+The optional `mode` (`chat` | `analysis` | `graph`) is the clinician's chosen **situation
+mode**. It appends a short directive to the system prompt — `analysis` steers the assistant
+toward interpreting patterns across a patient's history, `graph` toward describing how their
+problems and visits connect (the UI also renders a record graph). `chat` (the default) adds
+nothing.
 
 **File attachments.** Messages may include AI-SDK `file` parts (uploaded files). The
 server reads text-like files (CSV/JSON/TXT/…) into the prompt so the agent can parse them
