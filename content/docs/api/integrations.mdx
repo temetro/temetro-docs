@@ -1,0 +1,102 @@
+---
+title: Integrations
+description: HL7/FHIR labs, e-prescribing (NCPDP SCRIPT), and insurance claims (X12 837/835).
+icon: Cable
+---
+
+temetro connects to external healthcare systems through real, standards-compliant clients
+you point at your own endpoint. Configuration is per clinic and is set in
+**Settings → Integrations** (owners/admins). Credentials are encrypted at rest.
+
+There are three integration **types**: `fhir`, `eprescribe`, and `claims`.
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/integrations` | any clinic member |
+| `PUT` | `/api/integrations/{type}` | owner / admin |
+| `POST` | `/api/integrations/{type}/test` | owner / admin |
+| `POST` | `/api/integrations/fhir/sync` | `patient:write` or `lab:write` |
+| `POST` | `/api/integrations/fhir/ingest` | `patient:write` or `lab:write` |
+| `POST` | `/api/integrations/eprescribe/send` | `prescription:write` |
+| `POST` | `/api/integrations/claims/submit` | `invoice:write` |
+
+<Callout type="warn" title="Live networks need your credentials">
+  FHIR works against public sandboxes (e.g. HAPI FHIR, SMART Health IT) with no extra
+  setup. e-Prescribing and claims build **real** NCPDP SCRIPT / X12 messages and POST them
+  to your configured endpoint, but reaching live pharmacies / payers requires your own
+  Surescripts and clearinghouse accounts.
+</Callout>
+
+## Configuration
+
+Each type stores an `endpoint`, an `enabled` flag, and an encrypted `credentials` blob.
+`GET` never returns the secret — only `hasCredentials`.
+
+```bash
+# Read all integration configs for the active clinic
+curl -b cookies.txt http://localhost:4000/api/integrations
+
+# Configure + enable the FHIR lab integration
+curl -b cookies.txt -X PUT http://localhost:4000/api/integrations/fhir \
+  -H 'Content-Type: application/json' \
+  -d '{"endpoint":"https://hapi.fhir.org/baseR4","enabled":true,"credentials":""}'
+
+# Test a connection
+curl -b cookies.txt -X POST http://localhost:4000/api/integrations/fhir/test
+```
+
+Credentials are a JSON blob whose shape depends on the type:
+
+- **fhir** — `{ "token": "…" }` (sent as a Bearer token; optional for open sandboxes).
+- **eprescribe** — `{ "token": "…", "senderId": "…" }`.
+- **claims** — `{ "token": "…", "submitterId": "…", "receiverId": "…" }`.
+
+## Actions
+
+### FHIR: sync lab results
+
+Pulls a patient's laboratory `Observation` resources and appends them to the record,
+matching on the patient's MRN (`patient.identifier`).
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/integrations/fhir/sync \
+  -H 'Content-Type: application/json' -d '{"fileNumber":"10293"}'
+# → { "imported": 7 }
+```
+
+### FHIR: ingest an HL7 v2 ORU message
+
+Parses `OBX` result segments from a raw HL7 v2 message and appends them.
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/integrations/fhir/ingest \
+  -H 'Content-Type: application/json' \
+  -d '{"fileNumber":"10293","message":"MSH|…\rOBX|1|NM|…"}'
+```
+
+### e-Prescribe: send a prescription
+
+Builds an NCPDP SCRIPT `NewRx` for the prescription and transmits it to the configured
+pharmacy gateway.
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/integrations/eprescribe/send \
+  -H 'Content-Type: application/json' -d '{"rxId":"…"}'
+# → { "messageId": "temetro-…", "status": "sent" }
+```
+
+### Claims: submit an insurance claim
+
+Generates an X12 837P claim from an invoice, submits it to the clearinghouse, and parses
+any 835 remittance.
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/integrations/claims/submit \
+  -H 'Content-Type: application/json' -d '{"invoiceId":"…"}'
+# → { "submitted": true, "claimStatus": "paid", "paidAmount": 12000 }
+```
+
+In the app these actions surface where the work happens: a **Sync results** card on the
+**Lab** page, a **Send to pharmacy** button on the prescription sheet, and a
+**Submit claim** button on the invoice sheet — each shown only when its integration is
+enabled.

@@ -31,6 +31,13 @@ when. These appear under **Recently dispensed** below the queue, so you can see 
 who has collected medication from the pharmacy. The ledger is exposed through the
 [Dispenses API](/docs/api/dispenses) (gated on the inventory permission).
 
+### e-Prescribing
+
+When an owner/admin enables the **e-prescribing** integration
+([Settings → Integrations](/docs/guides/settings)), opening a prescription shows a
+**Send to pharmacy** button that transmits it as an NCPDP SCRIPT NewRx to your configured
+pharmacy gateway. See the [integrations API](/docs/api/integrations).
+
 ## Inventory
 
 The **Inventory** page is a searchable view of the pharmacy's medication stock. Each

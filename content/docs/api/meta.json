@@ -4,6 +4,7 @@
     "index",
     "authentication",
     "patients",
+    "attachments",
     "chat",
     "ai",
     "appointments",
@@ -17,6 +18,7 @@
     "conversations",
     "activity",
     "analytics",
+    "integrations",
     "settings"
   ]
 }

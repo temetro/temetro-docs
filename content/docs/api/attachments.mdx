@@ -1,0 +1,73 @@
+---
+title: Attachments
+description: Upload, list, download, and delete files linked to a patient record.
+icon: Paperclip
+---
+
+Files (PDFs, images, analysis documents) are stored against a patient's **file number**
+(MRN), and optionally a specific lab result. Bytes are stored on disk under the backend's
+`UPLOAD_DIR` (a persistent volume in Docker); the database holds only metadata.
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `POST` | `/api/attachments` | `patient:write` **or** `lab:write` |
+| `GET` | `/api/attachments?fileNumber={mrn}` | `patient:read` **or** `lab:read` |
+| `GET` | `/api/attachments/{id}` | `patient:read` **or** `lab:read` |
+| `DELETE` | `/api/attachments/{id}` | `patient:write` **or** `lab:write` |
+
+<Callout type="info" title="Limits">
+  One file per request, **15 MB** max. Allowed types: PDF, common images
+  (PNG/JPEG/GIF/WebP/TIFF/HEIC), DICOM, plain text/CSV, and Word/Excel documents.
+</Callout>
+
+## Endpoints
+
+### Upload a file
+
+`multipart/form-data` with a `file` part plus a `fileNumber` field (and an optional
+`labKey` when the file documents a specific result).
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/attachments \
+  -F "file=@cbc-report.pdf" \
+  -F "fileNumber=10293" \
+  -F "labKey=Hemoglobin · Jun 18, 2026"
+```
+
+Returns the created attachment:
+
+```json
+{
+  "id": "8f2c…",
+  "fileNumber": "10293",
+  "labKey": "Hemoglobin · Jun 18, 2026",
+  "filename": "cbc-report.pdf",
+  "mimeType": "application/pdf",
+  "sizeBytes": 48213,
+  "uploadedByName": "Dr. Adaobi Okafor",
+  "createdAt": "2026-06-18T10:12:00.000Z"
+}
+```
+
+### List a patient's files
+
+```bash
+curl -b cookies.txt "http://localhost:4000/api/attachments?fileNumber=10293"
+```
+
+### Download / preview a file
+
+Streams the bytes. Images and PDFs are sent `inline` (so the app can preview them in a
+dialog); other types are sent as an attachment download.
+
+```bash
+curl -b cookies.txt http://localhost:4000/api/attachments/8f2c… -o report.pdf
+```
+
+### Delete a file
+
+Removes the row and the file from disk.
+
+```bash
+curl -b cookies.txt -X DELETE http://localhost:4000/api/attachments/8f2c…
+```

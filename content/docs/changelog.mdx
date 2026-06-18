@@ -7,6 +7,49 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 18, 2026
+
+### Integrations: HL7/FHIR, e-prescribing & insurance claims
+
+- New **Settings → Integrations** tab connects temetro to external systems with real,
+  standards-compliant clients: **HL7/FHIR** lab results, **e-prescribing** (NCPDP SCRIPT),
+  and **insurance claims** (X12 837/835). Point each at your own sandbox or production
+  endpoint and supply credentials (encrypted at rest).
+- On-page actions appear once an integration is enabled: a **Sync results** card on the
+  **Lab** page, **Send to pharmacy** on the prescription sheet, and **Submit claim** on the
+  invoice sheet. New [`/api/integrations`](/docs/api/integrations) endpoints.
+
+### File attachments on the chart
+
+- Upload **patient files** from the patient Add/Edit dialog and **analysis files** from the
+  Lab "add result" dialog. The patient sheet now has a **Files** section that previews
+  images inline and downloads other types. Files persist on the server. New
+  [`/api/attachments`](/docs/api/attachments) endpoints.
+
+### Record graph redesign
+
+- The patient record graph is now an **Obsidian-style** view (round nodes, hover-focus
+  highlighting) that **pops out into a full dialog** from the patient sheet, which also
+  lists the patient's records as clickable entries that open in a dialog.
+
+### AI proposal cards: edit before adding
+
+- When the assistant proposes records (e.g. an imported inventory or appointment batch),
+  you can now **edit them — whole or item-by-item — before approving**, and the cards
+  render dense item lists as a tidy, scrollable list instead of a wall of text.
+
+### AI assistant: clearer clinic-wide kill-switch
+
+- The **Settings → AI → Availability** master switch now clearly disables AI for
+  **everyone, including owners and admins**, and hides every AI surface (New chat, Analysis,
+  chat history) and blocks their routes. A separate toggle keeps the older
+  employees-only restriction.
+
+### Fixes
+
+- The **Care team** member dialog now shows the **Lab results** permission row with its
+  icon (it previously rendered a raw key).
+
 ## June 17, 2026
 
 ### Patients: record graph, fuller chart, delete

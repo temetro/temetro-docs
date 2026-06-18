@@ -56,8 +56,9 @@ the team; the [permission matrix](/docs/admin/roles-permissions) has the details
 The **AI** tab has an **Availability** section that controls the assistant for the whole
 clinic. Owners and admins can:
 
-- **Enable AI assistant** — the master switch. Turning it off **hides the AI page and
-  sidebar entry for everyone** and blocks the assistant entirely.
+- **Enable AI assistant** — the master switch. Turning it off disables the assistant for
+  **everyone, including owners and admins**: New chat, Analysis, and the chat history all
+  disappear and their routes are blocked.
 - **Disable for employees only** — keep the AI for **owners and admins** while hiding it
   from other staff.
 
@@ -75,6 +76,12 @@ Owners and admins also see three more tabs:
 - **Signing** — your signing key and identity, and how the
   [patient-approval flow](/docs/concepts#patient-owned-records-the-vision) will work.
   Illustrative until signing ships.
+- **Integrations** — connect external healthcare systems: **HL7/FHIR** lab results,
+  **e-prescribing** (NCPDP SCRIPT), and **insurance claims** (X12 837/835). Set each
+  integration's endpoint and credentials, flip it on, and use **Test connection**. Once
+  enabled, the matching action shows up where you work — **Sync results** on the Lab page,
+  **Send to pharmacy** on a prescription, **Submit claim** on an invoice. See the
+  [integrations API](/docs/api/integrations).
 - **Developers** — the API base URL and a preview of personal access tokens
   (see the [API reference](/docs/api)).
 
