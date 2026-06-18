@@ -14,6 +14,7 @@ returned by the API.
 | `PUT` | `/api/ai/config` | Signed in | The saved config |
 | `POST` | `/api/ai/test` | Signed in | `{ ok, message }` |
 | `POST` | `/api/ai/import` | `patient:write` | `{ created, failed }` |
+| `POST` | `/api/ai/import/validate` | `patient:write` | `{ valid, invalid, total }` |
 | `GET` | `/api/ai/policy` | Member of clinic | The clinic's AI policy |
 | `PUT` | `/api/ai/policy` | Owner/admin | The saved policy |
 
@@ -110,3 +111,8 @@ duplicate file number land in `failed`.
   "failed": [{ "fileNumber": "10295", "error": "name: Patient name is required." }]
 }
 ```
+
+`POST /api/ai/import/validate` is a **dry run** — it runs the same validation and returns
+`{ valid, invalid, total }` (each `invalid` entry includes the original `record`) without
+writing anything. The "Review & edit before import" UI calls it to refresh which rows are
+ready as the clinician edits them.

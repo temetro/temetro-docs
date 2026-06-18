@@ -42,8 +42,10 @@ Import these patients into my clinic.
 ```
 
 The agent reads the file, maps each row to a patient record, and **validates** every one.
-You'll see a **Thinking…** trace as it parses and checks the records — but nothing is
-saved yet.
+It **normalizes the data for you** — gender words become M/F, IDs like `P00001` keep their
+digits, semicolon/comma lists (allergies, medications, problems) split into separate items,
+and a visit table becomes encounters — so you don't have to reformat the file. You'll see a
+**Thinking…** trace as it parses and checks the records, but nothing is saved yet.
 
 </Step>
 <Step>
@@ -55,6 +57,17 @@ how many were **skipped**, and the **total** it read. temetro is lenient: a row 
 a **name** — gaps (including a missing file number) are filled with safe placeholders and
 the record is tagged **Added by AI** for review, so most rows come through ready. Rows that
 can't be used at all are listed with the reason.
+
+</Step>
+<Step>
+
+### Review & edit (optional)
+
+Click **Review & edit** to open every parsed record. Each shows a **Ready** or **Needs
+fixing** badge; open one to edit it in the full patient form — correct a file number, fix a
+field, or complete a skipped row — and save. The card re-validates instantly, so a row you
+fix flips to **Ready** and joins the import. Nothing is written here; you're just preparing
+the batch.
 
 </Step>
 <Step>

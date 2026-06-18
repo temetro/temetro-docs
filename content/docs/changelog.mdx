@@ -9,6 +9,20 @@ headed, see the [roadmap](/docs/roadmap).
 
 ## June 18, 2026
 
+### Smarter file import
+
+- The AI now **normalizes messy exports itself** instead of asking you to reformat them:
+  gender words → M/F, IDs like `P00001` keep their digits, semicolon/comma lists split into
+  separate allergies/medications/problems, and a visit table becomes encounters. Realistic
+  exports import with nothing skipped.
+- The import preview gained **Review & edit** — open any parsed record (including skipped
+  ones) in the full patient form, fix it, and it re-validates instantly before you import.
+  New dry-run endpoint `POST /api/ai/import/validate`.
+- The assistant **never replies blank** anymore — if the model ends on a tool call it now
+  summarizes what it did instead of returning empty.
+- Proposal cards (**Add** / **Review & add** / **Import**) **lock once committed** and stay
+  locked after a conversation reload, so the same records can't be added twice.
+
 ### Integrations: HL7/FHIR, e-prescribing & insurance claims
 
 - New **Settings → Integrations** tab connects temetro to external systems with real,
