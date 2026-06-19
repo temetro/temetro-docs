@@ -14,6 +14,9 @@ over the realtime Socket.io connection and is never persisted.
 | `GET` | `/api/meetings` | List the clinic's rooms |
 | `POST` | `/api/meetings` | Create a room |
 | `DELETE` | `/api/meetings/{id}` | Delete a room |
+| `GET` | `/api/meetings/events` | Scheduled meetings you're part of |
+| `POST` | `/api/meetings/events` | Schedule a meeting |
+| `DELETE` | `/api/meetings/events/{id}` | Delete a scheduled meeting (creator only) |
 
 All endpoints require a signed-in member with an active clinic.
 
@@ -33,6 +36,19 @@ curl -b cookies.txt -X POST http://localhost:4000/api/meetings \
 
 Returns `201` with `{ id, name, createdAt }`.
 
+### Schedule a meeting
+
+`POST /api/meetings/events` creates a calendar entry; `GET /api/meetings/events` returns the
+meetings where you are the creator or an invited participant (with participant display names
+resolved). The creator is always added as a participant.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `title` | string | **Required.** 1–120 chars |
+| `date` | string | **Required.** `YYYY-MM-DD` |
+| `time` | string | **Required.** `HH:mm` |
+| `participants` | string[] | Invited staff user ids (max 50) |
+
 ## Realtime call signaling
 
 Calls use a **WebRTC mesh**: every participant holds one peer connection to each other
@@ -47,9 +63,14 @@ authenticated Socket.io connection and tracks who is in a room. A room is capped
 | `call:signal` | both | `{ to, signal }` relayed as `{ from, signal }` — `signal` carries an SDP offer/answer or an ICE candidate |
 | `call:leave` | client → server | `roomId` |
 | `call:peer-left` | server → clients | `{ socketId }` |
+| `call:invite` | client → server | `{ roomId, toUserId }` — rings a member |
+| `call:invite` | server → client | `{ roomId, roomName, fromName }` — relayed to the invitee (also a `meeting` notification) |
+| `call:presence` | server → clinic | `{ roomId, count }` — live room occupancy |
 
 On `call:join` the newcomer receives the peers already present and initiates an offer to
 each; existing peers answer. Disconnects emit `call:peer-left` to the room automatically.
+**Invites** ring a member into a room (a toast with a Join action, plus a bell notification);
+**presence** broadcasts let the room list show how many people are in each call.
 
 <Callout type="info">
   Cross-network calls (symmetric NAT) also need a **TURN** server — a deployment add-on.
