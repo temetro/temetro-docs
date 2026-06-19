@@ -91,7 +91,13 @@ emits custom **data parts** the clinician's UI renders as rich cards:
 `data-patientCard`, `data-labCard`, `data-importPreview`, `data-appointmentList`,
 `data-taskList`, `data-prescriptionList`, `data-inventoryList`, `data-clinicCard`,
 `data-analyticsCard`, `data-actionPreview` (an add awaiting approval),
-`data-step` (a live Chain-of-Thought step), and a `data-veilNotice` flag.
+`data-step` (a live Chain-of-Thought step), `data-source` (a citable record the
+model can reference), and a `data-veilNotice` flag.
+
+Each retrieval tool also registers a PHI-free `sourceId` and emits a `data-source` part
+(`{ id, title, kind }`). The model cites facts inline with a `[[src:id]]` marker, which the
+UI renders as a numbered **inline citation** chip; a sources footer attributes the records
+when the model omits markers.
 
 Conversations are persisted per user via the `/api/chat/threads` endpoints (the client
 saves a snapshot after each exchange and lists/opens them in the sidebar history).

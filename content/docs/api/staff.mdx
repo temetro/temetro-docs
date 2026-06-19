@@ -9,18 +9,28 @@ icon: UserPlus
 | `GET` | `/api/staff/providers` | any member |
 | `GET` | `/api/staff` | `member:create` (admin/owner) |
 | `POST` | `/api/staff` | `member:create` (admin/owner) |
+| `PATCH` | `/api/staff/{userId}` | `member:update` (admin/owner) |
 
 ## Endpoints
 
 ### List providers
 
 `GET /api/staff/providers` returns the clinic members who can act as a patient's
-**primary provider** — used to populate provider pickers. Any member can call it.
+**primary provider** — used to populate provider pickers. Any member can call it. Each row
+includes the provider's `specialty` (or `null`), so the patient sheet can show the
+treating clinician's specialty.
 
 ### List staff
 
-`GET /api/staff` returns all clinic members with their usernames and roles.
-Admin/owner only.
+`GET /api/staff` returns all clinic members with their usernames, roles, and `specialty`
+(or `null`). Admin/owner only.
+
+### Set a member's specialty
+
+`PATCH /api/staff/{userId}` upserts the member's clinical **specialty** for this clinic.
+Admin/owner only. Send `{ "specialty": "orthopedics" }` (one of the curated specialty keys)
+or `{ "specialty": null }` to clear it. The specialty is per-clinic (stored in
+`staff_profile`), not on the global user account.
 
 ### Create a staff account
 

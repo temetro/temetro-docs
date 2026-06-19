@@ -7,6 +7,42 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 20, 2026
+
+### Staff meetings — voice & video calls
+
+- **Messages** now expands to **Inbox** and **Meetings**. Meetings are Discord-style
+  voice/video rooms your team can hop into: create a room, join, and you get a tile grid
+  with **mic, camera, screen-share and leave** controls. Calls are **peer-to-peer**
+  (WebRTC mesh, up to 4 people) so media never touches the server. New
+  [`/api/meetings`](/docs/api/meetings) endpoints and call-signaling socket events; see the
+  [Meetings guide](/docs/guides/meetings).
+
+### Source citations in the AI chat
+
+- When the assistant states something from a record, it now shows an **inline citation**
+  chip you can hover to see which record it came from, with a **Sources** footer as a
+  fallback. Powered by a new `data-source` stream part (see
+  [the chat API](/docs/api/chat)).
+
+### Doctor specialties
+
+- Admins can set a clinician's **specialty** (e.g. Orthopedist, Dentist) in
+  **Settings → Care team**. A patient's treating clinician's specialty now shows on the
+  patient sheet. New `PATCH /api/staff/{userId}` and a `specialty` field on the staff and
+  provider lists.
+
+### Fixes & polish
+
+- Fixed a **clinic onboarding** loop where creating a clinic could bounce you back to the
+  onboarding page.
+- **Notifications are now clickable** — selecting one jumps to where it happened (the
+  conversation or patient).
+- A **mobile menu button** opens the sidebar on phones, and the **Analysis** page gained an
+  **Overview** header with a time-range filter and a Customize control.
+- Redesigned the **Messages composer** (auto-sizing input; Enter to send, Shift+Enter for a
+  newline).
+
 ## June 18, 2026
 
 ### Smarter file import

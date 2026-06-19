@@ -1,0 +1,57 @@
+---
+title: Meetings
+description: Staff meeting rooms and the WebRTC call signaling events.
+icon: Video
+---
+
+Meeting rooms are **persistent staff voice/video channels**, scoped to the active clinic.
+Any clinic member can list, create, join, and delete rooms — calls are staff-to-staff. The
+REST endpoints manage only the room list; the live call (participants + media) is handled
+over the realtime Socket.io connection and is never persisted.
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/meetings` | List the clinic's rooms |
+| `POST` | `/api/meetings` | Create a room |
+| `DELETE` | `/api/meetings/{id}` | Delete a room |
+
+All endpoints require a signed-in member with an active clinic.
+
+## Endpoints
+
+### Create a room
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `name` | string | **Required.** 1–80 chars |
+
+```bash
+curl -b cookies.txt -X POST http://localhost:4000/api/meetings \
+  -H "Content-Type: application/json" \
+  -d '{ "name": "Morning huddle" }'
+```
+
+Returns `201` with `{ id, name, createdAt }`.
+
+## Realtime call signaling
+
+Calls use a **WebRTC mesh**: every participant holds one peer connection to each other
+participant, and media flows peer-to-peer. The server only relays SDP/ICE over the
+authenticated Socket.io connection and tracks who is in a room. A room is capped at
+**4 participants** (mesh degrades beyond that; 5+ would need an SFU).
+
+| Event | Direction | Payload |
+| --- | --- | --- |
+| `call:join` | client → server | `roomId` (ack returns `{ ok, peers }` or `{ ok: false, reason: "full" \| "not_found" }`) |
+| `call:peer-joined` | server → clients | `{ socketId, userId, userName }` |
+| `call:signal` | both | `{ to, signal }` relayed as `{ from, signal }` — `signal` carries an SDP offer/answer or an ICE candidate |
+| `call:leave` | client → server | `roomId` |
+| `call:peer-left` | server → clients | `{ socketId }` |
+
+On `call:join` the newcomer receives the peers already present and initiates an offer to
+each; existing peers answer. Disconnects emit `call:peer-left` to the room automatically.
+
+<Callout type="info">
+  Cross-network calls (symmetric NAT) also need a **TURN** server — a deployment add-on.
+  The bundled signaling uses public STUN, which covers same-network and simple-NAT setups.
+</Callout>
