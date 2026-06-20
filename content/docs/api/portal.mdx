@@ -1,0 +1,61 @@
+---
+title: Patient Portal
+description: Public kiosk API for self-service booking and results.
+icon: Tablet
+---
+
+The **Patient Portal** is a public, unauthenticated kiosk surface (a clinic iPad in the
+waiting room). There is **no session** — every request is scoped by the clinic **slug** in
+the URL. The matching frontend lives at `/portal/{clinic}` and renders with no sidebar or
+auth guard.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/api/portal/{clinic}` | Clinic name for the kiosk header |
+| `POST` | `/api/portal/{clinic}/appointments` | Self-service booking |
+| `GET` | `/api/portal/{clinic}/results` | Minimal status lookup |
+
+<Callout type="warn">
+  These endpoints are public. PHI exposure is deliberately minimal: every lookup requires
+  **both** a file number **and** a matching name, and results return only appointment
+  status and *whether* results exist — never clinical values. A per-kiosk token or one-time
+  verification code is the recommended hardening for a real deployment.
+</Callout>
+
+## Book an appointment
+
+`POST /api/portal/{clinic}/appointments`
+
+```json
+{
+  "fileNumber": "10293",
+  "name": "Hodan Warsame",
+  "date": "2026-07-01",
+  "time": "09:30",
+  "type": "Follow-up"
+}
+```
+
+The booking is verified against an existing patient (`fileNumber` + matching `name`) in
+that clinic, must be a future date, and creates a **confirmed** appointment that appears on
+the clinic's [Appointments](/docs/api/appointments) page. Returns `201` with the confirmed
+`date`, `time`, `type`, and `provider`. Unknown name/file number → `404`.
+
+## View results
+
+`GET /api/portal/{clinic}/results?fileNumber=10293&name=Hodan%20Warsame`
+
+```json
+{
+  "name": "Hodan Warsame",
+  "upcoming": [
+    { "date": "2026-07-01", "time": "09:30", "type": "Follow-up", "provider": "Dr. Amina Yusuf", "status": "confirmed" }
+  ],
+  "hasResults": true,
+  "resultCount": 3
+}
+```
+
+Returns the patient's upcoming appointments plus whether results are on file. It never
+returns lab values — the kiosk tells the patient to ask a staff member to review results
+with them.

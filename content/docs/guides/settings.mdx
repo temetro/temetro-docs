@@ -72,7 +72,11 @@ see [AI setup & safeguards](/docs/guides/ai-safeguards).
 Owners and admins also see three more tabs:
 
 - **Records** — where patient records come from (the clinic database today,
-  patient-owned storage later), import/export, and retention.
+  patient-owned storage later), **import & export**, and retention. **Export** downloads
+  the whole clinic's patient records as a single JSON archive; **Import a temetro archive**
+  reads one back in — choose the file, review how many records it contains, then apply.
+  Existing file numbers are skipped, so re-importing is safe. See the
+  [settings API](/docs/api/settings#records-import--export).
 - **Signing** — your signing key and identity, and how the
   [patient-approval flow](/docs/concepts#patient-owned-records-the-vision) will work.
   Illustrative until signing ships.

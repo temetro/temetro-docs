@@ -41,6 +41,47 @@ curl -b cookies.txt -X PUT http://localhost:4000/api/settings \
 `PUT` **replaces** the whole map (upsert) — send the full set of preferences, not a
 diff.
 
+## Records import & export
+
+Two **clinic-wide, admin-only** endpoints (gated by `member:create`, the owner/admin
+marker) move patient records in and out of temetro. Unlike the preference endpoints
+above, these require an active organization.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/api/settings/records/export` | Returns the clinic's full patient archive |
+| `POST` | `/api/settings/records/import` | Creates patients from an archive |
+
+**Export** returns a JSON archive:
+
+```json
+{
+  "temetroExport": true,
+  "version": 1,
+  "exportedAt": "2026-06-20T12:00:00.000Z",
+  "organizationId": "org_…",
+  "patientCount": 42,
+  "patients": [ /* full Patient objects */ ]
+}
+```
+
+**Import** accepts `{ "patients": [ … ] }` (the `patients` array from an export). Each
+record is validated; **existing file numbers are skipped** (idempotent re-imports) and
+cross-clinic provider links are dropped. It returns a summary:
+
+```json
+{ "created": 40, "skipped": 2, "total": 42, "errors": [] }
+```
+
+```bash
+# Export the clinic's records to a file
+curl -b cookies.txt http://localhost:4000/api/settings/records/export > records.json
+
+# Re-import them (new records only)
+curl -b cookies.txt -X POST http://localhost:4000/api/settings/records/import \
+  -H "Content-Type: application/json" -d @records.json
+```
+
 ## Account deletion
 
 Deleting an account goes through Better Auth, not this endpoint: the frontend calls

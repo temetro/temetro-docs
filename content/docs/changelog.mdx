@@ -9,6 +9,33 @@ headed, see the [roadmap](/docs/roadmap).
 
 ## June 20, 2026
 
+### Patient Portal — self-service kiosk
+
+- A brand-new **Patient Portal** at `/portal/{clinic}` — a standalone, full-screen kiosk
+  (no sidebar, no login) for a waiting-room iPad. Patients choose **Book an appointment**
+  or **View my results**; bookings land on the clinic's Appointments page. Privacy is
+  minimal-by-design (name **and** file number required; results never show clinical
+  values). New public [`/api/portal`](/docs/api/portal) endpoints and a
+  [Patient Portal guide](/docs/guides/portal).
+
+### Tasks, records & chat polish
+
+- **Assign a task to a specific person** — the New task dialog's Assignee control is now
+  **Myself / Department / Person**, with a provider picker; the task surfaces for that
+  person. New `assigneeUserId` field on the [tasks API](/docs/api/tasks).
+- **Records import & export** — Settings → Records can now **export** the whole clinic's
+  patient records to a JSON archive and **import** one back (with a preview; existing file
+  numbers are skipped). New [settings endpoints](/docs/api/settings#records-import--export).
+- **Meetings calendar** — past dates are disabled, an **Upcoming** list sits under the
+  calendar, and empty days show a proper empty state. The **Inbox** gained a **call
+  button** next to each conversation that jumps to Meetings with that person preselected.
+- **Call invites** now ring for 30 seconds with **Accept** and a dismiss (×); all toasts
+  got a close button.
+- **Chat** — a searchable **history panel** opens from the top-left of the chat with a
+  **Start new chat** button (the sidebar's new-chat entry is now **Ask temetro**). The
+  **Veil active** chip shows once per conversation, and record cards only offer
+  **Click for more** when there's actually more to see.
+
 ### Meetings: invites, scheduling & a Discord-style refresh
 
 - **Add people to a call** — ring a teammate in; they get a toast with **Join** plus a bell

@@ -17,8 +17,9 @@ icon: ListTodo
 | --- | --- | --- |
 | `id` | string | Assigned by the server |
 | `title` | string | **Required.** Max 200 characters |
-| `assignee` | string | Defaults to `"Unassigned"` |
-| `assigneeRole` | string \| null | Department/role of the assignee |
+| `assignee` | string | Display name of the assignee; defaults to `"Unassigned"` |
+| `assigneeRole` | string \| null | Department/role the task is assigned to |
+| `assigneeUserId` | string \| null | A specific person the task is assigned to (user id). When set, the task surfaces for that person and takes precedence over `assigneeRole` |
 | `due` | string | Free text, defaults to `"No due date"` |
 | `priority` | enum | `high` \| `medium` (default) \| `low` |
 | `status` | enum | `todo` (default) \| `in_progress` \| `done` — the board column |
@@ -30,6 +31,12 @@ icon: ListTodo
 `status` drives the **kanban board** column. It stays consistent with `done`: setting
 `status` to `done` marks the task done (and vice-versa); patching `done` maps it to
 `done`/`todo`. Send either field in a `PATCH` to move a task between columns.
+
+A task can be assigned three ways from the **New task** dialog: to **Myself** (a personal
+task, both fields null), to a **Department** (`assigneeRole`), or to a specific **Person**
+(`assigneeUserId`, picked from the clinic's providers — send the chosen person's name as
+`assignee`). Non-admins see tasks they created, tasks for their department, and tasks
+assigned to them personally.
 
 ## Examples
 

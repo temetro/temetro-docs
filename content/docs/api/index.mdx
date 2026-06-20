@@ -33,6 +33,9 @@ Every `/api/*` resource additionally requires an **active organization** — the
 your requests operate on. The session tracks it; you set it once via the auth API after
 signing in. All data you read and write is scoped to that clinic.
 
+The one exception is the [Patient Portal](/docs/api/portal) (`/api/portal/*`), a public
+kiosk surface scoped by clinic slug rather than a session.
+
 What a request may do is decided by your **role** in the active clinic — see
 [Roles & permissions](/docs/admin/roles-permissions). The same matrix the app uses is
 enforced server-side on every endpoint.
