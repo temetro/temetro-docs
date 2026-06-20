@@ -1,0 +1,58 @@
+---
+title: Setting up email
+description: Connect an email provider so temetro can send verification, reset, and invite emails.
+icon: Mail
+---
+
+temetro sends a handful of emails: **verify your address** when you sign up, **reset your
+password** when you forget it, and **invitations** when you add a teammate. Out of the box,
+temetro doesn't send anything — it just writes those emails to the server log, which is fine
+while you're trying it out locally. To send **real** email, connect a provider here.
+
+## Where to set it up
+
+Open **Settings → Developers → Email provider**. You'll need to be an **owner or admin**.
+
+This is a **whole-deployment** setting, not a per-clinic one. (Password-reset and
+verification emails go out while a person is signed *out*, so temetro can't know which clinic
+they belong to — there's just one email setup for the entire server.) Any clinic admin can
+set it, and it applies everywhere.
+
+## Pick a provider
+
+Choose one from the dropdown and fill in the matching fields, then click **Save**.
+
+| Provider | What you enter |
+| --- | --- |
+| **Resend** | An API key from your Resend account, plus a **from** address |
+| **Postmark** | A Postmark server token (API key), plus a **from** address |
+| **SendGrid** | A SendGrid API key, plus a **from** address |
+| **SMTP** | Nothing here — SMTP uses the server's `SMTP_*` environment variables |
+| **None** | The default — emails are only written to the server log |
+
+The **from address** is who the email appears to come from, for example
+`temetro <no-reply@yourclinic.com>`. With most providers you'll need to **verify your sending
+domain** in their dashboard first, or your messages may not be delivered.
+
+<Callout type="info" title="Your key is kept safe">
+  API keys are **encrypted** before they're stored and are never shown again — the screen
+  only tells you whether a key is set. To change it, paste a new one; to remove it, clear the
+  field and save.
+</Callout>
+
+## Send a test
+
+After saving, click **Send test**. temetro emails the signed-in admin so you can confirm
+everything works end to end. If it doesn't arrive, double-check the API key, the from
+address, and that your sending domain is verified with the provider.
+
+## If you skip this
+
+You don't have to connect a provider. If none is set and an employee clicks **Forgot
+password**, temetro can't email them a link — so instead it **alerts your clinic admins**: a
+[System message](/docs/guides/messages#system-messages) appears in their **Messages** (with a
+bell notification), clearly marked as a system notice. Opening it jumps to that employee in
+**Care Team**, where an admin can set a new password for them. See
+[Clinic settings → Sending email](/docs/guides/settings#sending-email).
+
+The matching API details are in the [settings API](/docs/api/settings#email-provider).

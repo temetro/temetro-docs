@@ -77,3 +77,17 @@ Clinics are Better Auth **organizations**. The endpoints you'll use most:
 These are standard Better Auth routes — the
 [Better Auth documentation](https://better-auth.com/docs) covers their exact payloads.
 Sign-in is rate limited to **5 attempts per minute** (sign-up 3, reset 3).
+
+### Reset by username
+
+Better Auth's reset is keyed by email, but staff provisioned by an admin sign in with a
+**username** (and may only have a synthetic address). This helper resolves a username to its
+account and hands off to the normal reset flow.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `POST` | `/api/auth-helpers/reset-by-username` | Body `{ "username": "...", "redirectTo": "..." }` |
+
+It always responds `{ "ok": true }` — it never reveals whether the username exists, and never
+returns the resolved email. If an [email provider](/docs/guides/email-setup) is configured a
+reset link is sent; otherwise the clinic admins are notified to set a new password.

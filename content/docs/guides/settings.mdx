@@ -101,7 +101,8 @@ To send real email, open **Settings → Developers → Email provider** and pick
 - **SMTP** — uses the server's `SMTP_*` environment variables (no key field).
 
 This is a **deployment-wide** setting (email is sent while users are logged out, so it
-can't be per clinic). Any clinic admin can set it. See the
+can't be per clinic). Any clinic admin can set it. For a step-by-step walkthrough see
+[Setting up email](/docs/guides/email-setup); for the endpoints see the
 [settings API](/docs/api/settings#email-provider).
 
 ### When no email provider is configured
@@ -121,8 +122,10 @@ clinic, completely separated from one another.
 ## Account basics
 
 - **Sign in** with email or username, plus your password.
-- **Forgot password?** Use the reset link on the sign-in page — you'll get an email
-  with instructions.
+- **Forgot password?** The reset page has **Email** and **Username** tabs — use whichever
+  you sign in with. If an [email provider](/docs/guides/email-setup) is set up you'll get a
+  reset link; staff who sign in by username (and may not have a real inbox) have their clinic
+  admin notified to set a new password instead.
 - Email verification is currently **optional** — you can sign in without verifying —
   but verification emails are already sent and enforcement is
   [planned](/docs/roadmap#email-verification-enforcement).

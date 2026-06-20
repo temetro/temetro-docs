@@ -1,46 +1,55 @@
 ---
 title: Patient Portal
-description: A self-service kiosk for booking and checking results.
+description: A simple self-service screen where patients book visits and check on results.
 icon: Tablet
 ---
 
-The **Patient Portal** is a standalone, full-screen page meant for a **clinic kiosk** — an
-iPad or self-service device in the waiting room. It has **no sidebar and no login**: it's a
-calm, large-touch flow for patients to book a visit or check on their results themselves.
+The **Patient Portal** is a self-service screen for your patients — think of an iPad in the
+waiting room that people can use on their own. There's **no login and no menus**: just two
+big buttons, large text, and a calm flow anyone can follow without help from staff.
 
-## Opening the kiosk
+## Setting it up
 
-The portal lives at:
+Open the portal in a browser at this address, replacing `your-clinic` with your clinic's
+short name (its **web address name**, shown in your clinic settings):
 
 ```text
-/portal/{clinic}
+/portal/your-clinic
 ```
 
-where `{clinic}` is your clinic's **slug**. Open that page on the kiosk device — it shows
-your clinic name and two big choices.
+Leave that page open on the device you want patients to use. It shows your clinic's name and
+the two choices below. (For the technical details behind it, see the
+[Patient Portal API](/docs/api/portal).)
 
 ## What a patient can do
 
-On the landing screen the patient picks one of two cards:
+### Book a visit
 
-- **Book an appointment** — a **returning** patient enters their **name** and **file
-  number**; a **new** patient instead enters name, sex and age and gets a file number
-  created on the spot. They pick a **date and time** (past dates are blocked, and a slot
-  that's already taken is rejected) and an optional reason, then submit. Once confirmed,
-  the appointment shows up on your clinic's
-  [Appointments](/docs/guides/appointments) page like any other booking.
-- **View my results** — they enter their **name** and **file number** to see their
-  **upcoming appointments** and whether **results are on file**.
+The patient taps **Book an appointment** and tells the portal who they are:
 
-A back button returns to the choice screen at any point.
+- **Already a patient?** They enter their **name** and **file number** (the number your
+  clinic gave them).
+- **New here?** They tap **New patient** and enter their **name, sex, and age**. The portal
+  creates a basic file for them on the spot and gives them a file number — no staff needed.
 
-<Callout type="warn" title="Privacy by design">
-  The kiosk is unauthenticated, so it shows the **minimum** necessary. Both flows require a
-  matching **name *and* file number**, and the results view only tells the patient *whether*
-  results exist (and how many) — never the clinical values themselves. It asks them to have
-  a staff member review results with them. New-patient registration writes **demographics
-  only** (no clinical data). For a hardened deployment, put the kiosk on a dedicated device
-  and consider a per-kiosk token or one-time verification code.
+Then they pick a **date and time** and, if they like, a short reason for the visit. Dates in
+the past can't be chosen, and a time that's already booked is turned away so two people don't
+get the same slot. Once they confirm, the visit shows up on your clinic's
+[Appointments](/docs/guides/appointments) page like any other booking.
+
+### Check on results
+
+The patient taps **View my results** and enters their **name** and **file number**. They'll
+see their **upcoming appointments** and whether their **results are ready** — but never the
+actual numbers. The portal simply tells them results are on file and asks them to go over
+them with a staff member.
+
+A **back** button returns to the two choices at any time.
+
+<Callout type="warn" title="Built to protect privacy">
+  Because anyone can walk up to the portal, it shows as little as possible. Both options
+  require a matching **name *and* file number**, and the results screen only says *whether*
+  results exist — never what they are. New-patient sign-up saves only basic details (name,
+  sex, age), never medical information. For extra safety, keep the portal on its own device
+  in a supervised spot.
 </Callout>
-
-Behind the scenes the kiosk talks to the public [Patient Portal API](/docs/api/portal).
