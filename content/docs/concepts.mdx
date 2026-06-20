@@ -57,10 +57,14 @@ temetro's home screen is a chat, not a dashboard. The idea: you shouldn't have t
 remember where things live in a menu — you ask, and temetro brings the information to
 you as **record cards** you can open, read, and edit.
 
-<Callout type="warn" title="Current status">
-  Today the chat reliably handles **commands** like `/patient <fileNumber>`. Free-form
-  questions ("show me Mrs. Hassan's latest labs") get a placeholder reply — the real AI
-  model isn't connected yet. See the [roadmap](/docs/roadmap).
+<Callout type="info" title="Current status">
+  The chat handles both **commands** like `/patient <fileNumber>` and **free-form
+  questions** ("show me Mrs. Hassan's latest labs"): a tool-using AI agent looks up records
+  and replies with cards and lab charts. You bring your own model — an OpenAI, Anthropic, or
+  Gemini API key, or a local Ollama model — under **Settings → AI**. Patient data is
+  protected by **Veil** (de-identification before any external call) and an **approval gate**
+  for any writes. See [AI setup & safeguards](/docs/guides/ai-safeguards) and the
+  [roadmap](/docs/roadmap).
 </Callout>
 
 ## Patient-owned records (the vision)
