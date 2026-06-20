@@ -48,8 +48,9 @@ in with their **username** instead of an email address — handy for front-desk 
 From the same page you can see every member and their role. **Click a team member** to
 open their detail dialog: it shows exactly what their role lets them do (per-resource
 permission chips for patients, appointments, prescriptions, and tasks), and lets
-admins **change the role** or **remove the member**. Only owners and admins can manage
-the team; the [permission matrix](/docs/admin/roles-permissions) has the details.
+admins **change the role**, **reset their password**, or **remove the member**. Only
+owners and admins can manage the team; the
+[permission matrix](/docs/admin/roles-permissions) has the details.
 
 ## Turning the AI on or off
 
@@ -86,8 +87,30 @@ Owners and admins also see three more tabs:
   enabled, the matching action shows up where you work — **Sync results** on the Lab page,
   **Send to pharmacy** on a prescription, **Submit claim** on an invoice. See the
   [integrations API](/docs/api/integrations).
-- **Developers** — the API base URL and a preview of personal access tokens
-  (see the [API reference](/docs/api)).
+- **Developers** — the **email provider** (below), the API base URL, and a preview of
+  personal access tokens (see the [API reference](/docs/api)).
+
+## Sending email
+
+temetro sends verification, password-reset, and invitation emails. Out of the box (no
+provider set) it just **logs** those emails to the server console — fine for local dev.
+To send real email, open **Settings → Developers → Email provider** and pick one:
+
+- **Resend**, **Postmark**, or **SendGrid** — paste the provider's **API key** and set a
+  **from address**, then **Send test** to confirm it works.
+- **SMTP** — uses the server's `SMTP_*` environment variables (no key field).
+
+This is a **deployment-wide** setting (email is sent while users are logged out, so it
+can't be per clinic). Any clinic admin can set it. See the
+[settings API](/docs/api/settings#email-provider).
+
+### When no email provider is configured
+
+If an employee clicks **Forgot password** but no provider is set, temetro can't email them
+a link — so it **alerts the clinic admins instead**: a **System** message appears in the
+admins' [Messages](/docs/guides/messages) (and a bell notification), clearly marked as a
+system message. Opening it jumps to that employee in **Care Team**, where an admin can
+**Reset password** — set a new password the employee then signs in with.
 
 ## Multiple clinics
 

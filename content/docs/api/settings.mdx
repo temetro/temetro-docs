@@ -41,6 +41,33 @@ curl -b cookies.txt -X PUT http://localhost:4000/api/settings \
 `PUT` **replaces** the whole map (upsert) — send the full set of preferences, not a
 diff.
 
+## Email provider
+
+A **deployment-wide, admin-only** config (gated by `member:create`) for how temetro sends
+verification, password-reset, and invitation emails. Email is sent while users are logged
+out, so this is one setting for the whole deployment, not per clinic. The API key is
+encrypted at rest and never returned.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| `GET` | `/api/settings/email` | Current provider + `hasCredentials` (no secret) |
+| `PUT` | `/api/settings/email` | Save provider, from address, API key |
+| `POST` | `/api/settings/email/test` | Send a test email to the caller |
+
+`provider` is one of `none` · `smtp` · `resend` · `postmark` · `sendgrid`. The REST
+providers (Resend/Postmark/SendGrid) use the stored API key; `smtp` uses the server's
+`SMTP_*` environment variables.
+
+```bash
+curl -b cookies.txt -X PUT http://localhost:4000/api/settings/email \
+  -H "Content-Type: application/json" \
+  -d '{ "provider": "resend", "fromAddress": "temetro <no-reply@clinic.com>", "credentials": "re_..." }'
+```
+
+On `PUT`, omit `credentials` to keep the existing key, or send `""` to clear it. When no
+provider is configured, a **forgot-password** request instead notifies the clinic admin(s)
+(see the [settings guide](/docs/guides/settings#when-no-email-provider-is-configured)).
+
 ## Records import & export
 
 Two **clinic-wide, admin-only** endpoints (gated by `member:create`, the owner/admin

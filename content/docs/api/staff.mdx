@@ -10,6 +10,7 @@ icon: UserPlus
 | `GET` | `/api/staff` | `member:create` (admin/owner) |
 | `POST` | `/api/staff` | `member:create` (admin/owner) |
 | `PATCH` | `/api/staff/{userId}` | `member:update` (admin/owner) |
+| `PATCH` | `/api/staff/{userId}/password` | `member:update` (admin/owner) |
 
 ## Endpoints
 
@@ -58,3 +59,18 @@ curl -b cookies.txt -X POST http://localhost:4000/api/staff \
 
 Returns `201` with the created member. To add someone with their own existing account
 instead, use an [organization invitation](/docs/api/authentication#clinics-organizations).
+
+### Set a member's password
+
+`PATCH /api/staff/{userId}/password` lets an admin set a member's password directly — used
+when an employee forgot theirs and **no email provider is configured** (see the
+[password-reset fallback](/docs/guides/settings#when-no-email-provider-is-configured)).
+Admin/owner only; the target must be a member of the active clinic.
+
+```bash
+curl -b cookies.txt -X PATCH http://localhost:4000/api/staff/USER_ID/password \
+  -H "Content-Type: application/json" \
+  -d '{ "newPassword": "a-long-secure-password" }'
+```
+
+`newPassword` must be at least **12** characters. Returns `{ "ok": true }`.

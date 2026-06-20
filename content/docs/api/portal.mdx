@@ -12,6 +12,7 @@ auth guard.
 | Method | Path | Notes |
 | --- | --- | --- |
 | `GET` | `/api/portal/{clinic}` | Clinic name for the kiosk header |
+| `POST` | `/api/portal/{clinic}/patients` | Register a new (demographics-only) patient |
 | `POST` | `/api/portal/{clinic}/appointments` | Self-service booking |
 | `GET` | `/api/portal/{clinic}/results` | Minimal status lookup |
 
@@ -21,6 +22,19 @@ auth guard.
   status and *whether* results exist — never clinical values. A per-kiosk token or one-time
   verification code is the recommended hardening for a real deployment.
 </Callout>
+
+## Register a new patient
+
+`POST /api/portal/{clinic}/patients` lets a first-time visitor create a record so they can
+then book. It writes **demographics only** (no clinical PHI) from this unauthenticated
+surface.
+
+```json
+{ "name": "Hodan Warsame", "sex": "F", "age": 34 }
+```
+
+Returns `201` with `{ "fileNumber": "10005", "name": "Hodan Warsame" }`. The kiosk then
+books using that file number.
 
 ## Book an appointment
 
@@ -37,7 +51,9 @@ auth guard.
 ```
 
 The booking is verified against an existing patient (`fileNumber` + matching `name`) in
-that clinic, must be a future date, and creates a **confirmed** appointment that appears on
+that clinic, must be a future date, and is rejected with `409` if the slot is already taken
+(same date + time for the same provider). On success it creates a **confirmed** appointment
+that appears on
 the clinic's [Appointments](/docs/api/appointments) page. Returns `201` with the confirmed
 `date`, `time`, `type`, and `provider`. Unknown name/file number → `404`.
 

@@ -23,9 +23,11 @@ your clinic name and two big choices.
 
 On the landing screen the patient picks one of two cards:
 
-- **Book an appointment** — they enter their **name** and **file number**, choose a
-  **date and time** (past dates are blocked) and an optional reason, then submit. Once
-  it's confirmed, the appointment shows up on your clinic's
+- **Book an appointment** — a **returning** patient enters their **name** and **file
+  number**; a **new** patient instead enters name, sex and age and gets a file number
+  created on the spot. They pick a **date and time** (past dates are blocked, and a slot
+  that's already taken is rejected) and an optional reason, then submit. Once confirmed,
+  the appointment shows up on your clinic's
   [Appointments](/docs/guides/appointments) page like any other booking.
 - **View my results** — they enter their **name** and **file number** to see their
   **upcoming appointments** and whether **results are on file**.
@@ -36,8 +38,9 @@ A back button returns to the choice screen at any point.
   The kiosk is unauthenticated, so it shows the **minimum** necessary. Both flows require a
   matching **name *and* file number**, and the results view only tells the patient *whether*
   results exist (and how many) — never the clinical values themselves. It asks them to have
-  a staff member review results with them. For a hardened deployment, put the kiosk on a
-  dedicated device and consider a per-kiosk token or one-time verification code.
+  a staff member review results with them. New-patient registration writes **demographics
+  only** (no clinical data). For a hardened deployment, put the kiosk on a dedicated device
+  and consider a per-kiosk token or one-time verification code.
 </Callout>
 
 Behind the scenes the kiosk talks to the public [Patient Portal API](/docs/api/portal).

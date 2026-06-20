@@ -9,6 +9,28 @@ headed, see the [roadmap](/docs/roadmap).
 
 ## June 20, 2026
 
+### Email provider & admin-driven password reset
+
+- **Email provider** — set **Resend, Postmark, SendGrid or SMTP** in **Settings →
+  Developers** so temetro actually sends verification, password-reset and invitation emails
+  (with a **Send test** button). New [email endpoints](/docs/api/settings#email-provider).
+- **Forgot password with no provider** — instead of a dead end, temetro alerts the clinic
+  admins with a **System** message card in Messages + a bell notification; opening it jumps
+  to that employee in **Care Team**, where an admin can **set a new password** directly
+  ([`/api/staff/{id}/password`](/docs/api/staff#set-a-members-password)).
+
+### Patient Portal — new-patient booking & no double-booking
+
+- The kiosk's **Book** flow now offers **Returning** vs **New patient**: a first-timer
+  registers (name/sex/age) and gets a file number on the spot, then books. Bookings now
+  **reject an already-taken slot**. New
+  [`/api/portal/{clinic}/patients`](/docs/api/portal#register-a-new-patient) endpoint.
+
+### Chat history pill
+
+- The in-chat history pill now shows a clear **history** icon plus a dedicated **new chat**
+  button; the duplicate chat list was removed from the sidebar.
+
 ### Patient Portal — self-service kiosk
 
 - A brand-new **Patient Portal** at `/portal/{clinic}` — a standalone, full-screen kiosk
