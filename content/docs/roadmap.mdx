@@ -52,6 +52,14 @@ The agent reads records, charts labs, and imports databases today. Planned next:
 clinical reasoning, summarization across encounters, and tighter free-text PHI scrubbing
 in Veil.
 
+**Ambient visit documentation (AI scribe).** The 2026 standard set by tools like Abridge,
+Nabla, Suki and Ambience is *ambient* note-taking — listen to the clinician↔patient
+conversation and draft a structured note automatically. temetro's tool-using agent and
+write-approval gate are the right foundation; turning a recorded/transcribed visit into a
+draft encounter note (reviewed and approved like any other AI write, de-identified through
+Veil before any external call) is a planned, high-leverage direction — and a model-agnostic,
+self-hostable alternative to the cloud-only scribes.
+
 ### Patient-owned records & signing
 
 The defining long-term vision ([explained in Core concepts](/docs/concepts#patient-owned-records-the-vision)):
@@ -94,7 +102,12 @@ established clinic systems offer and temetro **doesn't yet** — all planned for
 | Lab system integrations (HL7 / FHIR) | ✅ Shipped — connect a FHIR/HL7 endpoint |
 | Document & imaging attachments on the chart | ✅ Shipped |
 | Internal voice/video calls (staff-to-staff [meetings](/docs/guides/meetings), not patient-facing) | ✅ Shipped |
+| Ambient AI visit scribe (transcribe a visit → draft note) | 📋 Planned |
+| Patient-facing **telehealth** (clinician ↔ patient video visits) | 📋 Planned |
+| **FHIR API** — expose temetro as a FHIR server, not just a consumer | 📋 Planned |
+| Customizable fields / forms (à la OpenMRS's concept dictionary) | 🔭 Exploring |
 | Patient portal (self-service booking, results) | 📋 Planned |
+| ONC certification / formal compliance (HIPAA, SOC 2) path | 🔭 Exploring |
 | Multi-language UI (i18n plumbing exists; English only today) | 📋 Planned |
 
 <Callout type="info" title="What “shipped” means for integrations">
@@ -106,8 +119,39 @@ established clinic systems offer and temetro **doesn't yet** — all planned for
   credentials. See the [integrations API](/docs/api/integrations).
 </Callout>
 
+## How temetro compares
+
+temetro sits at the intersection of two markets, and borrows the best of both:
+
+- **Open-source EHRs** — _OpenEMR_ (ONC-certified, mature billing/scheduling, the largest
+  install base), _OpenMRS_ (a flexible "concept dictionary" data model + strong FHIR APIs),
+  _Bahmni_ (a full hospital information system on top of OpenMRS), and _Medplum_ (a
+  FHIR-native developer platform). These are deep and battle-tested, but none is built
+  AI-first, and most are heavier to run and extend.
+- **Ambient AI scribes** — _Abridge_, _Nabla_, _Suki_, _Ambience_. These lead on turning a
+  visit conversation into a note, but they are **cloud-only, closed, and bolt onto** an
+  existing EHR rather than being one.
+
+**Where temetro is different:** an **AI middleman** over the record (chat that retrieves and
+organizes data, with a write-approval gate) that is **open source, self-hostable, and
+model-agnostic** (bring your own OpenAI/Anthropic/Gemini key or a local Ollama model), aimed
+at the **patient-owned-records** vision no incumbent offers. The honest trade-off today is
+maturity: the platforms above have years of certification and edge-case coverage temetro is
+still building toward (see the table above).
+
+| Capability | temetro | Open-source EHRs | AI scribes |
+| --- | --- | --- | --- |
+| Open source & self-hostable | ✅ | ✅ | ❌ |
+| AI-first / built-in agent | ✅ | ❌ | ✅ (scribe only) |
+| Bring-your-own / local model | ✅ | ❌ | ❌ (cloud-only) |
+| Records, scheduling, billing, e-Rx, labs | ✅ | ✅ | ❌ |
+| Ambient visit scribe | 📋 Planned | ❌ | ✅ |
+| Expose a FHIR API | 📋 Planned | ✅ (OpenMRS/Medplum) | ❌ |
+| Patient-owned records & signing | 🔭 Vision | ❌ | ❌ |
+| ONC certification / formal compliance | 🔭 Exploring | ✅ (OpenEMR) | ✅ (HIPAA/SOC 2) |
+
 ## Contributing
 
 temetro is open source — if any of the above sounds like something you'd like to help
-build, see the [contributing guide](/docs/developers/contributing). Wiring the real LLM
-into the chat is a particularly good place to start.
+build, see the [contributing guide](/docs/developers/contributing). The **ambient AI visit
+scribe** and **exposing a FHIR API** are particularly good places to start.
