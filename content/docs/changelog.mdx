@@ -9,6 +9,19 @@ headed, see the [roadmap](/docs/roadmap).
 
 ## June 21, 2026
 
+### QR pairing, a native wallet redesign & zero-config relay
+
+- **Scan to connect (QR)** — the Patients → "Import from a patient app" dialog can now show a **QR
+  code**; the patient taps **Scan to connect** in the wallet app and scans it. The QR carries that
+  clinic's own server address, so nothing is typed and it works across per-clinic servers. See
+  [Import from a patient app](/docs/guides/wallet-import).
+- **No setup for patients** — the wallet ships with a built-in default server and a
+  **Identity → Network** screen to change it; the manual `EXPO_PUBLIC_API_URL` is now dev-only.
+- **MetaMask-style redesign** — the wallet app's screens are rebuilt with **native** SwiftUI
+  (`@expo/ui/swift-ui`) on iOS and Jetpack Compose / Material 3 (`@expo/ui/jetpack-compose`) on
+  Android: an account header with identicon, action buttons, an elevated share-request card, and
+  grouped record sections.
+
 ### Patient wallet app & encrypted record sharing
 
 - **Patient wallet app** — a new **Expo (SDK 56, `@expo/ui`) mobile app** where a patient stores

@@ -36,8 +36,19 @@ provider secrets). Rotating mints a new keypair and stamps `rotatedAt`.
 | Method | Path | Permission |
 | --- | --- | --- |
 | `POST` | `/api/patients/wallet/request-share` | `patient:write` |
+| `POST` | `/api/patients/wallet/pair` | `patient:write` |
 | `GET` | `/api/patients/wallet/request-share/{id}` | `patient:read` |
 | `POST` | `/api/patients/wallet/request-share/{id}/commit` | `patient:write` |
+
+There are two ways to start an import:
+
+- **By wallet number** — `request-share` (above): the clinician types the patient's `tmw_…` number
+  and the backend relays the request to that device.
+- **By QR** — `POST /api/patients/wallet/pair` returns `{ id, ephemeralPubKey }` with **no** wallet
+  number. The clinic encodes its relay URL + `id` + `ephemeralPubKey` into a
+  `temetro-pair:?relay=…&rid=…&epk=…` QR; the patient scans it in the app, which connects to that
+  relay and approves. The wallet number is bound when the authenticated device responds. Polling and
+  commit are identical for both.
 
 ### Start a share request
 

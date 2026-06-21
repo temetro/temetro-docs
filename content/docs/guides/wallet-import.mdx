@@ -16,12 +16,27 @@ change really came from you. Owners and admins can **rotate** it there.
 
 ## Importing a record
 
-1. On the **Patients** page, click **Import from a patient app**.
-2. Enter the patient's **wallet number** (it starts with `tmw_` — they can copy it from their app).
-3. (Optional) Turn on **Share temporarily** and pick a window (1 hour, 1 day, or 7 days).
-4. Click **Send request**. The patient gets a prompt on their phone.
-5. When they **Approve**, their record arrives for you to **review** in the usual patient form. Edit
-   anything if needed, then **save** it to your clinic.
+There are two ways, both in the **Import from a patient app** dialog on the **Patients** page:
+
+**By number**
+1. Enter the patient's **wallet number** (starts with `tmw_` — they copy it from their app).
+2. (Optional) Turn on **Share temporarily** and pick a window (1 hour, 1 day, or 7 days).
+3. Click **Send request** — the patient gets a prompt on their phone.
+
+**By QR (scan to connect)**
+1. Switch to **Show QR** and click **Show QR code**.
+2. The patient opens their wallet app, taps **Scan to connect**, and scans the code. The QR carries
+   *this clinic's* server address, so they never type anything — and it works even when each clinic
+   runs its own server.
+
+Either way, when the patient **Approves**, their record arrives for you to **review** in the usual
+patient form. Edit anything if needed, then **save** it to your clinic.
+
+<Callout type="info" title="No setup for patients">
+  The wallet app ships with a default server built in and can also be pointed at a specific clinic
+  from its **Identity → Network** screen, or simply by scanning that clinic's QR. Patients never need
+  to know a URL.
+</Callout>
 
 The record travels **end-to-end encrypted** — temetro's relay only ever sees ciphertext, and the
 record is verified against the patient's wallet number before it's shown to you.
