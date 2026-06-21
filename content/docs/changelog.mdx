@@ -7,6 +7,25 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 21, 2026
+
+### Patient wallet app & encrypted record sharing
+
+- **Patient wallet app** — a new **Expo (SDK 56, `@expo/ui`) mobile app** where a patient stores
+  their record **encrypted on their own device**. Their identity is an Ed25519 keypair; the public
+  key (base58check, `tmw_…`) is their **wallet number**.
+- **Real Signing** — Settings → **Signing** now shows your clinic's actual **Ed25519 key** and
+  fingerprint, and owners/admins can **rotate** it. (It was previously a placeholder.) See the
+  [Signing & wallet import API](/docs/api/signing).
+- **Import from a patient app** — the Patients page can pull a record straight from a patient's
+  wallet: enter their wallet number, they **approve on their phone**, and the record arrives
+  end-to-end encrypted for review. See [Import from a patient app](/docs/guides/wallet-import).
+- **Temporary shares** — opt to share **temporarily** (1 hour / 1 day / 7 days); temetro
+  **auto-deletes** the imported record when the window ends, and the patient can revoke earlier.
+- **Encrypted relay** — sharing rides a WalletConnect-style relay over the backend's `/wallet`
+  socket namespace that only ever forwards **ciphertext**. Records stay off-device only with consent;
+  this is **not** a blockchain (which is what lets a temporary share be deleted).
+
 ## June 20, 2026
 
 ### Reset by username, system messages & meetings polish

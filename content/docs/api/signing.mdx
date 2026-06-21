@@ -1,0 +1,74 @@
+---
+title: Signing & wallet import
+description: The clinic signing key and the encrypted "import from a patient app" flow.
+icon: ShieldCheck
+---
+
+Each clinic holds an **Ed25519 signing key**, and patients can share their record from the
+[patient wallet app](/docs/roadmap#patient-owned-records--signing) over an end-to-end-encrypted
+relay. The clinic never reads a record until the patient approves the share on their phone.
+
+## Signing key
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `GET` | `/api/signing/key` | `patient:read` |
+| `POST` | `/api/signing/key/rotate` | `organization:update` (owner/admin) |
+| `GET` | `/api/signing/records` | `patient:read` |
+
+The key is created lazily on first read, so `GET /api/signing/key` always returns a real key:
+
+```json
+{
+  "algorithm": "ed25519",
+  "publicKey": "b1f0…",
+  "fingerprint": "ed25519:9f86 d081 884c 7d65 …",
+  "createdAt": "2026-06-21T10:00:00.000Z",
+  "rotatedAt": null
+}
+```
+
+The private key is stored **encrypted at rest** (the same `AI_CREDENTIALS_KEY`-derived key used for
+provider secrets). Rotating mints a new keypair and stamps `rotatedAt`.
+
+## Import from a patient app
+
+| Method | Path | Permission |
+| --- | --- | --- |
+| `POST` | `/api/patients/wallet/request-share` | `patient:write` |
+| `GET` | `/api/patients/wallet/request-share/{id}` | `patient:read` |
+| `POST` | `/api/patients/wallet/request-share/{id}/commit` | `patient:write` |
+
+### Start a share request
+
+`POST /api/patients/wallet/request-share`
+
+```json
+{ "walletNumber": "tmw_…", "mode": "temporary", "durationHours": 24 }
+```
+
+The backend validates the wallet number, mints a per-request **ephemeral X25519 keypair**, stores
+the request, and relays a `wallet:share-request` event to the device over the **`/wallet`** Socket.io
+namespace. Returns the pending request (`{ id, status: "pending", shareMode, shareExpiresAt }`).
+
+### Poll the request
+
+`GET /api/patients/wallet/request-share/{id}` returns the current `status`
+(`pending` → `approved` / `denied` / `expired`) and, once approved, the decrypted **draft** record.
+
+When the patient approves on their phone, the app **signs** the record bundle with its wallet key and
+**seals** it to the request's ephemeral public key; the backend decrypts it, verifies the signature
+against the wallet number, and caches the draft.
+
+### Commit the draft
+
+`POST /api/patients/wallet/request-share/{id}/commit` takes the (optionally clinician-edited)
+`Patient` body and creates the record. For a **temporary** share the deadline (`shareExpiresAt`) is
+applied server-side from the original request; a scheduled sweep hard-deletes the record when it
+passes, and the patient can revoke earlier from the app.
+
+<Callout type="info" title="Decentralization, honestly">
+  The relay only ever forwards **ciphertext** — keys and the record live on the patient's device.
+  This is the WalletConnect-style model, **not** a literal blockchain: records stay off-chain, which
+  is exactly what lets a temporary share be deleted on expiry.
+</Callout>

@@ -4,6 +4,7 @@
     "chat",
     "ai-safeguards",
     "patients",
+    "wallet-import",
     "migration",
     "appointments",
     "invoices",

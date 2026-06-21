@@ -1,0 +1,39 @@
+---
+title: Import from a patient app
+description: Pull a patient's record from their wallet app, with their approval — including temporary shares.
+icon: Smartphone
+---
+
+Patients can carry their own record in the **temetro patient wallet** app, encrypted on their phone.
+When they arrive at your clinic, you can import that record **with their approval** — and optionally
+as a **temporary** share that deletes itself afterward.
+
+## Before you start
+
+Your clinic has an **Ed25519 signing key** (Settings → **Signing**). It's created automatically; the
+panel shows its **public-key fingerprint**, which patients and other clinics use to verify that a
+change really came from you. Owners and admins can **rotate** it there.
+
+## Importing a record
+
+1. On the **Patients** page, click **Import from a patient app**.
+2. Enter the patient's **wallet number** (it starts with `tmw_` — they can copy it from their app).
+3. (Optional) Turn on **Share temporarily** and pick a window (1 hour, 1 day, or 7 days).
+4. Click **Send request**. The patient gets a prompt on their phone.
+5. When they **Approve**, their record arrives for you to **review** in the usual patient form. Edit
+   anything if needed, then **save** it to your clinic.
+
+The record travels **end-to-end encrypted** — temetro's relay only ever sees ciphertext, and the
+record is verified against the patient's wallet number before it's shown to you.
+
+## Temporary shares
+
+A temporary import is badged **Temporary** in the patient list. When its window ends, temetro
+**automatically deletes** the record from your clinic. The patient can also **revoke** it earlier
+from their app, which deletes it immediately.
+
+<Callout type="info" title="Patient-owned by design">
+  The record lives on the patient's device. Importing it copies it into your clinic only for as long
+  as the patient allows — a permanent share stays until you delete it; a temporary share cleans
+  itself up.
+</Callout>

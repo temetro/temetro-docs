@@ -4,6 +4,7 @@
     "index",
     "authentication",
     "patients",
+    "signing",
     "attachments",
     "chat",
     "ai",

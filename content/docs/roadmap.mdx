@@ -34,9 +34,9 @@ Native clinician apps are in the works alongside the web app:
 | **iOS app** | 🚧 In progress — actively being built |
 | **Android app** | 🚧 In development — runs as a **separate effort** on its own track and timeline |
 
-Both will talk to the same backend API as the web app. The
-[patient companion app](#patient-owned-records--signing) (for approving record
-changes) is a separate, later project.
+Both will talk to the same backend API as the web app. A first version of the
+[patient companion app](#patient-owned-records--signing) (a wallet for approving record
+shares) is **now built** — see below.
 
 The AI chat is now **live**: free-form messages run a tool-using agent that looks up
 records and replies with cards and lab charts. You bring your own model — an OpenAI,
@@ -64,14 +64,20 @@ self-hostable alternative to the cloud-only scribes.
 
 The defining long-term vision ([explained in Core concepts](/docs/concepts#patient-owned-records-the-vision)):
 
-- Records stored on the **patient's own device**, not only in the clinic database.
-- Every clinician change **cryptographically signed**, blockchain-style.
-- Changes stay **pending until the patient approves them** in a companion app.
-- A **patient companion app** for reviewing and approving changes.
+- Records stored on the **patient's own device**, not only in the clinic database. ✅ The
+  [patient wallet app](/docs/changelog) stores the record encrypted on the phone.
+- A **patient companion app** for reviewing and approving shares. ✅ A first version exists
+  (Expo, `@expo/ui`).
+- Clinic identity **cryptographically signed**, blockchain-style. ✅ Each clinic has a real
+  **Ed25519 signing key** (Settings → Signing); shared bundles are signed + verified.
+- **Patient-approved sharing.** ✅ [Import from a patient app](/docs/guides/wallet-import) relays an
+  encrypted request to the wallet, the patient approves on their phone, and a **temporary** share
+  auto-deletes from the clinic afterward.
 
-None of this is built yet. Today, accountability is provided by the
-[activity log](/docs/guides/activity-analytics), which records every change with who
-made it and when.
+What's still ahead: a **clinic → wallet push** of signed record *updates* that stay pending until the
+patient approves them in-app (today the flow is the patient→clinic share above), in-app record
+editing, and QR pairing. Accountability in the clinic is also backed by the
+[activity log](/docs/guides/activity-analytics).
 
 ### Hospital ledger (blockchain)
 
@@ -147,7 +153,7 @@ still building toward (see the table above).
 | Records, scheduling, billing, e-Rx, labs | ✅ | ✅ | ❌ |
 | Ambient visit scribe | 📋 Planned | ❌ | ✅ |
 | Expose a FHIR API | 📋 Planned | ✅ (OpenMRS/Medplum) | ❌ |
-| Patient-owned records & signing | 🔭 Vision | ❌ | ❌ |
+| Patient-owned records & signing | 🚧 First version (wallet app + signed, patient-approved shares) | ❌ | ❌ |
 | ONC certification / formal compliance | 🔭 Exploring | ✅ (OpenEMR) | ✅ (HIPAA/SOC 2) |
 
 ## Contributing
