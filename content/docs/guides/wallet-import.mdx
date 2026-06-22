@@ -43,10 +43,11 @@ patient form. Edit anything if needed, then **save** it to your clinic.
   Out of the box that means the **same Wi-Fi** (the QR carries your machine's LAN address). To let a
   phone scan from **any network** (cellular, a different Wi-Fi), give the relay a public address:
 
-  - **Testing now —** run `npm run dev:tunnel` in `backend/` (needs
-    [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/),
-    `brew install cloudflared`). It opens a public `https://…trycloudflare.com` tunnel and sets
-    `PUBLIC_RELAY_URL` for you, so the QR carries that URL.
+  - **Testing now —** in `backend/`, run `npm run docker:tunnel` (needs
+    [Docker](https://www.docker.com/products/docker-desktop/)). It opens a temporary public
+    `https://…trycloudflare.com` address and wires it into the QR automatically — no install or
+    account needed. (Without Docker: `npm run dev:tunnel`, which uses a local
+    [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/).)
   - **In production —** deploy the backend and set **`PUBLIC_RELAY_URL`** to its public `https://`
     URL. See [Deploying the relay](/docs/developers/deployment).
 </Callout>

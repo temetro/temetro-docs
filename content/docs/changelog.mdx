@@ -13,8 +13,10 @@ headed, see the [roadmap](/docs/roadmap).
 
 - **Off-network scanning** — a patient can now scan the clinic QR from **any network** (cellular,
   different Wi-Fi), not just the same Wi-Fi. The fix is giving the relay a public address:
-  - `npm run dev:tunnel` (backend) opens a [`cloudflared`](https://github.com/cloudflare/cloudflared)
-    tunnel and wires `PUBLIC_RELAY_URL` automatically for instant testing.
+  - `npm run docker:tunnel` (backend) opens a Dockerized
+    [`cloudflared`](https://github.com/cloudflare/cloudflared) tunnel — one command, no install — and
+    the backend auto-discovers its public URL for instant testing. (`npm run dev:tunnel` does the same
+    without Docker.)
   - **Deploy configs** for **Fly.io**, **Render**, and **Railway** (`backend/fly.toml`,
     `render.yaml`, `railway.json`) plus a new [Deploying the relay](/docs/developers/deployment) guide.
 - **Proxy-aware QR URL** — behind a TLS proxy the backend now honors `x-forwarded-proto`, so the QR

@@ -1,83 +1,104 @@
 ---
 title: Deploying the relay
-description: Host the temetro backend publicly so patients can scan to connect from any network — on Fly.io, Render, or Railway.
+description: Put temetro online so patients can scan to connect from anywhere — with simple, click-by-click steps for Render, Railway, or Fly.io.
 icon: Server
 ---
 
-The temetro backend doubles as the **wallet relay**: the patient's app connects to it (over the
-`/wallet` Socket.io namespace) to complete a **scan-to-connect** import. For a phone to scan from
-**any network** — not just the clinic's Wi-Fi — that backend needs a **public `https://` URL**.
+When a patient taps **Scan to connect**, their phone talks to your temetro server. For that to work
+when the phone is **not on your clinic's Wi-Fi** (for example, on mobile data), your server needs to
+be **on the internet** with its own web address (a URL like `https://yourclinic.onrender.com`).
 
-This page covers deploying it. The backend ships a production **`Dockerfile`** that auto-generates
-any missing secrets and runs database migrations on start, so every provider below just builds that
-image.
+This page shows how to do that. You don't need to be a developer — pick one of the hosts below and
+follow the steps.
 
-<Callout type="info" title="Just testing?">
-  You don't need to deploy to try off-network scanning. Run `npm run dev:tunnel` in `backend/` (needs
-  `cloudflared`) — it opens a public tunnel to your local server and sets `PUBLIC_RELAY_URL` for you.
-  See [Import from a patient app](/docs/guides/wallet-import).
+<Callout type="info" title="Just want to try it on your own phone first?">
+  You don't have to put anything online to test. On the computer running temetro, open the `backend`
+  folder and run **one command** — `npm run docker:tunnel` — and temetro will create a temporary
+  public web address for you automatically. Now scan the QR with your phone on mobile data and it
+  works. (This needs [Docker](https://www.docker.com/products/docker-desktop/) installed; the address
+  goes away when you stop it.) See [Import from a patient app](/docs/guides/wallet-import).
 </Callout>
 
-## The environment contract
+## What "putting it online" means
 
-Whatever host you choose, set these:
+Two things get created:
 
-| Variable | Value |
-| --- | --- |
-| `DATABASE_URL` | Postgres connection string (the provider's managed Postgres). |
-| `PUBLIC_RELAY_URL` | The backend's **public `https://` URL** — this is baked into the wallet-import QR, so it must be reachable from the patient's phone. |
-| `BETTER_AUTH_URL` | The same public `https://` URL (the `https` scheme switches auth cookies to **secure**). |
-| `FRONTEND_URL` | Your deployed frontend origin (CORS + cookies + email links). |
-| `BETTER_AUTH_SECRET`, `AI_CREDENTIALS_KEY` | Strong secrets. The Docker entrypoint generates them if unset, but persist them (a volume or provider-managed value) so sessions/keys survive redeploys. |
+1. **A server** — a copy of temetro running on a host (a company that runs computers for you), with a
+   public web address.
+2. **A database** — where your clinic's data is stored.
 
-Repo files: `backend/fly.toml`, `backend/render.yaml`, `backend/railway.json`.
+The hosts below set up both for you. After it's running, you fill in **three web addresses** so
+temetro knows how to reach itself and your staff app. That's the whole job.
 
-## Fly.io
+<Callout type="info" title="The three addresses you'll paste in (we'll remind you below)">
+  - **PUBLIC_RELAY_URL** — your new server's address. This is the one that makes phone scanning work,
+    so it must be the real public address (the host gives it to you), not `localhost`.
+  - **BETTER_AUTH_URL** — the same address as above.
+  - **FRONTEND_URL** — the address where your staff use the temetro web app.
+</Callout>
+
+## Option 1 — Render (most beginner-friendly, all clicks)
+
+1. Create a free account at [render.com](https://render.com) and connect your GitHub.
+2. Click **New → Blueprint** and choose the temetro repository. Render reads the included
+   `backend/render.yaml` and offers to create the **server + database** together — click **Apply**.
+   (If it asks for a "Root Directory", enter `backend`.)
+3. Wait for it to finish (a few minutes). Render shows your server's address at the top — something
+   like `https://temetro-backend.onrender.com`. **Copy it.**
+4. Open the service's **Environment** tab and set:
+   - `PUBLIC_RELAY_URL` → the address you just copied
+   - `BETTER_AUTH_URL` → the same address
+   - `FRONTEND_URL` → the address of your staff web app
+5. Click **Save changes** — Render restarts automatically. Done.
+
+## Option 2 — Railway (also click-based)
+
+1. Create an account at [railway.app](https://railway.app) and connect GitHub.
+2. **New Project → Deploy from GitHub repo**, pick the temetro repo. In the service settings, set
+   **Root Directory** to `backend` (Railway uses the included `backend/railway.json`).
+3. In the project, click **+ New → Database → Postgres**. Then open your backend service →
+   **Variables** and add `DATABASE_URL` with the value `${{Postgres.DATABASE_URL}}`.
+4. In the service's **Settings → Networking**, click **Generate Domain** to get your public address
+   (like `https://temetro.up.railway.app`). **Copy it.**
+5. Back in **Variables**, set `PUBLIC_RELAY_URL` and `BETTER_AUTH_URL` to that address, and
+   `FRONTEND_URL` to your staff web app's address. Railway redeploys. Done.
+
+## Option 3 — Fly.io (uses a terminal)
+
+If you're comfortable with a command line, Fly works from the `backend` folder using the included
+`fly.toml`:
 
 ```bash
-cd backend
-fly launch --no-deploy --copy-config        # keep fly.toml; pick app name + region
-fly volumes create temetro_data --size 1    # persists secrets + uploads
+fly launch --no-deploy --copy-config        # pick an app name + region
+fly volumes create temetro_data --size 1    # keeps your data between updates
 fly postgres create
-fly postgres attach <postgres-app-name>      # sets DATABASE_URL
+fly postgres attach <postgres-app-name>      # connects the database
 fly secrets set \
-  PUBLIC_RELAY_URL=https://<app>.fly.dev \
-  BETTER_AUTH_URL=https://<app>.fly.dev \
-  FRONTEND_URL=https://<your-frontend>
+  PUBLIC_RELAY_URL=https://<your-app>.fly.dev \
+  BETTER_AUTH_URL=https://<your-app>.fly.dev \
+  FRONTEND_URL=https://<your-staff-app>
 fly deploy
 ```
 
-Fly's proxy upgrades WebSockets automatically; `fly.toml` keeps one machine always running so the
-relay never sleeps mid-pairing.
+## Check that it worked
 
-## Render
+1. Open your new server address with `/health` on the end (e.g.
+   `https://temetro-backend.onrender.com/health`) in a browser — you should see a small "ok" response,
+   not an error page.
+2. In the temetro web app, go to **Patients → Import from a patient app → QR → Generate QR**, and
+   have someone scan it **on mobile data**. The record should come through.
 
-`backend/render.yaml` is a Blueprint that provisions a managed Postgres and a Docker web service.
+<Callout type="warn" title="If scanning still doesn't work">
+  Almost always it's the **PUBLIC_RELAY_URL**. It must be your server's real public address starting
+  with `https://` — not `localhost` and not a `192.168.x.x` Wi-Fi address. Double-check it matches the
+  address the host gave you, then restart/redeploy.
+</Callout>
 
-1. **New → Blueprint** and point Render at this repo. Because the backend is in a subdirectory, set
-   the service **Root Directory** to `backend/` (or copy `render.yaml` to the repo root and prefix the
-   paths with `backend/`).
-2. Render injects `DATABASE_URL` and generates `BETTER_AUTH_SECRET` / `AI_CREDENTIALS_KEY`
-   automatically.
-3. After the first deploy, set `PUBLIC_RELAY_URL` and `BETTER_AUTH_URL` to
-   `https://<service>.onrender.com` and `FRONTEND_URL` to your frontend origin, then redeploy.
-
-Render supports WebSockets out of the box; the health check is `/health`.
-
-## Railway
-
-`backend/railway.json` builds the `Dockerfile` with a `/health` check.
-
-1. **New Project → Deploy from GitHub repo**; set the service **Root Directory** to `backend/`.
-2. Add a **Postgres** database to the project. Reference it from the backend service:
-   `DATABASE_URL=${{Postgres.DATABASE_URL}}`.
-3. Set `PUBLIC_RELAY_URL` and `BETTER_AUTH_URL` to your public Railway URL
-   (`https://<service>.up.railway.app` or a custom domain) and `FRONTEND_URL` to your frontend
-   origin. Generate a domain under the service's **Settings → Networking** if you haven't.
-
-<Callout type="warn" title="PUBLIC_RELAY_URL must be the public https URL">
-  This is the single value that makes scan-to-connect work off-network — it's what the QR tells the
-  phone to dial. If it's a `localhost`/LAN address or `http://`, the phone can't connect (iOS also
-  blocks cleartext `http`). When unset, the backend falls back to the request host and honors
-  `x-forwarded-proto`, which works behind these proxies — but setting it explicitly is recommended.
+<Callout type="info" title="For developers">
+  All three hosts build the backend's production `Dockerfile`, which auto-generates secrets and runs
+  database migrations on start. The full variable contract is `DATABASE_URL`, `PUBLIC_RELAY_URL`,
+  `BETTER_AUTH_URL`, `FRONTEND_URL` (plus optional `BETTER_AUTH_SECRET` / `AI_CREDENTIALS_KEY` — the
+  entrypoint generates them if unset). Behind a TLS proxy the backend honors `x-forwarded-proto`, so a
+  derived URL is `https`. The same contract works on any Docker host. Config files:
+  `backend/render.yaml`, `backend/railway.json`, `backend/fly.toml`.
 </Callout>
