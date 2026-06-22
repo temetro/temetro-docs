@@ -11,12 +11,25 @@ be **on the internet** with its own web address (a URL like `https://yourclinic.
 This page shows how to do that. You don't need to be a developer — pick one of the hosts below and
 follow the steps.
 
-<Callout type="info" title="Just want to try it on your own phone first?">
-  You don't have to put anything online to test. On the computer running temetro, open the `backend`
-  folder and run **one command** — `npm run docker:tunnel` — and temetro will create a temporary
-  public web address for you automatically. Now scan the QR with your phone on mobile data and it
-  works. (This needs [Docker](https://www.docker.com/products/docker-desktop/) installed; the address
-  goes away when you stop it.) See [Import from a patient app](/docs/guides/wallet-import).
+## Just want to try it on your own phone first?
+
+You don't have to put anything online to test. There are two ways to run temetro with Docker — the
+difference is whether phones on **other networks** (mobile data) can scan:
+
+| Command (run inside the `backend` folder) | What runs | Can a phone on mobile data scan? |
+| --- | --- | --- |
+| `docker compose up --build` | The full app (database, server, staff web app) on your computer | **No** — the phone must be on the **same Wi-Fi** |
+| `npm run docker:tunnel` | The same full app **plus** a temporary public web address | **Yes** — works from any network |
+
+So for off-network testing, use **`npm run docker:tunnel`**. It creates a temporary public address
+automatically and wires it into the QR; the address disappears when you stop it. (Both need
+[Docker](https://www.docker.com/products/docker-desktop/) installed.)
+
+<Callout type="info" title="Give it a few seconds">
+  After `npm run docker:tunnel`, wait until the logs print **“Wallet relay reachable via Cloudflare
+  tunnel: https://…”** before generating the QR — that line means the public address is live (it
+  takes ~10–30 seconds). Then scan with your phone on mobile data. See
+  [Import from a patient app](/docs/guides/wallet-import).
 </Callout>
 
 ## What "putting it online" means
