@@ -21,6 +21,12 @@ headed, see the [roadmap](/docs/roadmap).
     `render.yaml`, `railway.json`) plus a new [Deploying the relay](/docs/developers/deployment) guide.
 - **Proxy-aware QR URL** — behind a TLS proxy the backend now honors `x-forwarded-proto`, so the QR
   carries an `https://` (→ `wss://`) URL that iOS will connect to.
+- **Reliable tunnel handshake** — the Cloudflare tunnel now connects over **http2 (TCP/443)** instead
+  of QUIC (UDP), which is blocked on many networks and previously left the tunnel dead — the QR then
+  pointed at a URL nothing answered, so scans still failed with "must be on the same network". The
+  backend also now **waits for the tunnel to be reachable end-to-end** before putting its address in
+  the QR, so it never hands out a not-yet-live URL. Wait for the **"reachable via Cloudflare tunnel"**
+  log line before generating the QR. See [Deploying the relay](/docs/developers/deployment).
 
 ### QR scan fix & an Apple-Health wallet redesign
 
