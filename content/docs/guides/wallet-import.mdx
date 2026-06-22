@@ -38,12 +38,17 @@ patient form. Edit anything if needed, then **save** it to your clinic.
   to know a URL.
 </Callout>
 
-<Callout type="warn" title="Self-hosting: the QR address must be phone-reachable">
-  The QR encodes the server address the patient's phone connects to — so it can't be `localhost`.
-  When self-hosting, set **`PUBLIC_RELAY_URL`** (backend `.env`) to a reachable address — your
-  machine's LAN IP (e.g. `http://192.168.1.20:4000`) or a public URL — or simply open the web app
-  over that LAN IP so the address is derived for you. Otherwise the patient taps **Scan to connect**
-  and the share never completes.
+<Callout type="warn" title="The QR address must be reachable from the patient's phone">
+  The QR encodes the server address the phone connects to, so the phone has to be able to reach it.
+  Out of the box that means the **same Wi-Fi** (the QR carries your machine's LAN address). To let a
+  phone scan from **any network** (cellular, a different Wi-Fi), give the relay a public address:
+
+  - **Testing now —** run `npm run dev:tunnel` in `backend/` (needs
+    [`cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/),
+    `brew install cloudflared`). It opens a public `https://…trycloudflare.com` tunnel and sets
+    `PUBLIC_RELAY_URL` for you, so the QR carries that URL.
+  - **In production —** deploy the backend and set **`PUBLIC_RELAY_URL`** to its public `https://`
+    URL. See [Deploying the relay](/docs/developers/deployment).
 </Callout>
 
 The record travels **end-to-end encrypted** — temetro's relay only ever sees ciphertext, and the
