@@ -7,6 +7,23 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 22, 2026
+
+### QR scan fix & an Apple-Health wallet redesign
+
+- **Scan to connect now works end-to-end** — the QR previously baked in the web app's own API URL
+  (often `localhost`), so a real phone could never reach the relay and the share silently stalled.
+  It now uses the **server-resolved, phone-reachable address**. Self-hosters can pin it with the new
+  **`PUBLIC_RELAY_URL`** setting (or just open the web app over their LAN IP). See
+  [Import from a patient app](/docs/guides/wallet-import).
+- **Faster, clearer pairing** — the wallet shows a **"Connecting to clinic…"** state while sharing,
+  and an unreachable clinic now fails fast with a clear message instead of hanging.
+- **Apple-Health-style wallet redesign** — the wallet app's iOS screens were rebuilt around a calm,
+  clinical look with **full light + dark support**: a clean identity card, a connection status pill,
+  and grouped **HEALTH RECORD** / **Settings**-style sections. The previously plain-React-Native
+  **scan** and **network** sheets are now **native `@expo/ui`** (including a SwiftUI text field and a
+  polished camera overlay).
+
 ## June 21, 2026
 
 ### QR pairing, a native wallet redesign & zero-config relay
