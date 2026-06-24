@@ -9,6 +9,21 @@ headed, see the [roadmap](/docs/roadmap).
 
 ## June 24, 2026
 
+### Wallet app: rebuilt on HeroUI Native — simpler 3-tab design + registration
+
+- **New UI foundation** — the wallet app's screens are now built with **HeroUI Native**
+  (React Native + Uniwind/Tailwind) instead of `@expo/ui`, as cross-platform single files. The
+  native **tab bar** stays (expo-router `NativeTabs`) with crisp **SF Symbol** icons; in-screen
+  icons are **lucide**.
+- **Three tabs** — **Home**, **Scan**, and **Settings**. Home leads with a greeting, a copyable
+  `tmw_…` **wallet-number chip**, an allergy alert, and a **2×2 card grid** — Patient Visits,
+  Prescriptions, Appointments, Documents — each opening a detail page.
+- **Registration** — first launch now captures **name, date of birth, and sex**, mints the Ed25519
+  wallet, and seeds the record, instead of dropping straight into a sample record.
+- **Scan & share** — scanning a clinic QR opens a **bottom sheet** that reviews exactly what will be
+  shared before you approve. Settings keeps wallet number / fingerprint copy, the relay editor, a
+  dark-mode toggle, and reset.
+
 ### Wallet app: a data-rich screen — vitals, trends & status color
 
 - **The record now shows data, not just labels** — the wallet screen gains an at-a-glance
