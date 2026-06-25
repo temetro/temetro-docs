@@ -6,8 +6,8 @@ import { baseOptions } from '@/lib/layout.shared';
 export default function Layout({ children }: LayoutProps<'/docs'>) {
   return (
     <>
-      <Banner variant="rainbow" id="temetro-alpha">
-        temetro is in alpha and under active development. Expect things to change.
+      <Banner variant="rainbow" id="temetro-beta">
+        temetro is in beta and under active development. Expect things to change.
       </Banner>
       <DocsLayout tree={source.getPageTree()} {...baseOptions()}>
         {children}
