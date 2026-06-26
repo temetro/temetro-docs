@@ -29,10 +29,13 @@ docker compose up -d
 ```
 
 The generated secrets are stored in the `temetro_secrets` Docker volume and stay stable
-across restarts. For a real deployment you'll usually still create a `.env`
-(`cp .env.example .env`) to set your server's public URLs (`BETTER_AUTH_URL` for the
-backend, `FRONTEND_URL` for the app) and, if you want to manage them yourself, your own
-`BETTER_AUTH_SECRET` / `AI_CREDENTIALS_KEY` — the full list is in the
+across restarts. **You don't need to configure any addresses for other computers on your
+network to reach temetro — that works automatically** (see
+[Network access](#network-access-lan)).
+
+Create a `.env` (`cp .env.example .env`) only when you want to **customize** something:
+serve over HTTPS (`BETTER_AUTH_URL`), send real email (`SMTP_*`), or manage your own
+secrets (`BETTER_AUTH_SECRET` / `AI_CREDENTIALS_KEY`). The full list is in the
 [configuration reference](/docs/admin/configuration).
 
 <Callout type="warn" title="Use HTTPS in production">
@@ -60,22 +63,82 @@ exact update command is one click to copy. Updating is always optional.
 
 ## Network access (LAN)
 
-In a clinic, staff in different departments reach temetro from their own
-computers. temetro figures out the backend address from the host you open the app
-on, so once it's running you can simply visit it by the server's network IP:
+You don't install temetro on every computer. It runs on **one computer**, and
+everyone else just opens it in a web browser over your clinic's network.
+
+<Callout title="A couple of terms, plainly">
+  - **The server** — the one computer you installed temetro on (where you ran
+    `docker compose up`). It needs to stay turned on and running for others to use
+    temetro.
+  - **Your network (LAN)** — the shared office network your computers are on: the
+    same Wi-Fi, or the same wired router. Devices on it can reach each other.
+  - **IP address** — the server's "house number" on that network, like
+    `192.168.1.20`. That's what other computers type in to reach temetro.
+</Callout>
+
+### Step 1 — Find the server's address
+
+On the **server computer** (the one running temetro), find its network IP address:
+
+<Tabs items={['Windows', 'macOS', 'Linux']}>
+<Tab value="Windows">
+
+1. Open the **Start menu**, type `cmd`, and open **Command Prompt**.
+2. Type `ipconfig` and press **Enter**.
+3. Look for **IPv4 Address** under your active connection — something like
+   `192.168.1.20`.
+
+</Tab>
+<Tab value="macOS">
+
+1. Open **System Settings → Wi-Fi**, then click **Details…** next to the network
+   you're connected to.
+2. The **IP Address** is listed there — something like `192.168.1.20`.
+
+Or open the **Terminal** app and run `ipconfig getifaddr en0`.
+
+</Tab>
+<Tab value="Linux">
+
+Open a terminal and run `hostname -I`. Use the first address it prints that starts
+with `192.168.`, `10.`, or `172.` — for example `192.168.1.20`.
+
+</Tab>
+</Tabs>
+
+An address that begins with **`192.168.`**, **`10.`**, or **`172.`** is a private
+network address — that's the one you want. (Ignore `127.0.0.1`; that only means
+"this same computer".)
+
+### Step 2 — Open temetro from another computer
+
+On any other computer **on the same network**, open a web browser and go to your
+server's address followed by `:3000`:
 
 ```
-http://<server-LAN-IP>:3000
+http://192.168.1.20:3000
 ```
 
-No rebuild or per-machine configuration is needed. **Settings → About & updates**
-shows the shareable address for the current server. A few notes:
+Replace `192.168.1.20` with the address you found in Step 1. temetro works exactly
+as it does on the server — no extra setup. Bookmark it on each computer for easy
+access.
 
-- The server's **firewall** must allow ports `3000` (app) and `4000` (API).
-- This works over plain HTTP on the LAN; for anything beyond a trusted internal
-  network, put it behind **HTTPS** (see the callout above).
-- To pin a fixed or reverse-proxied API URL instead of host-based discovery, set
-  `NEXT_PUBLIC_API_URL` when building the frontend image.
+<Callout type="info" title="Confirm the address inside temetro">
+  Once you've opened temetro using the network address, **Settings → About &
+  updates** shows that same address back to you, so you can copy it and share it
+  with your staff.
+</Callout>
+
+### If other computers can't connect
+
+- They must be on the **same network** as the server (same Wi-Fi or router).
+- The server's **firewall** must allow incoming connections on ports **3000** and
+  **4000**. The first time someone connects, Windows or macOS may show a prompt —
+  choose **Allow**.
+- The server must be **on and running temetro** (`docker compose up`).
+- This uses plain `http://` and is meant for a **trusted internal network only**.
+  Don't open these ports to the public internet; to reach temetro from outside the
+  clinic, put it behind **HTTPS** (see the HTTPS note [above](#installing)).
 
 ## Operating temetro
 
@@ -127,5 +190,7 @@ npm install
 npm run dev          # app on http://localhost:3000
 ```
 
-The frontend finds the API through `NEXT_PUBLIC_API_URL` (default
-`http://localhost:4000`).
+The frontend finds the API automatically from the address you open it on (so
+`http://localhost:3000` talks to `http://localhost:4000`, and a LAN address works
+the same way). Set `NEXT_PUBLIC_API_URL` only if you need to point it at a fixed or
+reverse-proxied API URL.
