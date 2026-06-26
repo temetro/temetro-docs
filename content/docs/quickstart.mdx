@@ -36,11 +36,18 @@ cd temetro/backend
 ### Start everything
 
 ```bash
-docker compose up --build
+docker compose pull        # download temetro's prebuilt images
+docker compose up          # start the app, server, and database
 ```
 
 That's it — no configuration needed. temetro generates the secret keys it needs on
 first start and remembers them, so sign-ins stay secure across restarts.
+
+<Callout type="info">
+  `docker compose pull` downloads the official prebuilt images from Docker Hub —
+  the fastest way to start. Prefer to build from the source code instead? Run
+  `docker compose up --build` in place of the two commands above.
+</Callout>
 
 <Callout type="info">
   Want to customize something (your own secret key, email/SMTP, or a different
@@ -49,7 +56,7 @@ first start and remembers them, so sign-ins stay secure across restarts.
   Anything you don't set is handled for you.
 </Callout>
 
-The first start takes a few minutes while Docker downloads and builds everything. When
+The first start takes a few minutes while Docker downloads everything. When
 the log output settles down, temetro is running:
 
 | Address | What it is |
@@ -79,6 +86,21 @@ screen.
   `docker compose down` from the `backend` folder).
 - To start it again later, run `docker compose up` from the `backend` folder. Your
   data is kept between restarts.
+
+## Updating temetro
+
+When a new version is released, update in place from the `backend` folder:
+
+```bash
+docker compose pull        # download the latest images
+docker compose up -d       # restart on the new version
+```
+
+Your data is kept, and any database changes are applied automatically on start.
+temetro also **tells you when an update is available** — a notice appears in the
+app, and **Settings → About & updates** shows the version you're on, the latest
+release, and the exact update command. Updating is always optional. See
+[Updating](/docs/admin/self-hosting#updating) for the full details.
 
 ## Next steps
 
