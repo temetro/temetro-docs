@@ -7,6 +7,28 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 26, 2026
+
+### Updates, versioning & easier install
+
+- **Prebuilt Docker images** — temetro now publishes `temetro/temetro-backend` and
+  `temetro/temetro-frontend` to Docker Hub via a tag-triggered release workflow. Clinics
+  install and update with `docker compose pull && docker compose up -d` instead of building
+  from source. See [Updating](/docs/admin/self-hosting#updating).
+- **In-app update awareness** — a new [`GET /api/version`](/docs/api/version) endpoint reports
+  the running version and checks GitHub for a newer release. **Settings → About & updates**
+  shows the current/latest version and the one-click update command, and an optional,
+  dismissible banner appears when an update is available.
+- **LAN access** — the web app now finds the backend from the host you open it on, so other
+  departments can reach temetro at `http://<server-IP>:3000` with **no rebuild**. The Settings
+  panel surfaces the shareable address; [`GET /api/network`](/docs/api/version#network-access)
+  reports detected LAN addresses. See [Network access](/docs/admin/self-hosting#network-access-lan).
+
+### AI chat: voice dictation
+
+- The chat input's **microphone** now works — dictate with the browser's speech recognition and
+  the transcript fills the message box. Falls back gracefully where the browser lacks support.
+
 ## June 24, 2026
 
 ### Wallet app: rebuilt on HeroUI Native — simpler 3-tab design + registration

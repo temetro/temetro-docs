@@ -1,0 +1,66 @@
+---
+title: Version & network
+description: Report the running version, check for updates, and discover the LAN address.
+icon: RefreshCw
+---
+
+Two small **public** (unauthenticated) endpoints power the in-app **About &
+updates** settings panel. They expose no patient data.
+
+## Version & update check
+
+| Method | Path | Access |
+| --- | --- | --- |
+| `GET` | `/api/version` | Public |
+
+Reports the version temetro is running and whether a newer **GitHub release**
+exists. The latest-release lookup is cached (~6 hours) and fails soft — if GitHub
+can't be reached, `latest` is `null` and `updateAvailable` is `false`.
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `current` | string | The running version (from `package.json`) |
+| `latest` | string \| null | Newest published release, or `null` if unknown |
+| `updateAvailable` | boolean | `true` when `latest` is a newer semver than `current` |
+| `releaseUrl` | string \| null | Link to the latest release notes |
+
+```bash
+curl http://localhost:4000/api/version
+```
+
+```json
+{
+  "current": "0.1.0",
+  "latest": "0.1.0",
+  "updateAvailable": false,
+  "releaseUrl": "https://github.com/temetro/temetro/releases/tag/v0.1.0"
+}
+```
+
+When `updateAvailable` is `true`, the app shows an optional, dismissible banner
+and the Settings panel surfaces the [update command](/docs/admin/self-hosting#updating).
+
+## Network access
+
+| Method | Path | Access |
+| --- | --- | --- |
+| `GET` | `/api/network` | Public |
+
+Returns the server's detected LAN IPv4 addresses so other departments can open
+temetro from their own computers. See [Network access](/docs/admin/self-hosting#network-access-lan).
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `port` | number | The frontend port (default `3000`) |
+| `addresses` | string[] | Detected non-internal IPv4 addresses |
+| `urls` | string[] | Convenience `http://<ip>:<port>` URLs |
+
+```json
+{ "port": 3000, "addresses": ["192.168.1.20"], "urls": ["http://192.168.1.20:3000"] }
+```
+
+<Callout title="Inside Docker">
+  In Docker's default network the backend sees the container's address, not the
+  host's LAN IP. The app therefore prefers the address your browser is actually
+  using; this endpoint is a best-effort fallback.
+</Callout>

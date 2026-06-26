@@ -16,14 +16,16 @@ control. The supported setup is **Docker Compose**, which runs all three parts:
 
 ## Installing
 
-The steps are the same as the [quickstart](/docs/quickstart): clone the repository and
-run `docker compose up --build` from the `backend/` folder. No `.env` is required — the
-backend generates and persists the secrets it needs on first start.
+Clone the repository and run from the `backend/` folder. Pulling the **prebuilt
+images** from Docker Hub is the fastest path; `--build` instead compiles from
+source. No `.env` is required — the backend generates and persists the secrets it
+needs on first start.
 
 ```bash
 git clone https://github.com/temetro/temetro.git
 cd temetro/backend
-docker compose up --build -d
+docker compose pull        # fetch prebuilt images (or use: docker compose up --build -d)
+docker compose up -d
 ```
 
 The generated secrets are stored in the `temetro_secrets` Docker volume and stay stable
@@ -39,14 +41,50 @@ backend, `FRONTEND_URL` for the app) and, if you want to manage them yourself, y
   Caddy or nginx with TLS) for any real clinic data.
 </Callout>
 
+## Updating
+
+temetro publishes prebuilt images to Docker Hub and cuts a GitHub release for each
+version. To update, pull the new images and restart on the server:
+
+```bash
+docker compose pull && docker compose up -d
+```
+
+Migrations apply automatically on backend start. Pin a specific version with
+`TEMETRO_VERSION=0.1.0 docker compose up -d`.
+
+The app **tells you when an update is available**: it checks the latest GitHub
+release (via [`GET /api/version`](/docs/api/version)) and shows an optional,
+dismissible banner plus a status in **Settings → About & updates**, where the
+exact update command is one click to copy. Updating is always optional.
+
+## Network access (LAN)
+
+In a clinic, staff in different departments reach temetro from their own
+computers. temetro figures out the backend address from the host you open the app
+on, so once it's running you can simply visit it by the server's network IP:
+
+```
+http://<server-LAN-IP>:3000
+```
+
+No rebuild or per-machine configuration is needed. **Settings → About & updates**
+shows the shareable address for the current server. A few notes:
+
+- The server's **firewall** must allow ports `3000` (app) and `4000` (API).
+- This works over plain HTTP on the LAN; for anything beyond a trusted internal
+  network, put it behind **HTTPS** (see the callout above).
+- To pin a fixed or reverse-proxied API URL instead of host-based discovery, set
+  `NEXT_PUBLIC_API_URL` when building the frontend image.
+
 ## Operating temetro
 
 ### Database & backups
 
 - Patient data lives in the `db` service's PostgreSQL database, stored in the
   `temetro_pgdata` Docker volume — it **survives restarts and rebuilds**.
-- Database **migrations run automatically** when the backend starts; upgrading temetro
-  is `git pull` + `docker compose up --build`.
+- Database **migrations run automatically** when the backend starts; see
+  [Updating](#updating) for the upgrade flow.
 - Back up the volume (or run `pg_dump` against the database) on a schedule appropriate
   for a clinical system.
 - To inspect the database in a browser, start the optional Adminer service:
