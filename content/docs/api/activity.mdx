@@ -7,10 +7,15 @@ icon: History
 | Method | Path | Access |
 | --- | --- | --- |
 | `GET` | `/api/activity` | Admins/owners see all clinic activity; everyone else sees their own |
+| `GET` | `/api/activity/patient/:fileNumber` | Any clinic member — the full history for one patient |
 
 Every mutation in temetro — patients, appointments, prescriptions, tasks — writes an
 entry here automatically. The log is **append-only**: there are no endpoints to edit or
 delete entries.
+
+The **per-patient** endpoint returns every entry tied to that file number (newest first),
+regardless of who made the change — it powers the **Record history** timeline on the
+patient sheet. Both endpoints return the same activity-entry shape.
 
 ## The activity entry
 

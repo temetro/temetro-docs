@@ -7,6 +7,33 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## June 27, 2026
+
+### Patients: pagination, history & PDF export
+
+- **Pagination** — the [Patients](/docs/guides/patients) list now shows 10 per page, and
+  status badges are colour-coded (active → green, inpatient → blue).
+- **Record history** — each patient sheet shows an audit timeline of every change to that
+  chart, drawn from the [activity log](/docs/guides/activity-analytics).
+- **Download summary** — export a clean, printable one-page clinical summary (Save as PDF)
+  straight from the patient sheet; it's built in the browser, so nothing leaves your server.
+
+### AI chat & messages
+
+- **Reliable import approval cards** — the assistant now always renders an approval card
+  when [importing patient data](/docs/guides/migration) instead of occasionally printing
+  the raw tool call as text (a Google Gemini quirk).
+- **Setup heads-up** — a one-time notice above the chat input points you to AI settings when
+  no provider (API key or local Ollama) is configured yet.
+- **Refreshed [Messages](/docs/guides/messages) thread** — conversations now use chat bubbles
+  and tidy attachment cards.
+
+### Self-hosting
+
+- **Network address fix** — **Settings → About & updates** no longer shows an unreachable
+  container address when running under Docker; it falls back to a clear "open via the
+  server's IP" hint. See [Network access](/docs/admin/self-hosting#network-access-lan).
+
 ## June 26, 2026
 
 ### Updates, versioning & easier install

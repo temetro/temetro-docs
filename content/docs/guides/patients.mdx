@@ -7,6 +7,11 @@ icon: Users
 The **Patients** page lists every patient in your clinic. Each patient also appears as
 **record cards** when you look them up in the [chat](/docs/guides/chat).
 
+The list **paginates at 10 patients per page**, so a large clinic stays quick to scan —
+use the page controls at the bottom, or the search box (which jumps back to the first
+page of matches). Each row's **status** is colour-coded: active patients show a green
+badge, admitted **inpatients** a blue one, and discharged patients a muted outline.
+
 ## What a record holds
 
 | Section | Contents |
@@ -61,3 +66,17 @@ pick the new primary provider. The transfer is recorded in the
 Deleting a patient removes their record from the clinic and is restricted to roles with
 delete permission (owner and admin). Like every change, it is recorded in the activity
 log.
+
+## Record history
+
+The patient sheet shows a **Record history** section — an audit timeline of every change
+made to that chart (who did it, what they did, and when), newest first. It's drawn from
+the clinic [activity log](/docs/guides/activity-analytics), scoped to this one patient, so
+you can see at a glance how the record evolved.
+
+## Exporting a summary
+
+Click **Download summary** at the top of a patient's sheet to generate a clean, one-page
+**clinical summary** — demographics, allergies, problems, medications, vitals, labs, and
+recent visits. It opens a print-ready view; choose **Save as PDF** (or print) in your
+browser's dialog. Nothing leaves your server — the document is built in the browser.
