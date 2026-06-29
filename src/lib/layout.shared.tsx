@@ -23,10 +23,15 @@ export function baseOptions(): BaseLayoutProps {
       {
         text: 'Documentation',
         url: '/docs',
+        // `/docs` is also the index page ("Welcome to temetro"), so the default
+        // url match would highlight this link AND that page at once. Disable the
+        // link's own active state so only the page in the tree highlights.
+        active: 'none',
       },
       {
         text: 'API Reference',
         url: '/docs/api',
+        active: 'none',
       },
     ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
