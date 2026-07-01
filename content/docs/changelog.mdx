@@ -7,6 +7,49 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 1, 2026 — Apple Silicon images & language-switch confirmation
+
+- **Apple Silicon (arm64) Docker images** — the published `temetro-backend` and `temetro-frontend`
+  images are now **multi-arch** (`linux/amd64` + `linux/arm64`), so `docker compose pull` works on
+  Apple Silicon Macs instead of failing with *no matching manifest for linux/arm64/v8*. See
+  [Updating](/docs/admin/self-hosting#updating).
+- **Language switch asks first** — changing the interface language in **Settings → Profile** is now a
+  dropdown that confirms before switching, so you won't reload the UI into another language by
+  mistake.
+
+## June 29, 2026 — French, more pagination & smarter updates
+
+### Choose your language
+
+- **French (Français) interface** — temetro now speaks French. Pick your language under
+  **Settings → Profile → Language**; the choice is remembered on that device. Selecting a new
+  language asks for confirmation before the interface reloads its text.
+
+### Patients, activity & billing
+
+- **Pagination everywhere** — the [Activity](/docs/guides/activity-analytics) and
+  [Invoices](/docs/guides/invoices) pages now paginate (10 per page), matching the
+  [Patients](/docs/guides/patients) list.
+
+### Self-hosting & updates
+
+- **Accurate update checks** — **Settings → About & updates** now reads the latest version straight
+  from **Docker Hub** (the channel clinics actually pull from), so it no longer says *Up to date*
+  when a newer image is already published. A new **Check for updates** button forces a fresh check.
+  See [Updating](/docs/admin/self-hosting#updating).
+- **Configurable host ports** — the ports temetro publishes on the host are now set from `.env`
+  (`BACKEND_PORT`, `FRONTEND_PORT`, `ADMINER_PORT`, alongside `POSTGRES_PORT`), so a port clash on
+  `docker compose up -d` can be fixed without editing the compose file.
+
+## June 28–29, 2026 — AI chat card fixes on Google Gemini
+
+- **Record cards now render on Gemini** — the card-emitting chat tools shared an empty parameter
+  schema, which Google Gemini can't call, so it printed the raw tool call as text instead of drawing
+  a card. The tools now use a non-empty schema. See [migration & import](/docs/guides/migration).
+- **Patient lookups by name** — asking "Show me &lt;name&gt;'s medical record" now draws the record
+  card directly when exactly one patient matches, instead of depending on a follow-up tool call that
+  Gemini sometimes skipped.
+
 ## June 27, 2026 — polish
 
 - **Patients pagination** now renders as proper page buttons (the controls were
