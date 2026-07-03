@@ -83,3 +83,28 @@ passes, and the patient can revoke earlier from the app.
   This is the WalletConnect-style model, **not** a literal blockchain: records stay off-chain, which
   is exactly what lets a temporary share be deleted on expiry.
 </Callout>
+
+## Clinic → wallet record updates
+
+For a patient imported from a wallet as a **permanent** share, the clinic can push an updated
+record back to the patient's app, where it stays pending until the patient approves it.
+
+| Method | Path | Auth | Returns |
+| --- | --- | --- | --- |
+| `GET` | `/api/patients/wallet/link/{fileNumber}` | `patient:read` | `{ walletNumber }` when the patient is wallet-linked, else `404` |
+| `POST` | `/api/patients/wallet/push` | `patient:write` | Creates + sends an update; body `{ fileNumber, changes: string[] }` |
+| `GET` | `/api/patients/wallet/updates` | `patient:read` | The clinic's recent update pushes + their status |
+| `GET` | `/api/patients/wallet/updates/{id}` | `patient:read` | One update (poll for approval) |
+
+`POST /push` loads the current record snapshot, **signs** the bundle with the clinic's Ed25519 key,
+**seals** it to the wallet's X25519 key (derived from its Ed25519 wallet number), and stores it
+`pending`. The relay delivers a `wallet:update-request` event immediately if the device is
+connected, and re-sends any unresolved updates on the wallet's next authenticated connect (so an
+offline phone catches up). The patient approves/denies in-app; the wallet signs its decision, the
+backend verifies it, and `status` moves to `approved` / `denied`.
+
+<Callout type="info" title="Trust on first use">
+  The pushed update carries the clinic's public key + fingerprint. The wallet **pins** the key on
+  first contact and **warns** the patient if a later update is signed with a different key — v1-grade
+  trust ahead of full key-transparency.
+</Callout>

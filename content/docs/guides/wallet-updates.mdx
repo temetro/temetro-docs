@@ -1,0 +1,45 @@
+---
+title: Pushing updates to a wallet
+description: Send a signed record update to a patient's wallet app for them to approve.
+icon: Send
+---
+
+Once a patient's record is [imported from their wallet](/docs/guides/wallet-import) as a
+**permanent** share, the clinic and the patient hold linked copies. When a clinician updates
+that record, they can **push the update back to the patient's app** — where it stays pending
+until the patient approves it on their phone. This is the clinic→patient direction of the
+[patient-owned records](/docs/concepts#patient-owned-records-the-vision) flow.
+
+## Pushing an update
+
+1. Edit the patient as usual, then open the patient sheet and click **Push to wallet**. The
+   button appears only for **wallet-linked** patients (a permanent, approved share).
+2. Tick the record **sections that changed** (and optionally add a short note) — this becomes
+   the human-readable summary the patient sees. Click **Send update**.
+3. The dialog shows the status: **waiting → delivered → approved / declined**. You can also
+   review every push under **Settings → Signing → Updates sent to wallets**.
+
+## What the patient sees
+
+The update lands in the wallet app's **pending-updates inbox** (delivered live if the phone is
+online, or the next time the app connects). The patient reviews the clinic name, the change
+summary, and the clinic's key fingerprint, then **approves or declines**. Only on approval is
+the on-device record replaced.
+
+## How it's secured
+
+- The full updated record is **sealed** (encrypted) to the wallet's key and **signed** with the
+  clinic's [Ed25519 signing key](/docs/guides/settings#records-signing--developers-tabs) — the
+  relay only ever forwards ciphertext.
+- The wallet **verifies the clinic signature** before applying, and **pins** the clinic's key on
+  first contact (trust-on-first-use): if a later update arrives signed with a different key, the
+  app **warns** the patient rather than trusting it silently.
+- Approving **replaces** the patient's on-device copy with the pushed snapshot. In this first
+  version that assumes a single linked clinic; the app states this in the approval screen.
+
+<Callout type="info" title="Temporary shares are excluded">
+  Only **permanent** shares can receive pushes — temporary shares auto-delete from the clinic,
+  so there's nothing to keep in sync.
+</Callout>
+
+See the [signing API](/docs/api/signing#clinic--wallet-record-updates) for the endpoints.

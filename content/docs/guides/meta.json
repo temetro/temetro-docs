@@ -6,6 +6,7 @@
     "scribe",
     "patients",
     "wallet-import",
+    "wallet-updates",
     "migration",
     "appointments",
     "invoices",

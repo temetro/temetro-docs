@@ -76,11 +76,14 @@ The defining long-term vision ([explained in Core concepts](/docs/concepts#patie
 - **Patient-approved sharing.** ✅ [Import from a patient app](/docs/guides/wallet-import) relays an
   encrypted request to the wallet, the patient approves on their phone, and a **temporary** share
   auto-deletes from the clinic afterward.
+- **Clinic → wallet update push.** ✅ A clinician can push an updated record to a wallet-linked
+  patient; it is **signed** with the clinic key and **sealed** to the wallet, lands in a
+  pending-updates inbox in the app (delivered live or on next connect), and replaces the on-device
+  record **only after the patient approves** it. See [Pushing updates to a wallet](/docs/guides/wallet-updates).
 
 **QR "scan to connect"** pairing now works too — the patient scans the clinic's QR in the wallet app
-to approve a share without typing anything. What's still ahead: a **clinic → wallet push** of signed
-record *updates* that stay pending until the patient approves them in-app (today the flow is the
-patient→clinic share above) and in-app record editing. Accountability in the clinic is also backed by
+to approve a share without typing anything. What's still ahead: **in-app record editing** and
+cryptographic time-boxing of temporary shares. Accountability in the clinic is also backed by
 the [activity log](/docs/guides/activity-analytics).
 
 ### Hospital ledger (blockchain)

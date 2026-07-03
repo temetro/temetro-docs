@@ -7,6 +7,18 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 3, 2026 — Push record updates to a patient's wallet
+
+- **Clinic → wallet updates.** For a patient imported from a wallet (a permanent share), a
+  clinician can now push an updated record to the patient's app with **Push to wallet** on the
+  patient sheet. It lands in a **pending-updates inbox** in the wallet and replaces the on-device
+  record **only after the patient approves** it. See
+  [Pushing updates to a wallet](/docs/guides/wallet-updates).
+- **Signed, sealed, offline-safe.** Each update is signed with the clinic's key and encrypted to
+  the wallet; the relay only forwards ciphertext. Updates are delivered live or on the wallet's
+  next connect, so an offline phone catches up. The wallet **pins** the clinic key and warns if it
+  ever changes. Track sent updates under **Settings → Signing**.
+
 ## July 3, 2026 — Ambient AI visit scribe
 
 - **Record or paste a visit → a reviewed note.** A new **Record visit** action on the
