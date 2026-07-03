@@ -53,13 +53,15 @@ The agent reads records, charts labs, and imports databases today. Planned next:
 clinical reasoning, summarization across encounters, and tighter free-text PHI scrubbing
 in Veil.
 
-**Ambient visit documentation (AI scribe).** The 2026 standard set by tools like Abridge,
-Nabla, Suki and Ambience is *ambient* note-taking — listen to the clinician↔patient
-conversation and draft a structured note automatically. temetro's tool-using agent and
-write-approval gate are the right foundation; turning a recorded/transcribed visit into a
-draft encounter note (reviewed and approved like any other AI write, de-identified through
-Veil before any external call) is a planned, high-leverage direction — and a model-agnostic,
-self-hostable alternative to the cloud-only scribes.
+**Ambient visit documentation (AI scribe). ✅ First version shipped.** The 2026 standard
+set by tools like Abridge, Nabla, Suki and Ambience is *ambient* note-taking — listen to
+the clinician↔patient conversation and draft a structured note automatically. temetro now
+does this: [record or paste a visit](/docs/guides/scribe), it transcribes and drafts a
+SOAP encounter note, and the clinician reviews it before it is saved (the same
+write-approval gate as the chat). The draft is de-identified through Veil before any
+external call; it uses **your own** model, a model-agnostic, self-hostable alternative to
+the cloud-only scribes. Next: local (Ollama) audio transcription and tighter free-text PHI
+scrubbing.
 
 ### Patient-owned records & signing
 
@@ -110,7 +112,7 @@ established clinic systems offer and temetro **doesn't yet** — all planned for
 | Lab system integrations (HL7 / FHIR) | ✅ Shipped — connect a FHIR/HL7 endpoint |
 | Document & imaging attachments on the chart | ✅ Shipped |
 | Internal voice/video calls (staff-to-staff [meetings](/docs/guides/meetings), not patient-facing) | ✅ Shipped |
-| Ambient AI visit scribe (transcribe a visit → draft note) | 📋 Planned |
+| Ambient AI visit scribe (transcribe a visit → draft note) | ✅ Shipped — record/paste a visit → reviewed SOAP note |
 | Patient-facing **telehealth** (clinician ↔ patient video visits) | 📋 Planned |
 | **FHIR API** — expose temetro as a FHIR server, not just a consumer | 📋 Planned |
 | Customizable fields / forms (à la OpenMRS's concept dictionary) | 🔭 Exploring |
@@ -153,7 +155,7 @@ still building toward (see the table above).
 | AI-first / built-in agent | ✅ | ❌ | ✅ (scribe only) |
 | Bring-your-own / local model | ✅ | ❌ | ❌ (cloud-only) |
 | Records, scheduling, billing, e-Rx, labs | ✅ | ✅ | ❌ |
-| Ambient visit scribe | 📋 Planned | ❌ | ✅ |
+| Ambient visit scribe | ✅ First version | ❌ | ✅ |
 | Expose a FHIR API | 📋 Planned | ✅ (OpenMRS/Medplum) | ❌ |
 | Patient-owned records & signing | 🚧 First version (wallet app + signed, patient-approved shares) | ❌ | ❌ |
 | ONC certification / formal compliance | 🔭 Exploring | ✅ (OpenEMR) | ✅ (HIPAA/SOC 2) |
@@ -161,5 +163,5 @@ still building toward (see the table above).
 ## Contributing
 
 temetro is open source — if any of the above sounds like something you'd like to help
-build, see the [contributing guide](/docs/developers/contributing). The **ambient AI visit
-scribe** and **exposing a FHIR API** are particularly good places to start.
+build, see the [contributing guide](/docs/developers/contributing). **Exposing a FHIR API**
+and **patient-facing telehealth** are particularly good places to start.

@@ -7,6 +7,20 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 3, 2026 — Ambient AI visit scribe
+
+- **Record or paste a visit → a reviewed note.** A new **Record visit** action on the
+  patient sheet turns a clinician↔patient conversation into a draft **SOAP** encounter
+  note. Record with your microphone or paste a transcript; temetro transcribes and drafts
+  the note, and you **review and edit** it before it's saved to the record — the same
+  write-approval gate as the AI chat. See the [visit scribe guide](/docs/guides/scribe).
+- **Uses your own model** — transcription runs on your OpenAI (Whisper) or Gemini key;
+  drafting works with any provider (including local Ollama, from a pasted transcript). No
+  separate cloud scribe.
+- **Privacy** — the drafting step is de-identified through [Veil](/docs/guides/ai-safeguards)
+  like every AI write; audio sent to an external provider for transcription can't be
+  redacted, and the dialog says so before you record.
+
 ## July 2, 2026 — Three new languages & right-to-left support
 
 - **Somali, Arabic and German** join English and French — pick any of the five in

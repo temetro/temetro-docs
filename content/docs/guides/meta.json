@@ -3,6 +3,7 @@
   "pages": [
     "chat",
     "ai-safeguards",
+    "scribe",
     "patients",
     "wallet-import",
     "migration",

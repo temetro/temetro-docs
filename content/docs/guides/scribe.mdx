@@ -1,0 +1,54 @@
+---
+title: Ambient visit scribe
+description: Record or paste a visit, and let AI draft a structured note you review before saving.
+icon: Mic
+---
+
+The **visit scribe** turns a clinician↔patient conversation into a draft encounter
+note. You record the visit (or paste a transcript), temetro transcribes it and drafts a
+structured **SOAP** note, and you **review and edit** it before it is saved to the
+patient's record — the same write-approval gate as the [AI chat](/docs/guides/chat).
+
+It is model-agnostic and self-hostable: it uses **your own** AI provider (the one set in
+[Settings → AI](/docs/guides/ai-safeguards)), not a separate cloud scribe.
+
+## Recording a visit
+
+1. Open a patient and click **Record visit** (top of the patient sheet). The button
+   appears only for clinicians when the clinic's AI is enabled.
+2. Choose how to capture the visit:
+   - **Record** — start/stop microphone capture in the browser. The recording is stored
+     on the patient's chart as an attachment (so it's auditable), then transcribed.
+   - **Paste transcript** — paste a transcript you already have. This path needs no
+     microphone and no speech provider, so it always works — handy for testing or when
+     your provider can't transcribe audio.
+3. Optionally set a **visit type** (e.g. *Follow-up*), then click **Draft note**.
+4. Review the drafted **note, type and date**, edit anything, and click **Save to
+   record**. The note is appended as a new encounter and written to the
+   [activity log](/docs/guides/activity-analytics).
+
+## Privacy
+
+<Callout type="warn" title="Audio leaves the clinic when transcribing externally">
+  [Veil](/docs/guides/ai-safeguards) de-identifies **text**, not speech. When you use an
+  external provider (OpenAI or Gemini), the **audio recording** is sent to that provider
+  to be transcribed and **cannot be redacted**. The *drafting* step is different: the
+  transcript and patient context are de-identified through Veil (patient name → a token)
+  before the model drafts the note, then rehydrated for you. The dialog states this
+  before you record.
+</Callout>
+
+- **Transcription** requires an **OpenAI** or **Gemini** key (Whisper / Gemini audio).
+  Anthropic has no speech API — with an Anthropic-only key, use **Paste transcript**.
+- Nothing is ever saved without your approval; you can edit every field first.
+
+## Requirements & limits
+
+- Requires **clinical write access** (`patient:write`) and the clinic's **AI** enabled —
+  reception and disabled-AI accounts don't see the button.
+- Voice recordings stay well under the 15 MB attachment cap even for a long visit, and
+  Whisper's own size limit; there is no fixed time cap, but keep visits reasonable.
+- Local Ollama can **draft** from a pasted transcript, but does not transcribe audio in
+  this version.
+
+See the [scribe API](/docs/api/scribe) for the endpoints.

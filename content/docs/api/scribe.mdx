@@ -1,0 +1,59 @@
+---
+title: Visit scribe
+description: Transcribe a visit recording and draft a structured encounter note.
+icon: Mic
+---
+
+The scribe endpoints power the [ambient visit scribe](/docs/guides/scribe): they
+transcribe a stored audio attachment and draft a **SOAP** encounter note from a
+transcript. Every route requires a signed-in user, an active clinic, **`patient:write`**,
+and the clinic's [AI policy](/docs/api/ai) to allow the caller (reception is blocked).
+Nothing is written until the clinician approves via `POST /api/scribe/save`.
+
+| Method | Path | Returns |
+| --- | --- | --- |
+| `POST` | `/api/scribe/transcribe` | `{ transcript }` for a stored audio attachment |
+| `POST` | `/api/scribe/draft` | A drafted, un-saved encounter note |
+| `POST` | `/api/scribe/save` | The updated patient after appending the note |
+
+## Transcribe
+
+Streams a stored audio [attachment](/docs/api/attachments) to the user's speech provider
+(**OpenAI** Whisper or **Gemini** audio) and returns the raw transcript. The audio does
+**not** pass through Veil or the chat loop. Returns `400` when the user has no
+speech-capable key (Anthropic-only), so the client falls back to a pasted transcript.
+
+```json
+// POST /api/scribe/transcribe
+{ "attachmentId": "a1b2c3d4-…" }
+// → { "transcript": "Doctor: How have you been feeling…" }
+```
+
+## Draft
+
+Loads the patient, **de-identifies** the transcript + context through Veil, prompts the
+user's model for a SOAP note, then **rehydrates** identifier tokens. Returns a draft
+encounter `{ date, type, provider, summary }` — `provider` is the signed-in clinician
+(not the model's guess) — plus a `veil` summary. Nothing is saved.
+
+```json
+// POST /api/scribe/draft
+{ "fileNumber": "10293", "transcript": "…", "visitType": "Follow-up" }
+// → { "draft": { "date": "2026-07-03", "type": "Follow-up",
+//               "provider": "Dr. Amina", "summary": "**Subjective** …" },
+//     "veil": { "active": true, "level": "full", "classes": ["PATIENT","MRN"],
+//               "provider": "OpenAI" } }
+```
+
+## Save
+
+The approval step — appends the reviewed note as a new encounter (without touching the
+rest of the record) and writes an [activity](/docs/api/activity) entry.
+
+```json
+// POST /api/scribe/save
+{ "fileNumber": "10293",
+  "encounter": { "date": "2026-07-03", "type": "Follow-up",
+                 "provider": "Dr. Amina", "summary": "**Subjective** …" } }
+// → the updated patient
+```
