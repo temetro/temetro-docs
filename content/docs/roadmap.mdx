@@ -117,7 +117,7 @@ established clinic systems offer and temetro **doesn't yet** — all planned for
 | Internal voice/video calls (staff-to-staff [meetings](/docs/guides/meetings), not patient-facing) | ✅ Shipped |
 | Ambient AI visit scribe (transcribe a visit → draft note) | ✅ Shipped — record/paste a visit → reviewed SOAP note |
 | Patient-facing **telehealth** (clinician ↔ patient video visits) | 📋 Planned |
-| **FHIR API** — expose temetro as a FHIR server, not just a consumer | 📋 Planned |
+| **FHIR API** — expose temetro as a FHIR server, not just a consumer | ✅ Shipped — read-only [FHIR R4 server](/docs/api/fhir) at `/fhir` (per-clinic API keys) |
 | Customizable fields / forms (à la OpenMRS's concept dictionary) | 🔭 Exploring |
 | [Patient portal](/docs/guides/portal) (self-service booking, results kiosk) | ✅ Shipped |
 | ONC certification / formal compliance (HIPAA, SOC 2) path | 🔭 Exploring |
@@ -129,7 +129,9 @@ established clinic systems offer and temetro **doesn't yet** — all planned for
   **Settings → Integrations**. FHIR works against public sandboxes out of the box;
   e-prescribing and claims send real NCPDP SCRIPT / X12 messages but reach live
   pharmacies / payers only once you supply your Surescripts / clearinghouse
-  credentials. See the [integrations API](/docs/api/integrations).
+  credentials. See the [integrations API](/docs/api/integrations). temetro can now also act
+  as a read-only [FHIR **server**](/docs/api/fhir) — exposing its own records at `/fhir` —
+  not just a client.
 </Callout>
 
 ## How temetro compares
@@ -159,12 +161,13 @@ still building toward (see the table above).
 | Bring-your-own / local model | ✅ | ❌ | ❌ (cloud-only) |
 | Records, scheduling, billing, e-Rx, labs | ✅ | ✅ | ❌ |
 | Ambient visit scribe | ✅ First version | ❌ | ✅ |
-| Expose a FHIR API | 📋 Planned | ✅ (OpenMRS/Medplum) | ❌ |
+| Expose a FHIR API | ✅ First version (read-only R4) | ✅ (OpenMRS/Medplum) | ❌ |
 | Patient-owned records & signing | 🚧 First version (wallet app + signed, patient-approved shares) | ❌ | ❌ |
 | ONC certification / formal compliance | 🔭 Exploring | ✅ (OpenEMR) | ✅ (HIPAA/SOC 2) |
 
 ## Contributing
 
 temetro is open source — if any of the above sounds like something you'd like to help
-build, see the [contributing guide](/docs/developers/contributing). **Exposing a FHIR API**
-and **patient-facing telehealth** are particularly good places to start.
+build, see the [contributing guide](/docs/developers/contributing). **Patient-facing
+telehealth** and **write support for the [FHIR API](/docs/api/fhir)** are particularly
+good places to start.

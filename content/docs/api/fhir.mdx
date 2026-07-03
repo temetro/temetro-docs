@@ -1,0 +1,122 @@
+---
+title: FHIR server
+description: Expose this clinic's records to external systems as a read-only FHIR R4 server.
+icon: Server
+---
+
+temetro can act as a **read-only FHIR R4 server**, not just a FHIR client. External
+systems (a research warehouse, an analytics tool, another EHR) read a clinic's records
+over standard FHIR REST at **`/fhir`**, authenticated with a **per-clinic API key**.
+
+<Callout type="warn" title="Read-only, per-clinic, PHI">
+  Every key exposes one clinic's entire record set. Keys are **hashed at rest** and shown
+  **once** at creation; revoke them under **Settings → Integrations**. Serve `/fhir` over
+  **HTTPS** only. Writes, SMART-on-FHIR / OAuth2, and DocumentReference are **not** supported
+  in this version.
+</Callout>
+
+## Base URL & version
+
+The server is mounted **outside** `/api`, at `<backend>/fhir` (e.g.
+`https://clinic.example.com/fhir`). It is FHIR **4.0.1** and emits
+`application/fhir+json`.
+
+## Authentication
+
+Send a per-clinic API key as a bearer token:
+
+```
+Authorization: Bearer tmf_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+Create and revoke keys under **Settings → Integrations → FHIR server** (owner/admin
+only). The plaintext key (`tmf_…`) is displayed **once** on creation and cannot be
+retrieved afterwards — only its SHA-256 hash is stored. A missing, unknown, or revoked
+key returns **`401`** with an `OperationOutcome`. `GET /fhir/metadata` is the only
+unauthenticated route.
+
+Keys are managed over the session-authenticated integrations API:
+
+| Method | Path | Purpose |
+| --- | --- | --- |
+| `GET` | `/api/integrations/fhir-server/keys` | List keys (no secrets) |
+| `POST` | `/api/integrations/fhir-server/keys` | Create a key → returns the one-time `secret` |
+| `DELETE` | `/api/integrations/fhir-server/keys/:id` | Revoke a key |
+
+## Capabilities
+
+```
+GET /fhir/metadata   # CapabilityStatement (no auth)
+```
+
+| Resource | Search parameters |
+| --- | --- |
+| `Patient` | `identifier` (MRN), `name`, `_count`, `_offset` |
+| `Observation` | `patient`, `patient.identifier`, `category` (`laboratory` \| `vital-signs`) |
+| `AllergyIntolerance` | `patient`, `patient.identifier` |
+| `Condition` | `patient`, `patient.identifier` |
+| `MedicationRequest` | `patient`, `patient.identifier` |
+| `Encounter` | `patient`, `patient.identifier` |
+| `Appointment` | `patient`, `patient.identifier` |
+
+Each type supports `read` (`/fhir/Patient/:id`) and `search-type`. Searches return a
+**searchset `Bundle`** with `total` and `self`/`next`/`previous` links.
+
+<Callout type="info" title="Text-only codings">
+  temetro stores clinical values as **free text**, so every `CodeableConcept` is
+  `text`-only — valid FHIR, deliberately **not** coded to SNOMED/LOINC. Patients carry an
+  **age** extension (`…/patient-age-years`) rather than a `birthDate`, and lab values are
+  emitted as `valueString`. Vital signs are synthesized `Observation`s
+  (`category=vital-signs`); blood pressure is a systolic/diastolic component pair.
+</Callout>
+
+## Pagination
+
+Use `_count` (default **50**, max **200**) and `_offset`. Follow the Bundle's `next`
+link until it is absent:
+
+```bash
+curl -H "Authorization: Bearer tmf_…" \
+  "https://clinic.example.com/fhir/Observation?patient.identifier=10293&_count=50"
+```
+
+## Examples
+
+```bash
+# CapabilityStatement (no auth)
+curl https://clinic.example.com/fhir/metadata
+
+# Find a patient by MRN
+curl -H "Authorization: Bearer tmf_…" \
+  "https://clinic.example.com/fhir/Patient?identifier=10293"
+
+# That patient's labs (using the FHIR logical id from the search above)
+curl -H "Authorization: Bearer tmf_…" \
+  "https://clinic.example.com/fhir/Observation?patient=<patient-id>&category=laboratory"
+
+# …or by MRN directly
+curl -H "Authorization: Bearer tmf_…" \
+  "https://clinic.example.com/fhir/Condition?patient.identifier=10293"
+```
+
+## Scoping & audit
+
+Every request is scoped to the key's clinic — a key for clinic A can never read clinic
+B's patients, and an unmatched `patient` search returns an empty Bundle rather than
+leaking existence. Each request is written to the clinic [activity log](/docs/api/activity)
+with the key name and result count.
+
+## Errors
+
+Errors are FHIR `OperationOutcome` resources, not the standard `{ "error": … }` JSON:
+
+```json
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    { "severity": "error", "code": "login", "diagnostics": "Invalid or revoked API key." }
+  ]
+}
+```
+
+An unknown resource or path returns `404` with `code: "not-supported"`.

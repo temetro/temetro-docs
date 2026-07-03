@@ -7,6 +7,20 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 4, 2026 — Read-only FHIR R4 server
+
+- **Share your records over FHIR.** temetro can now act as a read-only **FHIR R4 server** at
+  `/fhir`, not just a FHIR client — external systems read a clinic's Patient, Observation
+  (labs + vitals), AllergyIntolerance, Condition, MedicationRequest, Encounter and Appointment
+  over standard FHIR REST. See the [FHIR server API](/docs/api/fhir).
+- **Per-clinic API keys.** Authenticate with a `tmf_…` bearer token created under
+  **Settings → Integrations → FHIR server** (owner/admin). The key is shown **once**, stored
+  only as a hash, and revocable; every request is scoped to your clinic and written to the
+  activity log. `GET /fhir/metadata` (the CapabilityStatement) needs no auth.
+- **Honest FHIR.** Clinical values are text-only `CodeableConcept`s (temetro stores free text,
+  not SNOMED/LOINC), patients carry an age extension rather than a birthDate, and searches
+  paginate with `_count`/`_offset`. Writes and OAuth2/SMART-on-FHIR are not yet supported.
+
 ## July 3, 2026 — Push record updates to a patient's wallet
 
 - **Clinic → wallet updates.** For a patient imported from a wallet (a permanent share), a

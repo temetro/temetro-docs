@@ -100,3 +100,11 @@ In the app these actions surface where the work happens: a **Sync results** card
 **Lab** page, a **Send to pharmacy** button on the prescription sheet, and a
 **Submit claim** button on the invoice sheet — each shown only when its integration is
 enabled.
+
+## FHIR server (the other direction)
+
+The integrations above make temetro a FHIR/HL7 **client**. temetro can also act as a
+read-only **FHIR R4 server**, exposing its own records at `/fhir`. Its per-clinic API keys
+are created and revoked under the same **Settings → Integrations** page
+(`GET`/`POST`/`DELETE /api/integrations/fhir-server/keys`, owner/admin only). See the
+[FHIR server API](/docs/api/fhir).
