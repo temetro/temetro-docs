@@ -91,9 +91,12 @@ Owners and admins also see three more tabs:
   reads one back in — choose the file, review how many records it contains, then apply.
   Existing file numbers are skipped, so re-importing is safe. See the
   [settings API](/docs/api/settings#records-import--export).
-- **Signing** — your signing key and identity, and how the
-  [patient-approval flow](/docs/concepts#patient-owned-records-the-vision) will work.
-  Illustrative until signing ships.
+- **Signing** — your clinic's signing key and identity, and how the
+  [patient-approval flow](/docs/concepts#patient-owned-records-the-vision) works. This tab also holds
+  the **Join Temetro Network** toggle: turn it on to connect this clinic to the
+  [Temetro Network](/docs/guides/network) relay so patient wallet apps can share records with you and
+  receive your updates. It's off by default; while off, the wallet-import and push features are
+  unavailable.
 - **Integrations** — connect external healthcare systems: **HL7/FHIR** lab results,
   **e-prescribing** (NCPDP SCRIPT), and **insurance claims** (X12 837/835). Set each
   integration's endpoint and credentials, flip it on, and use **Test connection**. Once

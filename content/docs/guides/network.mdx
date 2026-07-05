@@ -24,11 +24,20 @@ on. Both your backend and patient phones connect to it, and it routes messages b
 
 The relay is a **dumb pipe** by design:
 
-- It **forwards** the encrypted messages between your backend and the right phone.
-- It **verifies** that a device controls its wallet (a signature check) before routing to it — this
-  is the only cryptography it performs.
+- It **forwards** the encrypted messages between clinics and the right phone.
+- It **verifies** two signatures — that a device controls its wallet, and that a clinic controls its
+  signing key — before routing. This is the only cryptography it performs.
+- It is **multi-clinic**: many self-hosted clinics use the same relay at once, each identified by its
+  own signing key, and the relay routes each patient response back to the one clinic that asked — a
+  clinic never sees another clinic's traffic.
 - It **never** opens sealed record bundles, holds **no database**, and stores nothing. Only your
   clinic backend (which holds the ephemeral key) can decrypt a shared record.
+
+<Callout type="info" title="Who decides a clinic is legitimate?">
+  The **patient** does. Every record change is signed by the clinic's key, and the patient approves
+  it on their phone after seeing who it's from. The relay uses a clinic's key only as a routing
+  identity — it never has to vouch for a clinic, so no central authority or registry is involved.
+</Callout>
 
 <Callout type="info" title="End-to-end encrypted">
   Records are sealed on the patient's phone and can only be opened by your clinic. The network only
@@ -43,21 +52,33 @@ The network deploys in minutes on [Railway](https://railway.app) or any containe
 1. Create a new project from the
    [temetro-network](https://github.com/temetro/temetro-network) repo. It ships a `Dockerfile` and
    `railway.toml`, so the platform builds it automatically. The health check is `GET /healthz`.
-2. Set one service variable, **`RELAY_TOKEN`** — a shared secret. Generate it with
-   `openssl rand -base64 32`. (`PORT` is injected by the platform.)
-3. Point your clinic backend at the deployed relay by setting these environment variables (see
+2. **No variables are required.** `PORT` is injected by the platform, and each clinic authenticates
+   with its own signing key — so an open relay needs no shared secret. (Optional: set `RELAY_TOKEN`
+   to additionally gate a *private* relay behind a shared token, or `RUST_LOG` to tune logging.)
+3. Point your clinic backend at the deployed relay by setting one environment variable (see
    [Self-hosting](/docs/admin/self-hosting)):
 
    | Variable | Value |
    |----------|-------|
    | `RELAY_URL` | the relay's public URL (e.g. `https://your-relay.up.railway.app`) |
-   | `RELAY_TOKEN` | the **same** secret you set on the relay |
 
 4. Point the wallet app's relay URL at the same public URL.
 
-Once all three (relay, backend, wallet app) share the URL and token, the whole
+Once relay, backend, and wallet app share the URL, the whole
 [import](/docs/guides/wallet-import) and [update](/docs/guides/wallet-updates) flow runs on
 infrastructure you control.
+
+<Callout type="info" title="One relay, many clinics">
+  The same relay serves any number of self-hosted clinics at once. Each clinic proves its identity
+  with its own signing key when it connects, and the relay keeps each clinic's traffic separate — so
+  clinics can share a public relay without a shared password.
+</Callout>
+
+## Joining the network
+
+A clinic joins the network explicitly. In **Settings → Signing**, turn on **Join Temetro Network**.
+Until it's on, this clinic makes no relay connection and the wallet-import and update features are
+unavailable. Turning it off disconnects the clinic and stops all wallet sharing.
 
 ## How a share travels the network
 

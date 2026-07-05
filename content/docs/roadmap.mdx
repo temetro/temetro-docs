@@ -84,6 +84,10 @@ The defining long-term vision ([explained in Core concepts](/docs/concepts#patie
 - **A dedicated relay to the wallet.** ✅ Clinic↔wallet messages now travel over
   [Temetro Network](/docs/guides/network), a standalone, always-on relay (Rust + Axum) that replaces
   the old ephemeral tunnel. It forwards only ciphertext and keeps no database.
+- **Multi-clinic, no shared secret.** ✅ One relay serves any number of self-hosted clinics. Each
+  authenticates with its **own signing key** (not a shared token) and the relay keeps clinics'
+  traffic isolated. A clinic opts in via **Join Temetro Network** (Settings → Signing). Legitimacy is
+  anchored where it belongs — the patient approving signed records on their phone.
 
 **QR "scan to connect"** pairing now works too — the patient scans the clinic's QR in the wallet app
 to approve a share without typing anything. What's still ahead: **in-app record editing** and

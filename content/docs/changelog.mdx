@@ -7,6 +7,22 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 5, 2026 — One network, many clinics
+
+- **Join the Temetro Network from Settings.** A clinic now opts into the relay explicitly:
+  **Settings → Signing → Join Temetro Network**. It's off by default; while off, the clinic makes no
+  relay connection and the wallet-import and update features stay hidden. Turn it on to connect, off
+  to disconnect. See the [Temetro Network guide](/docs/guides/network).
+- **Every clinic gets its own identity — no shared password.** Clinics now authenticate to the relay
+  by **signing a challenge with their own [signing key](/docs/api/signing)** (the same key patients
+  already verify), instead of a shared `RELAY_TOKEN`. The relay identifies each clinic by its key and
+  keeps each clinic's traffic separate, so **many self-hosted clinics can share one public relay** and
+  a patient's response only ever reaches the clinic that asked.
+- **The patient stays the trust anchor.** The relay never decides which clinic is "legitimate" — it
+  only routes. Legitimacy is what it always was: every record is signed, and the patient approves it
+  on their phone. `RELAY_TOKEN` is now **optional** (only for gating a private relay), so an open
+  relay needs no secret variables at all.
+
 ## July 5, 2026 — Temetro Network relay
 
 - **A dedicated network between the clinic and patient wallets.** The connection to patient

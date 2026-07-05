@@ -37,7 +37,7 @@ Both point at your [Temetro Network](/docs/guides/network) deployment.
 | Variable | Required | Description |
 | --- | --- | --- |
 | `RELAY_URL` | For wallet | Public URL of your Temetro Network relay (default `http://localhost:8080`). Also baked into the QR a patient scans, so it must be reachable from phones. |
-| `RELAY_TOKEN` | For wallet | Shared secret the backend presents to the relay's `/hub`. Set the **same** value on the relay. Generate with `openssl rand -base64 32`. |
+| `RELAY_TOKEN` | Optional | **Legacy/optional.** Clinics authenticate to the relay with their own Ed25519 signing key, so no shared secret is needed. Set it (same value on the relay) only to additionally gate a *private* relay behind a shared token. |
 
 ### Email (SMTP)
 

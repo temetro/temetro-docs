@@ -15,6 +15,8 @@ relay. The clinic never reads a record until the patient approves the share on t
 | `GET` | `/api/signing/key` | `patient:read` |
 | `POST` | `/api/signing/key/rotate` | `organization:update` (owner/admin) |
 | `GET` | `/api/signing/records` | `patient:read` |
+| `GET` | `/api/signing/network` | `patient:read` |
+| `PUT` | `/api/signing/network` | `organization:update` (owner/admin) |
 
 The key is created lazily on first read, so `GET /api/signing/key` always returns a real key:
 
@@ -30,6 +32,17 @@ The key is created lazily on first read, so `GET /api/signing/key` always return
 
 The private key is stored **encrypted at rest** (the same `AI_CREDENTIALS_KEY`-derived key used for
 provider secrets). Rotating mints a new keypair and stamps `rotatedAt`.
+
+## Join the Temetro Network
+
+Wallet sharing rides the [Temetro Network](/docs/guides/network) relay, which a clinic opts into.
+
+- `GET /api/signing/network` → `{ "enabled": boolean }` — whether this clinic has joined.
+- `PUT /api/signing/network` with `{ "enabled": true | false }` — join or leave (owner/admin only).
+
+Joining opens this clinic's authenticated relay connection (it signs the relay's challenge with the
+signing key above — no shared secret needed); leaving tears it down. While disabled, the
+import/push endpoints below return **409**. The flag is off by default.
 
 ## Import from a patient app
 
