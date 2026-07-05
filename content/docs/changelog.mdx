@@ -7,6 +7,16 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 5, 2026 — Fix: relay connection works out of the box
+
+- **Self-hosted clinics now reach the network by default.** The backend's `RELAY_URL` now defaults to
+  the hosted relay (`https://network.temetro.com`) instead of a local address. Previously, a clinic
+  that turned on **Join Temetro Network** without also setting `RELAY_URL` couldn't actually reach the
+  relay — its connection silently failed (inside Docker, `localhost` is the container itself), so QR
+  pairing produced a code the phone couldn't reach. Clinics running their own relay still set
+  `RELAY_URL` to override. If you hit this, update to the latest images (or set
+  `RELAY_URL=https://network.temetro.com` in your backend env) and restart.
+
 ## July 5, 2026 — Fixes: QR pairing & wallet relay default
 
 - **QR "scan to connect" now works again.** The multi-clinic change briefly broke QR pairing —
