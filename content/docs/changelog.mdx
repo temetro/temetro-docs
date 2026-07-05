@@ -7,57 +7,52 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
-## July 5, 2026 — Fix: relay connection works out of the box
+## July 5, 2026 — Temetro Network
 
-- **Self-hosted clinics now reach the network by default.** The backend's `RELAY_URL` now defaults to
-  the hosted relay (`https://network.temetro.com`) instead of a local address. Previously, a clinic
-  that turned on **Join Temetro Network** without also setting `RELAY_URL` couldn't actually reach the
-  relay — its connection silently failed (inside Docker, `localhost` is the container itself), so QR
-  pairing produced a code the phone couldn't reach. Clinics running their own relay still set
-  `RELAY_URL` to override. If you hit this, update to the latest images (or set
-  `RELAY_URL=https://network.temetro.com` in your backend env) and restart.
+A big day for the clinic⇄patient-wallet connection: it moved onto **Temetro Network** (a dedicated
+relay), grew into a **multi-clinic network** with a Settings opt-in, and picked up several same-day
+fixes.
 
-## July 5, 2026 — Fixes: QR pairing & wallet relay default
-
-- **QR "scan to connect" now works again.** The multi-clinic change briefly broke QR pairing —
-  a scan returned "couldn't reach the clinic relay" — because a pairing has no wallet number for the
-  relay to route by. The clinic now pre-registers the pairing with the relay, so a scanned approval
-  routes back correctly (and survives a relay restart). Generating a QR now also requires the clinic
-  to have **joined the network**, with a clear prompt if it hasn't.
-- **The wallet app now connects to the public relay by default.** New installs point at
-  `network.temetro.com` out of the box instead of a local address, so the app's status and sharing
-  work without any manual setup (a clinic-specific relay still arrives via the scanned QR).
-
-## July 5, 2026 — One network, many clinics
+### Multi-clinic network & "Join Temetro Network"
 
 - **Join the Temetro Network from Settings.** A clinic now opts into the relay explicitly:
   **Settings → Signing → Join Temetro Network**. It's off by default; while off, the clinic makes no
-  relay connection and the wallet-import and update features stay hidden. Turn it on to connect, off
-  to disconnect. See the [Temetro Network guide](/docs/guides/network).
-- **Every clinic gets its own identity — no shared password.** Clinics now authenticate to the relay
-  by **signing a challenge with their own [signing key](/docs/api/signing)** (the same key patients
+  relay connection and the wallet-import and update features stay hidden. See the
+  [Temetro Network guide](/docs/guides/network).
+- **Every clinic gets its own identity — no shared password.** Clinics authenticate to the relay by
+  **signing a challenge with their own [signing key](/docs/api/signing)** (the same key patients
   already verify), instead of a shared `RELAY_TOKEN`. The relay identifies each clinic by its key and
   keeps each clinic's traffic separate, so **many self-hosted clinics can share one public relay** and
   a patient's response only ever reaches the clinic that asked.
 - **The patient stays the trust anchor.** The relay never decides which clinic is "legitimate" — it
-  only routes. Legitimacy is what it always was: every record is signed, and the patient approves it
-  on their phone. `RELAY_TOKEN` is now **optional** (only for gating a private relay), so an open
-  relay needs no secret variables at all.
+  only routes; every record is signed and the patient approves it on their phone. `RELAY_TOKEN` is
+  now **optional** (only for gating a private relay).
 
-## July 5, 2026 — Temetro Network relay
+### The relay itself
 
 - **A dedicated network between the clinic and patient wallets.** The connection to patient
-  [wallet apps](/docs/guides/wallet-import) now runs through **Temetro Network**, a small,
-  high-performance relay (Rust + Axum) at a **stable address** that is always on. It replaces the
-  ephemeral tunnel that made sharing work sometimes and not others, so importing a record and
-  pushing updates just work. See the [Temetro Network guide](/docs/guides/network).
-- **Still a dumb, end-to-end-encrypted pipe.** The relay forwards sealed bundles only your clinic
-  can open, keeps **no database**, and stores nothing; the only thing it checks is that a phone
-  controls its wallet before routing to it.
+  [wallet apps](/docs/guides/wallet-import) runs through **Temetro Network**, a small,
+  high-performance relay (Rust + Axum) at a **stable address** that is always on — replacing the
+  ephemeral tunnel that made sharing work only sometimes.
+- **Still a dumb, end-to-end-encrypted pipe.** It forwards sealed bundles only your clinic can open,
+  keeps **no database**, and stores nothing.
 - **Open source and self-hostable.** The relay lives in its own repo
   ([github.com/temetro/temetro-network](https://github.com/temetro/temetro-network)) and deploys in
-  minutes on Railway or any container host. Point your backend at it with the new `RELAY_URL` and
-  `RELAY_TOKEN` settings (see [Self-hosting](/docs/admin/self-hosting)).
+  minutes on Railway or any container host.
+
+### Fixes
+
+- **Reaching the network just works.** The backend's `RELAY_URL` defaults to the hosted relay
+  (`https://network.temetro.com`) — previously a clinic that joined the network without setting it
+  couldn't reach the relay (inside Docker, `localhost` is the container itself). Clinics running their
+  own relay still override `RELAY_URL`.
+- **QR "scan to connect" fixed.** A scan briefly returned "couldn't reach the clinic relay"; the
+  clinic now pre-registers the pairing so a scanned approval routes back (and survives a relay
+  restart). Generating a QR requires the clinic to have joined the network, with a clear prompt if not.
+- **Patient wallet app polished.** The wallet connects to the public relay by default, and its relay
+  address is now **fixed** rather than hand-editable — a mistyped URL used to break record-update
+  delivery. Record-update pushes now surface reliably, and the registration form no longer hides
+  behind the on-screen keyboard.
 
 ## July 4, 2026 — Read-only FHIR R4 server
 
