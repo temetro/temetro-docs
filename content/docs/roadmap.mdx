@@ -81,6 +81,10 @@ The defining long-term vision ([explained in Core concepts](/docs/concepts#patie
   pending-updates inbox in the app (delivered live or on next connect), and replaces the on-device
   record **only after the patient approves** it. See [Pushing updates to a wallet](/docs/guides/wallet-updates).
 
+- **A dedicated relay to the wallet.** ✅ Clinic↔wallet messages now travel over
+  [Temetro Network](/docs/guides/network), a standalone, always-on relay (Rust + Axum) that replaces
+  the old ephemeral tunnel. It forwards only ciphertext and keeps no database.
+
 **QR "scan to connect"** pairing now works too — the patient scans the clinic's QR in the wallet app
 to approve a share without typing anything. What's still ahead: **in-app record editing** and
 cryptographic time-boxing of temporary shares. Accountability in the clinic is also backed by

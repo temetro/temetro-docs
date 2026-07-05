@@ -29,6 +29,16 @@ Create `backend/.env` (from `backend/.env.example`) only to override defaults.
   `docker compose down -v`).
 </Callout>
 
+### Patient wallet relay (Temetro Network)
+
+Required to import records from, or push updates to, patient [wallet apps](/docs/guides/wallet-import).
+Both point at your [Temetro Network](/docs/guides/network) deployment.
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `RELAY_URL` | For wallet | Public URL of your Temetro Network relay (default `http://localhost:8080`). Also baked into the QR a patient scans, so it must be reachable from phones. |
+| `RELAY_TOKEN` | For wallet | Shared secret the backend presents to the relay's `/hub`. Set the **same** value on the relay. Generate with `openssl rand -base64 32`. |
+
 ### Email (SMTP)
 
 All optional. **If `SMTP_HOST` is unset, outgoing emails (password resets,

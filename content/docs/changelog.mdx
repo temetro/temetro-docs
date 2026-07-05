@@ -7,6 +7,21 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 5, 2026 — Temetro Network relay
+
+- **A dedicated network between the clinic and patient wallets.** The connection to patient
+  [wallet apps](/docs/guides/wallet-import) now runs through **Temetro Network**, a small,
+  high-performance relay (Rust + Axum) at a **stable address** that is always on. It replaces the
+  ephemeral tunnel that made sharing work sometimes and not others, so importing a record and
+  pushing updates just work. See the [Temetro Network guide](/docs/guides/network).
+- **Still a dumb, end-to-end-encrypted pipe.** The relay forwards sealed bundles only your clinic
+  can open, keeps **no database**, and stores nothing; the only thing it checks is that a phone
+  controls its wallet before routing to it.
+- **Open source and self-hostable.** The relay lives in its own repo
+  ([github.com/temetro/temetro-network](https://github.com/temetro/temetro-network)) and deploys in
+  minutes on Railway or any container host. Point your backend at it with the new `RELAY_URL` and
+  `RELAY_TOKEN` settings (see [Self-hosting](/docs/admin/self-hosting)).
+
 ## July 4, 2026 — Read-only FHIR R4 server
 
 - **Share your records over FHIR.** temetro can now act as a read-only **FHIR R4 server** at
