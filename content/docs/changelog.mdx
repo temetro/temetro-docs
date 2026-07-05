@@ -7,6 +7,17 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 5, 2026 — Fixes: QR pairing & wallet relay default
+
+- **QR "scan to connect" now works again.** The multi-clinic change briefly broke QR pairing —
+  a scan returned "couldn't reach the clinic relay" — because a pairing has no wallet number for the
+  relay to route by. The clinic now pre-registers the pairing with the relay, so a scanned approval
+  routes back correctly (and survives a relay restart). Generating a QR now also requires the clinic
+  to have **joined the network**, with a clear prompt if it hasn't.
+- **The wallet app now connects to the public relay by default.** New installs point at
+  `network.temetro.com` out of the box instead of a local address, so the app's status and sharing
+  work without any manual setup (a clinic-specific relay still arrives via the scanned QR).
+
 ## July 5, 2026 — One network, many clinics
 
 - **Join the Temetro Network from Settings.** A clinic now opts into the relay explicitly:
