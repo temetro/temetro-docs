@@ -44,6 +44,33 @@ Joining opens this clinic's authenticated relay connection (it signs the relay's
 signing key above — no shared secret needed); leaving tears it down. While disabled, the
 import/push endpoints below return **409**. The flag is off by default.
 
+## Clinic location
+
+Set in **Settings → Signing → Clinic location**. Stored per clinic (organization) and surfaced to
+patients in the wallet app.
+
+| Method | Endpoint | Permission |
+| --- | --- | --- |
+| `GET` | `/api/clinic/settings` | `patient:read` |
+| `PUT` | `/api/clinic/location` | `organization:update` (owner/admin) |
+
+`GET /api/clinic/settings` returns the current location (empty strings / `null` until set):
+
+```json
+{
+  "location": {
+    "address": "KM4, Maka Al Mukarama Rd",
+    "city": "Mogadishu",
+    "country": "Somalia",
+    "latitude": 2.0371,
+    "longitude": 45.3438
+  }
+}
+```
+
+`PUT /api/clinic/location` takes the same `location` fields. `address` / `city` / `country` are free
+text; `latitude` (−90…90) and `longitude` (−180…180) are optional map coordinates (`null` to clear).
+
 ## Import from a patient app
 
 | Method | Path | Permission |

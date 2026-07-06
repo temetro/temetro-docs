@@ -7,6 +7,32 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 6, 2026 — Blood type & phone, clinic location, wallet app refresh
+
+### Patient blood type & phone number
+
+- Patient records now carry a **blood type** (e.g. `O+`) and a **phone number**. Both appear on the
+  record sheet and the chat summary card, and are editable in the add/edit patient form.
+- **Phone** is a contact/demographic field — the **reception** role can see and edit it. **Blood
+  type** is treated as clinical information and is **hidden from reception**, like allergies and
+  vitals. See the [Patients API](/docs/api/patients).
+
+### Clinic location in Settings
+
+- Owners/admins can now set the **clinic's location** — address, city, country, and optional map
+  coordinates — under **Settings → Signing → Clinic location**. This will be shown to patients in the
+  wallet app. See the [signing/clinic API](/docs/api/signing#clinic-location).
+
+### Patient wallet app refresh
+
+- New **blue** look (replacing the old teal accent), a consistent tab bar, and the app **logo** on
+  the home header, onboarding, and registration.
+- The home header's **Settings** and **Notifications** buttons now use Apple's native **Liquid
+  Glass** material on iOS 26+. Tapping a visit / prescription / appointment opens a **blurred bottom
+  sheet** with its details.
+- Removed the leftover demo data — a new wallet now starts from an **empty record** — and rebuilt the
+  onboarding screens.
+
 ## July 5, 2026 — Temetro Network
 
 A big day for the clinic⇄patient-wallet connection: it moved onto **Temetro Network** (a dedicated
