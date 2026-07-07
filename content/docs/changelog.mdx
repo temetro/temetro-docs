@@ -7,6 +7,39 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 7, 2026 — Portal booking with doctors, Arabic layout, wallet fixes
+
+### Patient Portal: pick a doctor & book
+
+- The Patient Portal now lists the clinic's **doctors** and lets patients choose one, see that
+  doctor's **free time slots**, and book a conflict-free appointment. Availability is
+  server-authoritative — a slot taken in the meantime is rejected. New public endpoints
+  `GET /api/portal/{clinic}/doctors` and `/availability`, and booking accepts a chosen
+  `provider`. See the [Patient Portal API](/docs/api/portal).
+- **Settings → Signing → Patient Portal** adds buttons to **open** the portal, **copy** its
+  link, and show a **QR code**. Scanning the QR with a phone camera opens the web portal;
+  scanning it in the **Temetro wallet app** opens a native booking screen.
+
+### Clinic location — use my current location
+
+- The **Clinic location** editor gains a **"Use my current location"** button that fills the
+  map coordinates from the device's GPS.
+
+### Right-to-left (Arabic) layout
+
+- Switching the interface to **Arabic** now mirrors the whole app: the **sidebar moves to the
+  right** and toggles read in the correct direction, instead of leaving the layout misaligned.
+
+### Patient wallet app fixes
+
+- Tapping a record card no longer **freezes** the app — the detail **bottom sheet** opens
+  reliably.
+- **Reset wallet** now asks for confirmation in a native dialog with **Liquid Glass** actions
+  before erasing anything.
+- Fixed the **white flash** at the screen edges when moving between pages in dark mode.
+- The home header, onboarding, and registration now show the **Temetro logo** (was the
+  placeholder app icon).
+
 ## July 6, 2026 — Blood type & phone, clinic location, wallet app refresh
 
 ### Patient blood type & phone number

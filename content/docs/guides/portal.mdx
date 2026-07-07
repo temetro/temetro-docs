@@ -21,6 +21,13 @@ Leave that page open on the device you want patients to use. It shows your clini
 the two choices below. (For the technical details behind it, see the
 [Patient Portal API](/docs/api/portal).)
 
+### Share it with patients
+
+Under **Settings → Signing → Patient Portal** you can **open** the portal, **copy its link**
+to send to patients, or show a **QR code**. A patient who scans the QR with their phone
+camera lands on the web portal; a patient using the **Temetro wallet app** scans the same
+code to open a native booking screen inside the app.
+
 ## What a patient can do
 
 ### Book a visit
@@ -32,10 +39,11 @@ The patient taps **Book an appointment** and tells the portal who they are:
 - **New here?** They tap **New patient** and enter their **name, sex, and age**. The portal
   creates a basic file for them on the spot and gives them a file number — no staff needed.
 
-Then they pick a **date and time** and, if they like, a short reason for the visit. Dates in
-the past can't be chosen, and a time that's already booked is turned away so two people don't
-get the same slot. Once they confirm, the visit shows up on your clinic's
-[Appointments](/docs/guides/appointments) page like any other booking.
+Then they choose a **doctor**, a **day**, and one of that doctor's **free times** — slots
+that are already booked are shown crossed out so two people can't get the same one. (If two
+patients race for the same slot, the second is turned away.) Once they confirm, the visit
+shows up on your clinic's [Appointments](/docs/guides/appointments) page like any other
+booking.
 
 ### Check on results
 

@@ -12,9 +12,16 @@ auth guard.
 | Method | Path | Notes |
 | --- | --- | --- |
 | `GET` | `/api/portal/{clinic}` | Clinic name for the kiosk header |
+| `GET` | `/api/portal/{clinic}/doctors` | Public list of the clinic's doctors |
+| `GET` | `/api/portal/{clinic}/availability` | Taken time slots for a doctor on a day |
 | `POST` | `/api/portal/{clinic}/patients` | Register a new (demographics-only) patient |
 | `POST` | `/api/portal/{clinic}/appointments` | Self-service booking |
 | `GET` | `/api/portal/{clinic}/results` | Minimal status lookup |
+
+The portal is reachable two ways: patients open the web page at `/portal/{clinic}`, or they
+scan the clinic's **Patient Portal QR** (Settings → Signing → Patient Portal) — a phone
+camera opens the web portal, while the **Temetro wallet app** opens a native booking screen
+that drives the same endpoints below.
 
 <Callout type="warn">
   These endpoints are public. PHI exposure is deliberately minimal: every lookup requires
@@ -22,6 +29,33 @@ auth guard.
   status and *whether* results exist — never clinical values. A per-kiosk token or one-time
   verification code is the recommended hardening for a real deployment.
 </Callout>
+
+## List doctors
+
+`GET /api/portal/{clinic}/doctors` returns the clinic's providers so a patient can choose
+who to see. Only display-safe fields leave this public surface — **no** ids, emails, or
+usernames.
+
+```json
+[
+  { "name": "Dr. Amina Yusuf", "specialty": "Cardiology" },
+  { "name": "Dr. Omar Ali", "specialty": null }
+]
+```
+
+## Check availability
+
+`GET /api/portal/{clinic}/availability?provider=Dr.%20Amina%20Yusuf&date=2026-07-01` returns
+the **taken** time slots for that provider on that day, so the portal (and the wallet app)
+can render only free times.
+
+```json
+{ "date": "2026-07-01", "provider": "Dr. Amina Yusuf", "taken": ["09:30", "11:00"] }
+```
+
+The filter mirrors the booking conflict check (an appointment with no provider blocks the
+slot clinic-wide). Booking still re-validates server-side, so a slot taken between the
+availability check and the booking is rejected with `409`.
 
 ## Register a new patient
 
@@ -46,13 +80,15 @@ books using that file number.
   "name": "Hodan Warsame",
   "date": "2026-07-01",
   "time": "09:30",
-  "type": "Follow-up"
+  "type": "Follow-up",
+  "provider": "Dr. Amina Yusuf"
 }
 ```
 
-The booking is verified against an existing patient (`fileNumber` + matching `name`) in
-that clinic, must be a future date, and is rejected with `409` if the slot is already taken
-(same date + time for the same provider). On success it creates a **confirmed** appointment
+`provider` is optional — the chosen doctor from the picker; when omitted it falls back to the
+patient's primary provider. The booking is verified against an existing patient
+(`fileNumber` + matching `name`) in that clinic, must be a future date, and is rejected with
+`409` if the slot is already taken (same date + time for the same provider). On success it creates a **confirmed** appointment
 that appears on
 the clinic's [Appointments](/docs/api/appointments) page. Returns `201` with the confirmed
 `date`, `time`, `type`, and `provider`. Unknown name/file number → `404`.
