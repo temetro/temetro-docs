@@ -7,6 +7,46 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 9, 2026 — Wallet-linked Patient Portal, phone-ready QR, RTL & sync fixes
+
+### Link your wallet to a clinic
+
+- The Patient Portal gains a **"Link my wallet"** option: it shows a QR you scan with the
+  **Temetro wallet app** to connect your phone to your file at the clinic. Once linked, you can
+  **book appointments** and **view and download your results** right from the app — and everything
+  syncs back to the clinic's web app.
+- Under the hood the wallet app now talks to the clinic **through the Temetro Network relay**
+  instead of a direct connection, so the portal works from any phone without the clinic exposing
+  its server to the internet.
+
+### The Patient Portal QR now works from a phone
+
+- The QR in **Settings → Signing → Patient Portal** previously encoded a `localhost` address that a
+  phone couldn't reach ("server cannot be accessed"). It now encodes a relay-based pairing code, so
+  scanning it in the wallet app connects reliably.
+
+### Appointments & invoices in the wallet
+
+- When a clinic pushes a record to your wallet, your **appointments** and **invoices** now travel
+  with it and appear in the app (with a new **Invoices** section showing paid / unpaid status).
+
+### Clinic location — full address
+
+- **"Use my current location"** now fills the **address, city, and country** (via reverse
+  geocoding), not just the map coordinates.
+
+### Arabic (RTL) layout
+
+- In Arabic, the sidebar's **collapse arrow and notification bell** now sit **above** the nav icons
+  (and the arrow mirrors correctly) instead of being pushed to the far edge.
+
+### Patient wallet app
+
+- New **app lock**: set a **PIN or passphrase** to open the app; log out from Settings to lock it
+  again without erasing your data.
+- **Notifications** now work — clinic updates and share requests appear in the inbox with an unread
+  badge. Redesigned **bottom sheets**, a larger home logo, and refreshed typography throughout.
+
 ## July 7, 2026 — Portal booking with doctors, Arabic layout, wallet fixes
 
 ### Patient Portal: pick a doctor & book

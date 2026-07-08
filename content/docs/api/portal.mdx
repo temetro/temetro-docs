@@ -12,6 +12,7 @@ auth guard.
 | Method | Path | Notes |
 | --- | --- | --- |
 | `GET` | `/api/portal/{clinic}` | Clinic name for the kiosk header |
+| `GET` | `/api/portal/{clinic}/link` | Relay-based pairing descriptor for the wallet app |
 | `GET` | `/api/portal/{clinic}/doctors` | Public list of the clinic's doctors |
 | `GET` | `/api/portal/{clinic}/availability` | Taken time slots for a doctor on a day |
 | `POST` | `/api/portal/{clinic}/patients` | Register a new (demographics-only) patient |
@@ -19,9 +20,28 @@ auth guard.
 | `GET` | `/api/portal/{clinic}/results` | Minimal status lookup |
 
 The portal is reachable two ways: patients open the web page at `/portal/{clinic}`, or they
-scan the clinic's **Patient Portal QR** (Settings → Signing → Patient Portal) — a phone
-camera opens the web portal, while the **Temetro wallet app** opens a native booking screen
-that drives the same endpoints below.
+scan the clinic's **Patient Portal QR** (Settings → Signing → Patient Portal, or the portal's
+own **"Link my wallet"** card). The web page uses the JSON endpoints below directly; the
+**Temetro wallet app** instead connects **over the Temetro Network relay** and runs the same
+actions there (so it works from any phone without the clinic exposing its API).
+
+## Wallet pairing link
+
+`GET /api/portal/{clinic}/link` returns the non-secret descriptor the wallet app needs to
+reach this clinic over the relay: the clinic's Ed25519 **signing public key** (the relay's
+routing id) and the **relay URL**. The frontend encodes it into a `temetro-portal:` QR.
+
+```json
+{
+  "clinicId": "<clinic signing public key, hex>",
+  "relay": "https://network.temetro.com",
+  "slug": "sunrise-clinic",
+  "name": "Sunrise Clinic"
+}
+```
+
+After scanning, the wallet app links to a file (name + file number), then books appointments
+and downloads results over the relay — all attributed to that patient on the clinic's web app.
 
 <Callout type="warn">
   These endpoints are public. PHI exposure is deliberately minimal: every lookup requires
