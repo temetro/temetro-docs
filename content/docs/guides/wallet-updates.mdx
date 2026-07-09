@@ -19,6 +19,15 @@ until the patient approves it on their phone. This is the clinic→patient direc
 3. The dialog shows the status: **waiting → delivered → approved / declined**. You can also
    review every push under **Settings → Signing → Updates sent to wallets**.
 
+## Sending straight from a dialog
+
+You don't have to make a separate trip to the patient sheet. When you add or edit a record for a
+**wallet-linked patient** — an **invoice**, **appointment**, **prescription**, a **demographics**
+edit, or an **AI note** — the create/edit dialog shows a **"Sync to wallet"** stepper at the top.
+After you save, it advances to a second step offering to **send the change to the patient's
+wallet**; confirm to push it (same seal-sign-approve flow as above) or skip. Patients without a
+linked wallet never see the step — the dialog just closes on save.
+
 ## What the patient sees
 
 The update lands in the wallet app's **pending-updates inbox** (delivered live if the phone is

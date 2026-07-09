@@ -7,6 +7,35 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 9, 2026 — Send-to-wallet in dialogs, safer dates, wallet-app polish
+
+### Push a change to the wallet without leaving the dialog
+
+- When you add or edit something for a **wallet-linked patient** — an invoice, an appointment, a
+  prescription, a demographics edit, or an AI note — the dialog now shows a **two-step "Sync to
+  wallet"** stepper. After you save, it offers to **send the change to the patient's wallet** so
+  they can approve it on their phone. No more hopping to the Patients page to push an update.
+  Patients without a wallet see no change — the dialog just closes as before.
+
+### Dates can't accidentally land in the past
+
+- **New appointment** and **new invoice** date pickers now **disable past dates** by default. For a
+  genuinely older invoice, tick **Back-date** on the invoice dialog to unlock earlier dates.
+
+### Settings
+
+- Removed the inactive **Features** section (the old "patient-owned storage" / "require signed
+  records" toggles), which was outdated and did nothing.
+
+### Patient wallet app
+
+- **Link your wallet** in the Patient Portal no longer asks you to type your name and file number —
+  it identifies you by your **wallet number** and just confirms the link (the clinic pairs your
+  wallet number to your file first).
+- **Pull to refresh** on any screen — home, records, invoices, notifications, and settings.
+- The **PIN / passphrase** unlock and setup screens now show a **spinner** while they work.
+- A **refreshed sign-up screen** and **cleaner bottom sheets** throughout.
+
 ## July 9, 2026 — Wallet-linked Patient Portal, phone-ready QR, RTL & sync fixes
 
 ### Link your wallet to a clinic

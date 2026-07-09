@@ -40,8 +40,11 @@ routing id) and the **relay URL**. The frontend encodes it into a `temetro-porta
 }
 ```
 
-After scanning, the wallet app links to a file (name + file number), then books appointments
-and downloads results over the relay — all attributed to that patient on the clinic's web app.
+After scanning, the wallet app links **by its wallet number** — the clinic attaches that
+number to the patient's file ahead of time (via **Import from a patient app** / QR pairing), so
+the patient types nothing. It then books appointments and downloads results over the relay — all
+attributed to that patient on the clinic's web app. (If the wallet isn't paired yet, linking
+returns a friendly "ask the front desk to add your wallet number" message.)
 
 <Callout type="warn">
   These endpoints are public. PHI exposure is deliberately minimal: every lookup requires
