@@ -4,128 +4,130 @@ description: temetro's home screen — ask for a chart and get record cards back
 icon: MessageSquare
 ---
 
-When you sign in, temetro opens on the **chat**. It works like any messaging app: type
-at the bottom, and the conversation appears above.
+The **chat** is temetro's home screen. It works like any messaging app: type at the
+bottom, and the conversation appears above. Ask for a patient or a record, and temetro
+answers with organized **record cards** — not walls of text.
 
-## Working with patients
+## Open a patient chart
 
-### Pulling up a patient
-
-The fastest way to open a chart is the **patient command**. Type a slash, the word
-`patient`, and the patient's file number:
+The fastest way to pull up a chart is the **patient command**. Type a slash, `patient`,
+and the file number — or just the slash and the number:
 
 ```text
 /patient 1042
-```
-
-A shorter form works too — just the slash and the number:
-
-```text
 /1042
 ```
 
-temetro replies with the patient's **record cards**: a row of cards summarizing
-demographics, alerts, vitals, allergies, medications, problems, recent labs, and
-encounters. Cards with more behind them show a **Click for more** hint — open one for the
-full details in a dialog, where you can also edit the record (if your role allows it).
-Cards for empty sections (no medications on file, say) stay quiet and aren't clickable.
+temetro replies with the patient's **record cards**: demographics, alerts, vitals,
+allergies, medications, problems, recent labs, and encounters.
 
-### Adding a patient from the chat
+- Cards with more detail show a **Click for more** hint — open one for the full record in
+  a dialog, where you can also **edit** it (if your role allows).
+- Cards for empty sections (no medications on file, say) stay quiet and aren't clickable.
 
-Next to the message box there is an **Add patient** button. It opens the new-patient
-form directly — you don't have to leave the chat to register someone. The same form is
-available on the [Patients page](/docs/guides/patients).
+To register someone new, use the **Add patient** button beside the message box — it opens
+the new-patient form right in the chat. (Same form as the [Patients page](/docs/guides/patients).)
 
-## Asking questions in plain language
+## Ask in plain language
 
-Beyond the `/patient` command, you can ask in plain language — *"what were her last three
-blood pressure readings?"* or *"show me 10293's labs"*. The chat runs an AI agent that
-looks up the right records and replies with **record cards** and **lab charts**, not just
-text. Pick the model and effort from the model picker in the input. As it works, a
-**Thinking…** indicator and a **step trace** show what the agent is doing — looking up a
-patient, searching, or validating records. Each tool the agent runs also appears as a
-collapsible **tool card** (its inputs, result, and status), and on models that support
-it a **reasoning** block shows the model's thinking.
+Beyond commands, ask questions the way you'd say them — *"what were her last three blood
+pressure readings?"* or *"show me 10293's labs"*. An AI agent looks up the right records
+and replies with **cards** and **lab charts**, not just text.
 
-On a fresh chat, **suggestion chips** offer quick starts ("Show today's schedule",
-"List open tasks", …). And if you send another message while the agent is still
-responding, it joins a **queue** above the input and sends automatically when the
-agent is free — so you can line up follow-ups without waiting.
+While it works, you can follow along:
 
-You bring your own model: connect an **OpenAI, Anthropic, or Gemini** API key, or run a
-**local model with Ollama** — all configured under **Settings → AI**. Because this is
-patient data, two safeguards are always in play: **Veil** de-identifies records before
-anything reaches a cloud provider, and any **add** waits for your approval before it's
-written. The first time a message would leave your clinic for a cloud provider, an inline
-**Veil** confirmation appears above the input (you can also switch to a local model) — it
-asks just once per session. See [AI setup & safeguards](/docs/guides/ai-safeguards).
+- A **Thinking…** indicator and a **step trace** show what it's doing (looking up a
+  patient, searching, validating).
+- Each tool it runs appears as a collapsible **tool card** — inputs, result, and status.
+- On models that support it, a **reasoning** block shows the model's thinking.
+- On a fresh chat, **suggestion chips** offer quick starts ("Show today's schedule", "List
+  open tasks", …).
+- Send another message while it's still replying and it joins a **queue** above the input,
+  sending automatically when the agent is free.
 
-### Displaying and adding records
+Pick the model and effort from the **model picker** in the input.
+
+### Bring your own model
+
+Connect an **OpenAI, Anthropic, or Gemini** API key, or run a **local model with Ollama** —
+all under **Settings → AI**. Because this is patient data, two safeguards always apply:
+
+- **Veil** de-identifies records before anything reaches a cloud provider.
+- Any **add** waits for your approval before it's written.
+
+The first time a message would leave your clinic for a cloud provider, an inline **Veil**
+confirmation appears above the input (you can switch to a local model instead) — it asks
+just once per session. See [AI setup & safeguards](/docs/guides/ai-safeguards).
+
+## See records and clinic info
 
 Ask to **see** the schedule, open tasks, or prescriptions — *"show today's
 appointments"*, *"list open tasks"* — and the agent renders them as list cards.
 
-It can also answer about the **whole clinic**: *"what's my clinic called?"*, your
-**analytics and earnings** (*"how much have we billed this month?"* renders KPIs and an
-earnings chart), and your **inventory** (*"what's running low?"*). These are clinic
-aggregates, not individual charts.
+It can also answer about the **whole clinic** (these are aggregates, not individual charts):
 
-### Attaching files
+- *"what's my clinic called?"*
+- **Analytics and earnings** — *"how much have we billed this month?"* renders KPIs and an
+  earnings chart.
+- **Inventory** — *"what's running low?"*
 
-Use the **+** button by the message box to attach files (CSV, JSON, PDF, images, …). They
-show as tidy **attachment chips** in the conversation — not as a wall of pasted text.
-Behind the scenes temetro reads text-like files into the prompt so the agent can parse
-them, and passes images/PDFs to vision-capable models. You can attach a file whether or
+## Add records from the chat
+
+You can also ask the agent to **add** things:
+
+- *"book a follow-up for 10293 next Tuesday at 9:30 with Dr Lee"*
+- *"add a task to call the lab"*
+- *"prescribe amoxicillin 500mg twice daily for 7 days for 10293"*
+
+The agent **proposes** the record as a one-click **approval card** — nothing is written
+until you click **Add**, and it still respects your
+[role's permissions](/docs/admin/roles-permissions). The agent only **displays** and
+**adds**; it never edits, deletes, or changes existing records.
+
+A few conveniences:
+
+- **Many records at once** (say, from an imported file) are grouped into a **single
+  approval**: **Review & add** opens a dialog listing every record, where you can remove
+  any you don't want and **Add all** in one go.
+- **Booking for someone who isn't a patient yet** also creates their patient record (with
+  a file number), so they show up on the Patients page.
+
+## Attach files
+
+Use the **+** button to attach files (CSV, JSON, PDF, images, …). They show as tidy
+**attachment chips** — not a wall of pasted text. temetro reads text-like files into the
+prompt, and passes images/PDFs to vision-capable models. You can attach a file whether or
 not the box already has text.
 
-### Building an invoice from a file
+Files unlock a few workflows:
 
-Hand the chat a list of medications or items a client bought (a CSV/PDF/text export) and
-ask it to invoice them. The agent reads the prices from the file, drafts an **invoice**
-with line items, and shows it as an approval card — nothing is billed until you **Add** it.
-If the client isn't a patient yet, approving it also creates their record. See
-[Invoices](/docs/guides/invoices).
+- **Build an invoice** — hand the chat a list of items a client bought and ask it to
+  invoice them. It drafts an **invoice** with line items as an approval card; nothing is
+  billed until you **Add** it, and a non-patient is created as a record on approval. See
+  [Invoices](/docs/guides/invoices).
+- **Stock inventory** — upload a stock or purchase list and ask temetro to **add it to
+  inventory**. It shows an approval card; on **Add**, the items are saved to your
+  [inventory](/docs/guides/pharmacy). (This *stocks* the clinic — it doesn't bill a patient.)
+- **Import an existing database** — attach a database export and ask temetro to import it,
+  a great way to migrate from another program. See
+  [Migrating from another system](/docs/guides/migration).
 
-### Stocking inventory from a file
+## Your chat history
 
-Upload a stock or purchase list (names, quantities, optionally prices) and ask temetro to
-**add it to inventory**. The agent parses the items and shows an **approval card**; on
-**Add** the items are saved to your [inventory](/docs/guides/pharmacy). This is distinct
-from invoicing — use it to *stock* the clinic rather than *bill* a patient.
+Conversations are **saved automatically**. A small pill at the top-left of the chat holds
+two buttons:
 
-### Your chat history
+- **History** — opens a side sheet to browse and search past chats. Click one to reopen it
+  exactly as it was (record cards and all), or delete it.
+- **New chat** — begins a fresh thread. (The sidebar's **Ask temetro** entry does the same.)
 
-Conversations are **saved automatically**. At the top-left of the chat (next to the
-sidebar) sits a small pill with two buttons: a **history** button that opens a side sheet
-to browse and search past chats, and a **new chat** button. Click any past chat to reopen
-it exactly as it was (record cards and all), or delete it; **Start new chat** (in the sheet
-or the pill) begins a fresh thread. The sidebar's **Ask temetro** entry also opens a fresh
-thread. History is private to you within your clinic.
-
-You can also ask it to **add** things — *"book a follow-up for 10293 next Tuesday at 9:30
-with Dr Lee"*, *"add a task to call the lab"*, *"prescribe amoxicillin 500mg twice daily
-for 7 days for 10293"*. The agent **proposes** the record as a one-click approval card;
-nothing is written until you click **Add**, and the action still respects your
-[role's permissions](/docs/admin/roles-permissions). The agent only **displays** and
-**adds** — it never edits, deletes, or changes existing records.
-
-When it proposes **many** records at once (for example from an imported file), they're
-grouped into a **single approval** instead of one card each: **Review & add** opens a
-dialog listing every record where you can remove any you don't want and **Add all** in one
-go. Booking an appointment for someone who isn't a patient yet also **creates their patient
-record** (with a file number), so they show up on the Patients page.
-
-### Importing an existing database
-
-Attach a database export (CSV/JSON) and ask temetro to import it — a great way to **migrate
-from another program**. See [Migrating from another system](/docs/guides/migration) for the
-full walkthrough, including export tips for popular EHRs.
+History is private to you within your clinic.
 
 ## Tips
 
 - File numbers are unique within your clinic — see
   [Core concepts](/docs/concepts#patients-and-file-numbers).
-- Everything you can reach from the chat is also available from the sidebar pages
-  (Patients, Appointments, Prescriptions, Tasks, Messages, Notes, Activity, Analysis).
+- Everything in the chat is also on the sidebar pages (Patients, Appointments,
+  Prescriptions, Tasks, Messages, Notes, Activity, Analysis).
 - What you can see and edit depends on your [role](/docs/admin/roles-permissions) —
-  reception staff, for example, see demographics but not clinical details.
+  reception, for example, sees demographics but not clinical details.

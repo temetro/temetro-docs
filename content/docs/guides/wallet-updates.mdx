@@ -23,10 +23,13 @@ until the patient approves it on their phone. This is the clinic→patient direc
 
 You don't have to make a separate trip to the patient sheet. When you add or edit a record for a
 **wallet-linked patient** — an **invoice**, **appointment**, **prescription**, a **demographics**
-edit, or an **AI note** — the create/edit dialog shows a **"Sync to wallet"** stepper at the top.
-After you save, it advances to a second step offering to **send the change to the patient's
-wallet**; confirm to push it (same seal-sign-approve flow as above) or skip. Patients without a
-linked wallet never see the step — the dialog just closes on save.
+edit, or an **AI note** — the create/edit dialog shows a **"Sync to wallet"** stepper at the top:
+
+1. Fill in the record and **save** as usual.
+2. The stepper advances to a second step offering to **send the change to the patient's wallet** —
+   confirm to push it (same seal-sign-approve flow as above), or skip.
+
+Patients without a linked wallet never see the step — the dialog just closes on save.
 
 ## What the patient sees
 
@@ -38,7 +41,7 @@ the on-device record replaced.
 ## How it's secured
 
 - The full updated record is **sealed** (encrypted) to the wallet's key and **signed** with the
-  clinic's [Ed25519 signing key](/docs/guides/settings#records-signing--developers-tabs) — the
+  clinic's [Ed25519 signing key](/docs/guides/settings#records-signing-integrations--developers-tabs) — the
   relay only ever forwards ciphertext.
 - The wallet **verifies the clinic signature** before applying, and **pins** the clinic's key on
   first contact (trust-on-first-use): if a later update arrives signed with a different key, the

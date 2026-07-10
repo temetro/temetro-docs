@@ -79,32 +79,38 @@ Everyone still sees the rest of the AI tab (provider, model, Veil); non-admins s
 current availability as a read-only note. The same tab is where you bring your own model —
 see [AI setup & safeguards](/docs/guides/ai-safeguards).
 
-## Records, Signing & Developers tabs
+## Records, Signing, Integrations & Developers tabs
 
-Owners and admins also see three more tabs:
+Owners and admins see four more tabs.
 
-- **Records** — where patient records come from (the clinic database today,
-  patient-owned storage later), **import & export**, and retention. **Export** downloads
-  the whole clinic's patient records as a single JSON archive; **Import a temetro archive**
-  reads one back in — choose the file, review how many records it contains, then apply.
-  Existing file numbers are skipped, so re-importing is safe. See the
-  [settings API](/docs/api/settings#records-import--export).
-- **Signing** — your clinic's signing key and identity, and how the
-  [patient-approval flow](/docs/concepts#patient-owned-records-the-vision) works. This tab also holds
-  the **Join Temetro Network** toggle: turn it on to connect this clinic to the
-  [Temetro Network](/docs/guides/network) relay so patient wallet apps can share records with you and
-  receive your updates. It's off by default; while off, the wallet-import and push features are
-  unavailable. It also has the **Patient Portal** links (open, copy, or show a QR of your
-  [portal](/docs/guides/portal)) and the **Clinic location** editor — where **Use my current
-  location** fills the map coordinates from the device's GPS.
-- **Integrations** — connect external healthcare systems: **HL7/FHIR** lab results,
-  **e-prescribing** (NCPDP SCRIPT), and **insurance claims** (X12 837/835). Set each
-  integration's endpoint and credentials, flip it on, and use **Test connection**. Once
-  enabled, the matching action shows up where you work — **Sync results** on the Lab page,
-  **Send to pharmacy** on a prescription, **Submit claim** on an invoice. See the
-  [integrations API](/docs/api/integrations).
-- **Developers** — the **email provider** (below), the API base URL, and a preview of
-  personal access tokens (see the [API reference](/docs/api)).
+**Records** — where patient records come from (the clinic database today, patient-owned
+storage later), plus import/export and retention.
+
+- **Export** downloads the whole clinic's patient records as a single JSON archive.
+- **Import a temetro archive** reads one back in — choose the file, review how many records
+  it holds, then apply. Existing file numbers are skipped, so re-importing is safe.
+- See the [settings API](/docs/api/settings#records-import--export).
+
+**Signing** — your clinic's signing key and identity, and how the
+[patient-approval flow](/docs/concepts#patient-owned-records-the-vision) works. It also holds:
+
+- **Join Temetro Network** — connects this clinic to the
+  [Temetro Network](/docs/guides/network) relay so wallet apps can share records with you
+  and receive your updates. Off by default; while off, wallet import and push are unavailable.
+- **Patient Portal** links — open, copy, or show a QR of your [portal](/docs/guides/portal).
+- **Clinic location** editor — **Use my current location** fills the map coordinates from
+  the device's GPS.
+
+**Integrations** — connect external healthcare systems. Set each one's endpoint and
+credentials, flip it on, and use **Test connection**.
+
+- **HL7/FHIR** lab results → **Sync results** on the Lab page.
+- **E-prescribing** (NCPDP SCRIPT) → **Send to pharmacy** on a prescription.
+- **Insurance claims** (X12 837/835) → **Submit claim** on an invoice.
+- See the [integrations API](/docs/api/integrations).
+
+**Developers** — the **email provider** (below), the API base URL, and a preview of
+personal access tokens (see the [API reference](/docs/api)).
 
 ## Sending email
 

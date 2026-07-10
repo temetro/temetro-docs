@@ -42,10 +42,14 @@ Import these patients into my clinic.
 ```
 
 The agent reads the file, maps each row to a patient record, and **validates** every one.
-It **normalizes the data for you** — gender words become M/F, IDs like `P00001` keep their
-digits, semicolon/comma lists (allergies, medications, problems) split into separate items,
-and a visit table becomes encounters — so you don't have to reformat the file. You'll see a
-**Thinking…** trace as it parses and checks the records, but nothing is saved yet.
+It **normalizes the data for you**, so you don't have to reformat the file:
+
+- Gender words become M/F.
+- IDs like `P00001` keep their digits.
+- Semicolon/comma lists (allergies, medications, problems) split into separate items.
+- A visit table becomes encounters.
+
+You'll see a **Thinking…** trace as it parses and checks the records, but nothing is saved yet.
 
 </Step>
 <Step>
