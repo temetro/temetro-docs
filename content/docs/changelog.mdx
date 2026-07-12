@@ -7,6 +7,50 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 12, 2026 — Date pickers, working profile fields, patient filters & app polish
+
+### A real date picker for prescriptions
+
+- The **Start date** and **End date** in the New Prescription dialog now open a proper calendar
+  picker instead of the raw browser date box — consistent with the rest of the app.
+
+### Specialty and professional links now save
+
+- On **Settings → Profile**, the **Specialty** selector and **Professional links** were previously
+  decorative — they now save with the rest of your profile.
+
+### Filter and search patients faster
+
+- The **Patients** page has a **status filter** (active, inpatient, discharged), and search now also
+  matches a patient's **conditions and allergies**, not just name and file number.
+
+### Switch language from anywhere
+
+- A **language** shortcut now sits in the sidebar user menu next to Theme, so you can switch the
+  interface language (including Arabic, right-to-left) without opening Settings.
+
+### Clearer notices
+
+- The **"update available"** message now uses a warning style and stays in the corner correctly in
+  right-to-left languages, and the **"connect an AI provider"** hint above the chat box is clearer
+  and shows during a conversation too — not only on a fresh chat.
+
+### Record history shows every change
+
+- A patient's **Record history** now always renders in full; a layout quirk that could crowd or clip
+  the list is fixed.
+
+### Patient wallet app
+
+- The app **home screen** adds quick actions (share record, wallet, notifications) and a **recent
+  activity** feed, the **settings screen** gains an About section (version, docs, blog) and a privacy
+  note, and the **bottom sheets** got a design polish.
+
+### Behind the scenes
+
+- Fixed `blog.temetro.com` (it was returning an error due to a networking misconfiguration) and
+  tidied internal developer docs.
+
 ## July 10, 2026 — Cleaner stepper & record history, faster landing page
 
 ### A centered "Sync to wallet" stepper
