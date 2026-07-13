@@ -7,6 +7,40 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 13, 2026 — Filter row, AI Automatic/Off modes, framed settings & wallet documents
+
+### The Patients filter has its own row
+
+- The status filter moved out of the toolbar and onto a dedicated **Filter** row just above the
+  table, so the top of the page stays a clean title, search, and **Add patient** button.
+
+### Editing a patient from the ⋯ menu
+
+- On a patient's record, the name and the **⋯** menu now sit together on one row, and **Edit** lives
+  inside that menu alongside the other actions.
+
+### Two new AI modes: Automatic and Off
+
+- Settings → AI now offers **Automatic** (use a cloud API key when you've added one, otherwise fall
+  back to your local Ollama model) and **Off** (turn the assistant off entirely), in addition to the
+  existing API-key and Local modes. New installs default to **Automatic**, so you'll see a
+  **"connect an AI model"** prompt above the chat until a provider is set up — a banner that
+  previously never appeared.
+- The chat is also more robust: if a result comes back in a format the app doesn't recognize, you now
+  see a small placeholder instead of the card silently disappearing.
+
+### Settings has a fresh look
+
+- Every settings section is now presented in a consistent **framed card** for a cleaner, more
+  organized page.
+
+### Patient wallet app
+
+- **Documents now come through.** When a clinic pushes an update, any files on your record arrive as
+  documents you can see — the **Documents** tile counts them and the Documents screen lists them.
+- **Updates that can't be verified no longer vanish silently** — you get a notice instead.
+- The app now uses **i18next** for its text, laying the groundwork for additional languages.
+
 ## July 13, 2026 — Cleaner Patients page, tidier dialogs & wallet home sheets
 
 ### The Patients page reads more cleanly

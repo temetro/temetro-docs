@@ -35,8 +35,9 @@ returned by the API.
 }
 ```
 
-- **`mode`** — `"api"` (a cloud provider key) or `"local"` (Ollama on your own
-  infrastructure).
+- **`mode`** — how a model is chosen: `"api"` (a cloud provider key), `"local"` (Ollama on
+  your own infrastructure), `"auto"` (use a cloud key when one is set, otherwise fall back to
+  local Ollama), or `"off"` (the assistant is disabled). New installs default to `"auto"`.
 - **`provider`** — the active cloud provider: `"openai"`, `"anthropic"`, or `"gemini"`.
 - **`veilLevel`** — [Veil](/docs/guides/ai-safeguards) de-identification strictness:
   `"full"`, `"names"`, or `"off"`.
