@@ -7,6 +7,34 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 15, 2026 — Reliable wallet push, framed settings & a multilingual wallet app
+
+### "Send to wallet" now works from every dialog
+
+- Pushing an update to a patient's wallet used to only work from the patient record sheet. The same
+  step in the **appointment, invoice, prescription, patient-edit, and scribe** dialogs could close
+  without sending if you saved before the wallet link finished resolving. It now waits for that check
+  and always sends a non-empty change summary. See [Wallet updates](/docs/guides/wallet-updates).
+
+### Settings sections share one framed surface
+
+- Every settings section is now composed from the same `CardFrame` primitives (header, description,
+  and a proper framed panel body), so rows sit in a single consistent surface instead of a card
+  nested inside a frame.
+
+### Patient wallet app: French, Arabic & Somali, redesign, and a phone number
+
+- The patient companion app now ships in **English, French, Arabic, and Somali**, with a language
+  switcher in **Settings** (Arabic is fully right-to-left). The **onboarding** and **wallet-creation**
+  screens were redesigned (including a real date-of-birth picker), you can save a **phone number**
+  that stays on your device, and the app now supports **iPad** and is prepared for the App Store and
+  Google Play.
+
+### Self-hosting: Docker images build on Apple Silicon / ARM64
+
+- `docker compose up --build` no longer fails on ARM64 hosts — the frontend production build switched
+  from Turbopack to Webpack, which builds on every architecture.
+
 ## July 13, 2026 — Filter row, AI Automatic/Off modes, framed settings & wallet documents
 
 ### The Patients filter has its own row
