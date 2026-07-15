@@ -7,6 +7,55 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 15, 2026 — Prescriptions reach the wallet, and patients can open their documents
+
+### Prescriptions now actually appear in the patient's app
+
+- A prescription sent with **Sync to wallet** never showed up in the app's Prescriptions section,
+  even after the patient approved it. Prescriptions live in their own table on the clinic side, and
+  they weren't being included in the record the patient approved — so the approval applied a copy
+  identical to what was already on the phone. Prescriptions now travel with the record, keeping the
+  prescriber, status and dates. See [Pushing updates to a wallet](/docs/guides/wallet-updates).
+
+### Patients can open their documents, and save their own
+
+- Tapping a document in the wallet app only ever showed its name and size, because the file itself
+  stayed on the clinic. Documents now **download and open** on tap — images inline, PDFs and other
+  files in the phone's own viewer — and are kept **encrypted on the device**, so the second time
+  works offline.
+- Patients can also **photograph their own paperwork** from the home screen (or pick an image from
+  their library) and keep it with their record. These stay on the phone and are never sent to a
+  clinic. A chip on each row shows whether a file came from the clinic or the patient.
+
+### No more false "this clinic's key changed" warnings
+
+- The app warned that a clinic's signing key had changed even for a clinic just added. Keys were
+  pinned against the clinic's **name**, so two clinics sharing a name — including any clinic that
+  hadn't set one — collided, and the second always tripped the warning. Pins are now held against
+  the clinic's stable id, and resetting a wallet clears them.
+
+### Creating a wallet is four short pages, not one long one
+
+- The "Create your wallet" screen asked for everything at once and scrolled. It's now one question
+  per page — name, then date of birth, then a PIN — with progress dots and a back arrow. The date
+  of birth pickers are full-width instead of three cramped dropdowns.
+- The **intro carousel now reappears when a wallet is reset**, as it was meant to, and finishing it
+  no longer leaves you on the last slide until you restart the app.
+
+### Fixed in the app
+
+- Confirming a PIN showed no spinner and looked frozen while the wallet was being secured.
+- The keyboard stayed on screen after the PIN step, over the home page.
+- Editing your phone number in Settings put the keyboard over the field you were typing into.
+
+### Fixed for clinics
+
+- **Settings sections** inset their content twice and drew a border around an inner box. Sections
+  now use one surface with a single, consistent padding.
+- **Windows:** building from source produced a backend container that exited immediately with a
+  misleading "no such file or directory". Self-hosters on Windows are unaffected if they pull the
+  published images.
+
 ## July 15, 2026 — Reliable wallet push, framed settings & a multilingual wallet app
 
 ### "Send to wallet" now works from every dialog

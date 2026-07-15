@@ -143,8 +143,35 @@ connected, and re-sends any unresolved updates on the wallet's next authenticate
 offline phone catches up). The patient approves/denies in-app; the wallet signs its decision, the
 backend verifies it, and `status` moves to `approved` / `denied`.
 
+### What's in the sealed bundle
+
+The plaintext the wallet opens is:
+
+```json
+{
+  "patient": { "…the canonical Patient snapshot…" },
+  "appointments": [],
+  "invoices": [],
+  "prescriptions": [],
+  "documents": [{ "id": "…", "filename": "…", "mimeType": "…", "sizeBytes": 0, "createdAt": "…" }],
+  "changes": ["New prescription: Amoxicillin 500mg"]
+}
+```
+
+Appointments, invoices and prescriptions live in their own tables rather than on the `Patient`
+snapshot, so each is pulled for this patient and shipped alongside it — the wallet has no other way
+to see them. `documents` carries metadata only; the bytes stay on the clinic and the app fetches
+them on demand through the [portal](/docs/api/portal)'s `result-file` action, keyed by the same
+attachment `id`.
+
+`changes` is display text for the approval screen. It is **not** data — the patient's record is
+updated from the fields above, so anything summarised in `changes` has to be present in the bundle
+to actually reach them.
+
 <Callout type="info" title="Trust on first use">
-  The pushed update carries the clinic's public key + fingerprint. The wallet **pins** the key on
-  first contact and **warns** the patient if a later update is signed with a different key — v1-grade
-  trust ahead of full key-transparency.
+  The pushed update carries the clinic's `clinicId`, public key and fingerprint. The wallet **pins**
+  the key against the clinic's **id** on first contact and **warns** the patient if a later update
+  from that clinic is signed with a different key — v1-grade trust ahead of full key-transparency.
+  (Pinning against the clinic's display *name* would collide whenever two clinics share a name, or
+  break whenever one is renamed.)
 </Callout>

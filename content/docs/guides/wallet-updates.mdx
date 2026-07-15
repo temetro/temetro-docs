@@ -38,6 +38,15 @@ online, or the next time the app connects). The patient reviews the clinic name,
 summary, and the clinic's key fingerprint, then **approves or declines**. Only on approval is
 the on-device record replaced.
 
+On approval, the pushed snapshot carries the record itself plus the patient's **appointments**,
+**invoices**, **prescriptions** and the **list of documents** on file — each of these lives in its
+own table on the clinic side, so all of them ride along with the record.
+
+<Callout type="info" title="Documents the patient added themselves stay put">
+  A patient can also save their own photos of paperwork in the app. Those are kept on their device
+  and are **not** part of what the clinic pushes, so approving a clinic update never removes them.
+</Callout>
+
 ## How it's secured
 
 - The full updated record is **sealed** (encrypted) to the wallet's key and **signed** with the
@@ -45,7 +54,8 @@ the on-device record replaced.
   relay only ever forwards ciphertext.
 - The wallet **verifies the clinic signature** before applying, and **pins** the clinic's key on
   first contact (trust-on-first-use): if a later update arrives signed with a different key, the
-  app **warns** the patient rather than trusting it silently.
+  app **warns** the patient rather than trusting it silently. The pin is held against the clinic's
+  stable id, so renaming a clinic — or two clinics sharing a name — doesn't trigger a false warning.
 - Approving **replaces** the patient's on-device copy with the pushed snapshot. In this first
   version that assumes a single linked clinic; the app states this in the approval screen.
 

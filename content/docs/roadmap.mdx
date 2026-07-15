@@ -79,7 +79,13 @@ The defining long-term vision ([explained in Core concepts](/docs/concepts#patie
 - **Clinic → wallet update push.** ✅ A clinician can push an updated record to a wallet-linked
   patient; it is **signed** with the clinic key and **sealed** to the wallet, lands in a
   pending-updates inbox in the app (delivered live or on next connect), and replaces the on-device
-  record **only after the patient approves** it. See [Pushing updates to a wallet](/docs/guides/wallet-updates).
+  record **only after the patient approves** it. The push carries the record plus the patient's
+  appointments, invoices, prescriptions and documents. See
+  [Pushing updates to a wallet](/docs/guides/wallet-updates).
+- **Documents in the patient's hands.** ✅ Files a clinic attaches to the chart open in the wallet
+  app on demand (fetched over the relay, then cached encrypted on the phone so they work offline),
+  and patients can photograph their own paperwork to keep alongside them — device-only, never
+  uploaded.
 
 - **A dedicated relay to the wallet.** ✅ Clinic↔wallet messages now travel over
   [Temetro Network](/docs/guides/network), a standalone, always-on relay (Rust + Axum) that replaces
