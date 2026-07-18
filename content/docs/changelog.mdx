@@ -7,6 +7,38 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 18, 2026 — Show/Add on the record, and barcode scanning
+
+### The record dialog separates viewing from adding
+
+- Opening a patient record to edit now starts on a read-only **Show** view of everything on file,
+  with a separate **Add** tab for entering new data and its Add buttons. Saving from the Add tab
+  still offers to **send the update to the patient's wallet** when they have one linked.
+
+### Scan medication barcodes when adding stock
+
+- The pharmacy **Add item** dialog can now **scan a medication barcode** with the camera. Scanning
+  a GS1 DataMatrix fills in the expiry and lot automatically, and the code is saved on the item in a
+  new Barcode/NDC field.
+
+### Scan a patient's wallet code to import
+
+- **Import from a patient app** gains a Scan button that reads the **QR or barcode** shown in the
+  patient's wallet app to fill in their wallet number, instead of typing it.
+
+### Separated settings panels now match the design system
+
+- The spaced-apart settings panels now render as proper distinct cards on a subtle tray, matching
+  the component library exactly rather than a gap added to the joined-card style.
+
+### In the patient wallet app
+
+- New **appointment reminders**: turn them on in Settings to get a local reminder before each
+  upcoming appointment.
+- The **Share your record** screen now offers a **QR code or a 2D barcode**, so a clinic can scan
+  the wallet number whichever way suits their scanner. Longer text (e.g. Somali) no longer stretches
+  the home cards unevenly, and the phone-number sheet stays above the keyboard.
+
 ## July 17, 2026 — Settings panels sit apart
 
 ### Grouped settings no longer stack flush
