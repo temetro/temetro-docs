@@ -7,6 +7,29 @@ icon: ScrollText
 All notable changes to temetro are posted here, newest first. For where the project is
 headed, see the [roadmap](/docs/roadmap).
 
+## July 19, 2026 — Hardware barcode scanning in the pharmacy
+
+### Add stock with a USB barcode scanner
+
+- The pharmacy **Add item** dialog is now built for a **USB barcode scanner** connected to the
+  computer. With the dialog open, scan a medication's barcode and temetro fills in the Barcode/NDC
+  field — and, for a GS1 DataMatrix, the **expiry** and **lot** too — without clicking into any
+  field first. You can still type or paste a code and press Enter. This replaces the camera scanner
+  in this dialog; the camera is still used to scan a patient's wallet code when importing.
+
+### Care team panels match the rest of Settings
+
+- The **Care team** section in Settings now shows each card as a distinct panel on a subtle tray,
+  matching the Preferences and AI settings.
+
+### Smaller fixes
+
+- The **Activity** feed now shows a pointer cursor when you hover an entry.
+
+### In the patient wallet app
+
+- Fixed a crash on launch that could stop the app from opening.
+
 ## July 18, 2026 — Show/Add on the record, and barcode scanning
 
 ### The record dialog separates viewing from adding
