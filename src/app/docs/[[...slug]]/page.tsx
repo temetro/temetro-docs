@@ -12,6 +12,24 @@ import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { gitConfig } from '@/lib/shared';
+import { JsonLd, breadcrumbList } from '@/components/json-ld';
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://docs.temetro.com';
+
+// Docs → …section… → page, resolving each slug prefix to its real page title
+// where one exists, so the crumb names match the tree the reader navigates.
+function docsBreadcrumb(slugs: string[]) {
+  const items = [{ name: 'Docs', url: new URL('/docs', siteUrl).toString() }];
+  for (let i = 0; i < slugs.length; i++) {
+    const node = source.getPage(slugs.slice(0, i + 1));
+    if (node)
+      items.push({
+        name: node.data.title,
+        url: new URL(node.url, siteUrl).toString(),
+      });
+  }
+  return items;
+}
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -28,6 +46,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       tableOfContent={{ style: 'clerk' }}
       tableOfContentPopover={{ style: 'clerk' }}
     >
+      <JsonLd data={breadcrumbList(docsBreadcrumb(page.slugs))} />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6">
